@@ -66,14 +66,18 @@
     .reveal.in{ opacity:1; transform:none; }
     .hero-anim{ opacity:0; transform:translateY(14px); transition: opacity .8s cubic-bezier(.16,.84,.44,1), transform .8s cubic-bezier(.16,.84,.44,1); }
     .hero-anim.in{ opacity:1; transform:none; }
-    a, button, .chip, .btn, .navcta, .proof-item, .close-card, .prod, .chart-card{
+    a, button, .chip, .btn, .navcta, .proof-item, .close-card, .prod, .chart-card, .partner-tile{
       transition: color .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .3s ease, transform .3s cubic-bezier(.16,.84,.44,1), opacity .25s ease;
     }
+    .partner-logo{ transition: opacity .25s ease; }
     .chip:hover{ transform: translateY(-2px); box-shadow: 0 1px 0 rgba(0,0,0,0.25), 0 10px 22px -8px rgba(0,0,0,0.6); }
     .close-card:hover{ transform: translateY(-3px); }
     .proof-item.dune:hover{ transform: translateY(-2px); }
     .btn.primary:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px -8px rgba(255,255,255,.35); }
     .prod:hover{ padding-left: 0.5rem; }
+    .partner-tile:hover{ border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.065); transform: translateY(-2px); }
+    .partner-tile:hover .partner-logo{ opacity: 1; }
+    .partner-tile.placeholder:hover{ color: var(--ink-muted); border-color: rgba(255,255,255,.28); }
     canvas{ transition: opacity .8s ease; }
 
     .prod-list > .reveal:nth-child(1),
@@ -246,7 +250,7 @@
   .diagram .arrow{ color:var(--ink-dim); }
   .diagram .node.hot{ background:#fff; border-color:#fff; color:#0b0a0e; }
   .prod .live a{ color:var(--ink-url); text-underline-offset:2px; text-decoration:underline; }
-  @media (max-width:760px){ .prod{ grid-template-columns:1fr; gap:0.8rem; } .partner-cat{ grid-template-columns:1fr; gap:0.6rem; } }
+  @media (max-width:760px){ .prod{ grid-template-columns:1fr; gap:0.8rem; } }
 
   /* PARTNERS */
   .partners{ border-bottom:1px solid var(--hairline); }
@@ -254,7 +258,7 @@
   .partner-cat{ display:grid; grid-template-columns: 200px 1fr; gap:2rem; padding:1.8rem 0; border-top:1px solid var(--hairline); }
   .partner-cat:first-child{ border-top:1px solid var(--hairline); }
   .partner-cat .cat-name{ font-family:var(--font-body); font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-muted); padding-top:0.4rem; }
-  .chip-row{ display:flex; flex-wrap:wrap; gap:0.8rem; }
+  @media (max-width:760px){ .partner-cat{ grid-template-columns:1fr; gap:0.6rem; } }
   .chip{
     font-family:var(--font-body); font-size:0.92rem; font-weight:700;
     background: #fff; color:#0b0a0e;
@@ -269,10 +273,25 @@
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
   }
-  .chip.empty{
-    font-family:var(--font-body); font-size:0.78rem; font-weight:500;
-    background:transparent; color:var(--ink-dim);
-    border:1px dashed var(--chip-border); box-shadow:none; padding:0.65rem 1rem;
+
+  /* Partner logo grid -- dark glass tiles, monochrome marks by default,
+     brightening on hover instead of leaning on any brand color. */
+  .partner-grid{ display:flex; flex-wrap:wrap; gap:0.7rem; }
+  .partner-tile{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:2.6rem; padding:0.75rem 1.3rem;
+    background:var(--chip-bg); border:1px solid var(--chip-border);
+    border-radius:12px;
+  }
+  .partner-logo{
+    height:22px; width:auto; display:block;
+    filter:brightness(0) invert(1);
+    opacity:.55;
+  }
+  .partner-tile.placeholder{
+    font-family:var(--font-body); font-weight:600; font-size:0.78rem; letter-spacing:0.02em;
+    color:var(--ink-dim);
+    background:transparent; border-style:dashed;
   }
 
   /* RESEARCH */
