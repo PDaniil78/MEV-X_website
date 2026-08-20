@@ -160,7 +160,7 @@
   }
   .wordmark{ display:flex; align-items:center; }
   .logo-mark{ height:22px; width:auto; display:block; }
-  .navlinks{ display:flex; gap:2.1rem; font-family:var(--font-body); font-size:0.85rem; color:var(--ink-muted); }
+  .navlinks{ display:flex; gap:2.75rem; font-family:var(--font-body); font-size:1.7rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-muted); }
   .navlinks a:hover{ color:var(--ink); }
   .navcta{
     font-family:var(--font-body); font-weight:600; font-size:0.8rem; letter-spacing:0.01em;
@@ -174,8 +174,7 @@
   .hero{ padding: 4.5rem 1.5rem 3rem; border-bottom:1px solid var(--hairline); }
   .hero-in{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns: 1.05fr 0.95fr; gap:3.5rem; align-items:center; }
   .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-muted); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; }
-  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--ink-dim); }
-  .hero h1{ font-size:clamp(2.9rem, 6vw, 4.6rem); line-height:0.98; max-width:17ch; }
+  .hero h1{ font-size:clamp(2.9rem, 6vw, 4.6rem); line-height:0.98; max-width:24ch; }
   .hero h1 em{ font-style:normal; text-decoration:underline; text-decoration-color:rgba(255,255,255,.35); text-underline-offset:0.1em; text-decoration-thickness:2px; }
   .hero .sub{ font-family:var(--font-body); font-weight:400; font-size:1.1rem; line-height:1.6; color:var(--ink-muted); max-width:52ch; margin-top:1.4rem; }
   .hero-ctas{ display:flex; gap:0.9rem; margin-top:2.2rem; flex-wrap:wrap; }
@@ -196,19 +195,19 @@
   .proof-grid{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem; }
   .proof-item{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
-    padding:1.5rem 1.4rem; height:150px;
-    display:flex; flex-direction:column; justify-content:center;
+    padding:1.5rem 1.4rem; min-height:150px;
+    display:flex; flex-direction:column; justify-content:flex-start;
   }
-  .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
-  .proof-item .l{ font-family:var(--font-body); font-size:0.82rem; color:var(--ink-muted); margin-top:0.4em; }
+  .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2.6rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .proof-item .l{ font-family:var(--font-body); font-size:1.07rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-muted); margin-top:0.4em; }
   @media (max-width:760px){ .proof-grid{grid-template-columns:1fr 1fr;} }
   @media (max-width:560px){ .proof-grid{grid-template-columns:1fr;} .proof-item{height:auto; min-height:130px;} }
 
   /* Dune CTA -- same tile treatment as the stats, just with a button instead
      of a plain number. */
   .dune-row{ justify-content:space-between; }
-  .dune-row .l{ font-family:var(--font-body); font-weight:600; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); }
-  .dune-row .n{ font-family:var(--font-display); font-weight:400; font-size:1.3rem; color:var(--ink); margin-top:0.2em; }
+  .dune-row .n{ font-family:var(--font-display); font-weight:400; font-size:1.69rem; color:var(--ink); }
+  .dune-row .l{ font-family:var(--font-body); font-weight:600; font-size:0.86rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.3em; }
   .dune-row .go{
     font-family:var(--font-body); font-weight:600; font-size:0.8rem; color:var(--ink); align-self:flex-start;
     border:1.5px solid var(--chip-border); border-radius:999px; padding:0.5em 1.1em; margin-top:0.7em;
@@ -224,8 +223,8 @@
     display:block;
   }
   .chart-row-head{ position:relative; z-index:2; text-align:left; }
-  .mini-chart-label{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); }
-  .mini-chart-val{ font-family:var(--font-display); font-weight:400; font-size:1.7rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; margin-top:0.25em; }
+  .mini-chart-label{ font-family:var(--font-body); font-weight:600; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); }
+  .mini-chart-val{ font-family:var(--font-display); font-weight:400; font-size:2.2rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; margin-top:0.25em; }
   .mini-chart-visual{ position:absolute; left:1.8rem; right:1.8rem; bottom:0; height:210px; }
   #mini-growth-chart{ display:block; width:100%; height:100%; overflow:visible; }
   .mini-bar{ fill:url(#mini-bar-fill); }
