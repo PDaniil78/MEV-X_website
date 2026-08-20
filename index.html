@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MEV-X — End-to-End MEV Infrastructure</title>
+  <meta name="description" content="MEV-X is end-to-end MEV infrastructure: DEX internalization, CEX–DEX arbitrage, liquidations, and partner order flow — MEV found, extracted, and returned.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Open Graph / Telegram -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mev-x.com/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="MEV-X — End-to-End MEV Infrastructure">
+  <meta property="og:description" content="We find it. We extract it. We return it. MEV that moves through us gets found, extracted, and returned — not leaked to someone else.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MEV-X — End-to-End MEV Infrastructure">
+  <meta name="twitter:description" content="We find it. We extract it. We return it. MEV that moves through us gets found, extracted, and returned — not leaked to someone else.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=2">
+
+  <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="#" class="wordmark"><img src="assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="#products">Products</a>
+    <a href="#partners">Partners</a>
+    <a href="#research">Research</a>
+    <a href="#">Docs</a>
+  </div>
+  <a href="#" class="navcta">Talk to the team →</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <p class="eyebrow hero-anim" style="transition-delay:0ms">End-to-end MEV infrastructure · Supports all EVM chains</p>
+      <h1 class="hero-anim" style="transition-delay:90ms">We find it. We extract it. <em>We return it.</em></h1>
+      <p class="sub hero-anim" style="transition-delay:180ms">MEV that moves through us gets found, extracted, and returned. Not leaked to someone else.</p>
+      <div class="hero-ctas hero-anim" style="transition-delay:270ms">
+        <a href="#" class="btn primary">Read the docs →</a>
+        <a href="#products" class="btn ghost">See the products</a>
+      </div>
+    </div>
+    <div class="hero-space" aria-hidden="true"></div>
+  </div>
+</header>
+
+<section class="proof">
+  <div class="band-in proof-in">
+    <div class="proof-grid">
+      <div class="proof-item reveal"><div class="n" data-count="2833219">2,833,219</div><div class="l">transactions processed</div></div>
+      <div class="proof-item reveal"><div class="n" data-count="100" data-prefix="$" data-suffix="M+">$100M+</div><div class="l">total trade volume</div></div>
+      <a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener" class="proof-item dune-row reveal">
+        <div><div class="l">Verified on-chain</div><div class="n">Dune dashboard</div></div>
+        <div class="go">View →</div>
+      </a>
+    </div>
+    <div class="proof-item chart-item chart-row reveal">
+      <div class="chart-row-head">
+        <div class="mini-chart-label">MEV extracted</div>
+        <div class="mini-chart-val">$1,112,134</div>
+      </div>
+      <div class="mini-chart-visual">
+        <svg id="mini-growth-chart" viewBox="0 0 800 220" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="mini-bar-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,.6)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,.12)"/>
+            </linearGradient>
+          </defs>
+          <rect class="mini-bar" x="8" y="202" width="34" height="18" rx="5" style="transition-delay:0ms"/>
+          <rect class="mini-bar" x="64" y="188" width="34" height="32" rx="5" style="transition-delay:40ms"/>
+          <rect class="mini-bar" x="120" y="174" width="34" height="46" rx="5" style="transition-delay:80ms"/>
+          <rect class="mini-bar" x="176" y="160" width="34" height="60" rx="5" style="transition-delay:120ms"/>
+          <rect class="mini-bar" x="232" y="146" width="34" height="74" rx="5" style="transition-delay:160ms"/>
+          <rect class="mini-bar" x="288" y="132" width="34" height="88" rx="5" style="transition-delay:200ms"/>
+          <rect class="mini-bar" x="344" y="118" width="34" height="102" rx="5" style="transition-delay:240ms"/>
+          <rect class="mini-bar" x="400" y="104" width="34" height="116" rx="5" style="transition-delay:280ms"/>
+          <rect class="mini-bar" x="456" y="90" width="34" height="130" rx="5" style="transition-delay:320ms"/>
+          <rect class="mini-bar" x="512" y="76" width="34" height="144" rx="5" style="transition-delay:360ms"/>
+          <rect class="mini-bar" x="568" y="62" width="34" height="158" rx="5" style="transition-delay:400ms"/>
+          <rect class="mini-bar" x="624" y="48" width="34" height="172" rx="5" style="transition-delay:440ms"/>
+          <rect class="mini-bar" x="680" y="34" width="34" height="186" rx="5" style="transition-delay:480ms"/>
+          <rect class="mini-bar" x="736" y="20" width="34" height="200" rx="5" style="transition-delay:520ms"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products band" id="products">
+  <div class="section-head reveal">
+    <h2>Our Products</h2>
+    <p>Each product captures value at a different point in the transaction lifecycle, and none of them work the same way.</p>
+  </div>
+  <div class="prod-list">
+    <div class="prod reveal" data-p="home">
+      <div><span class="tag mono">01 · MEV-X Homelander</span></div>
+      <div>
+        <h3>AMM MEV Internalization</h3>
+        <p class="mech">Trades that would otherwise leak value to external searchers are captured at the point of execution and routed back internally, before they ever reach a public mempool.</p>
+        <div class="diagram">
+          <span class="node hot flow-step" tabindex="0" data-tip="A user submits a swap that would normally be visible to external searchers.">swap intent</span><span class="arrow flow-step">→</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="MEV-X captures the value internally instead of letting it leak to the public mempool.">internalized</span><span class="arrow flow-step">→</span>
+          <span class="node flow-step" tabindex="0" data-tip="The trade settles on-chain with value returned instead of extracted by a third party.">settled on-chain</span>
+        </div>
+        <div class="live">Live on Ethereum, Base, Arbitrum, Optimism</div>
+      </div>
+    </div>
+    <div class="prod reveal" data-p="star">
+      <div><span class="tag mono">02 · MEV-X Starlight</span></div>
+      <div>
+        <h3>CEX–DEX Arbitrage</h3>
+        <p class="mech">Continuously prices venues against each other and closes spreads between centralized and decentralized order flow before they widen further.</p>
+        <div class="diagram">
+          <span class="node flow-step" tabindex="0" data-tip="Live price feed from centralized exchange order books.">CEX quote</span><span class="arrow flow-step">↔</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="Continuously compares CEX and DEX pricing to find closing arbitrage.">spread engine</span><span class="arrow flow-step">↔</span>
+          <span class="node flow-step" tabindex="0" data-tip="On-chain AMM and order-book pricing being compared in real time.">DEX quote</span>
+        </div>
+        <div class="live">Live on Ethereum, BNB Chain</div>
+      </div>
+    </div>
+    <div class="prod reveal" data-p="butch">
+      <div><span class="tag mono">03 · MEV-X Butcher</span></div>
+      <div>
+        <h3>Liquidation Engine</h3>
+        <p class="mech">Monitors lending markets across chains and executes liquidations at the moment positions cross threshold, competing on latency, not luck.</p>
+        <div class="diagram">
+          <span class="node flow-step" tabindex="0" data-tip="Tracks health factors across lending markets in real time.">position monitor</span><span class="arrow flow-step">→</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="The moment a position becomes eligible for liquidation.">threshold cross</span><span class="arrow flow-step">→</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="Executes the liquidation on-chain, competing purely on latency.">liquidation</span>
+        </div>
+        <div class="live">Live on 6 lending markets, 5 chains</div>
+      </div>
+    </div>
+    <div class="prod reveal" data-p="rpc">
+      <div><span class="tag mono">04 · MEV-X RPC</span></div>
+      <div>
+        <h3>Partner Order Flow Routing</h3>
+        <p class="mech">Send your transaction flow through a private MEV-X RPC endpoint and capture your own cut of the value it creates, with no rebate lost to a third-party searcher. Referral partners earn 25% of revenue from flow they bring in, two tiers deep.</p>
+        <div class="diagram">
+          <span class="node flow-step" tabindex="0" data-tip="Transaction flow sent by a partner through their private endpoint.">partner flow</span><span class="arrow flow-step">→</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="A dedicated MEV-X RPC endpoint that routes and internalizes the flow.">private RPC</span><span class="arrow flow-step">→</span>
+          <span class="node hot flow-step" tabindex="0" data-tip="Captured value is returned to the partner instead of lost to a third-party searcher.">value returned</span>
+        </div>
+        <div class="live"><a href="https://partner.portal.mev-x.com/" target="_blank" rel="noopener">Get your endpoint at partner.portal.mev-x.com →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="partners band" id="partners">
+  <div class="section-head reveal">
+    <h2>We Work With <span class="audience-badge">Supports all EVM chains</span></h2>
+    <p>The protocols, infrastructure, and security firms that make up the MEV-X stack.</p>
+  </div>
+  <div class="partner-cats">
+    <div class="partner-cat reveal">
+      <div class="cat-name">Security</div>
+      <div class="partner-grid">
+        <span class="partner-tile placeholder">MixBytes</span>
+        <span class="partner-tile placeholder">Bailsec</span>
+        <span class="partner-tile placeholder">Uniswap Security Fund</span>
+        <span class="partner-tile placeholder">Areta</span>
+      </div>
+    </div>
+    <div class="partner-cat reveal">
+      <div class="cat-name">Protocols</div>
+      <div class="partner-grid">
+        <span class="partner-tile placeholder">Aerodrome</span>
+        <span class="partner-tile placeholder">Curve</span>
+        <span class="partner-tile placeholder">LI.FI</span>
+        <span class="partner-tile"><img src="assets/partners/woo.png" alt="WOO" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/pancakeswap.png" alt="PancakeSwap" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/balancer.png" alt="Balancer" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/uniswap.png" alt="Uniswap" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/algebra.png" alt="Algebra" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/dodo.png" alt="DODO" class="partner-logo"></span>
+        <span class="partner-tile placeholder">Morpho</span>
+        <span class="partner-tile placeholder">AAVE</span>
+        <span class="partner-tile placeholder">Compound</span>
+      </div>
+    </div>
+    <div class="partner-cat reveal">
+      <div class="cat-name">Infrastructure</div>
+      <div class="partner-grid">
+        <span class="partner-tile placeholder">Flashbots</span>
+        <span class="partner-tile placeholder">Bebop</span>
+        <span class="partner-tile placeholder">Merkle</span>
+        <span class="partner-tile"><img src="assets/partners/fastlane.png" alt="FastLane (Atlas)" class="partner-logo"></span>
+        <span class="partner-tile placeholder">Blink</span>
+        <span class="partner-tile placeholder">Barter</span>
+      </div>
+    </div>
+    <div class="partner-cat reveal">
+      <div class="cat-name">Dexes</div>
+      <div class="partner-grid">
+        <span class="partner-tile placeholder">QuickSwap</span>
+        <span class="partner-tile placeholder">Hydrex</span>
+        <span class="partner-tile placeholder">SparkDEX</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="research band" id="research">
+  <div class="section-head reveal">
+    <h2>Research</h2>
+    <p>What we publish, as we publish it.</p>
+  </div>
+  <div class="paper-list">
+    <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=3msYZcQAAAAJ&citation_for_view=3msYZcQAAAAJ:u-x6o8ySG0sC" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">2025 · IEEE ICBC</div>
+      <div class="body">
+        <div class="t">Unpacking Maximum Extractable Value on Polygon: A Study on Atomic Arbitrage</div>
+        <div class="desc">22 months and 23M blocks of Polygon backrunning, comparing spam-based and auction-based searcher strategies and what actually drives their profitability.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=3msYZcQAAAAJ&citation_for_view=3msYZcQAAAAJ:2osOgNQ5qMEC" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">2026 · Expert Systems with Applications</div>
+      <div class="body">
+        <div class="t">The bidding games: Reinforcement learning for MEV extraction on Polygon blockchain</div>
+        <div class="desc">Why sealed-bid auctions like Polygon Atlas break classic equilibrium models, and how reinforcement learning handles bidding that's sub-second and partially observable.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+  </div>
+  <a href="https://medium.com/@MEV-X" target="_blank" rel="noopener" class="paper-more reveal">More on Medium →</a>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="#">Twitter</a><a href="#">GitHub</a><a href="#">Telegram</a><a href="#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=2"></script>
+</body>
+</html>
