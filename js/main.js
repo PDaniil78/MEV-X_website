@@ -53,19 +53,6 @@
     });
   });
 
-  // Magnetic CTAs, desktop pointer only, subtle pull toward the cursor.
-  if(!reduceMotion && window.matchMedia('(pointer: fine)').matches){
-    document.querySelectorAll('.btn, .navcta').forEach(function(el){
-      el.addEventListener('mousemove', function(e){
-        var r = el.getBoundingClientRect();
-        var relX = e.clientX - r.left - r.width/2;
-        var relY = e.clientY - r.top - r.height/2;
-        el.style.transform = 'translate(' + (relX*0.22).toFixed(1) + 'px,' + (relY*0.35).toFixed(1) + 'px)';
-      });
-      el.addEventListener('mouseleave', function(){ el.style.transform = ''; });
-    });
-  }
-
   // Sticky scroll-progress bar.
   var progressBar = document.getElementById('scroll-progress');
   var progressTicking = false;
