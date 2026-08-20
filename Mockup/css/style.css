@@ -73,10 +73,8 @@
     .partner-tile.placeholder:hover{ color: var(--ink-muted); border-color: rgba(255,255,255,.28); }
 
     /* MINI CHART -- the sparkline draws itself in once the stats row reveals. */
-    .mini-growth-line{ stroke-dasharray: 400; stroke-dashoffset: 400; transition: stroke-dashoffset 1.3s cubic-bezier(.16,.84,.44,1) .2s; }
-    .chart-item.in .mini-growth-line{ stroke-dashoffset: 0; }
-    .mini-growth-area{ opacity: 0; transition: opacity 1s ease .5s; }
-    .chart-item.in .mini-growth-area{ opacity: 1; }
+    .mini-bar{ transform: scaleY(0); transform-origin: bottom; transition: transform .75s cubic-bezier(.16,.84,.44,1); }
+    .chart-item.in .mini-bar{ transform: scaleY(1); }
 
     .prod-list > .reveal:nth-child(1),
     .partner-cats > .reveal:nth-child(1),
@@ -217,15 +215,21 @@
   }
   .dune-row:hover{ border-color: rgba(255,255,255,.35); }
 
-  /* Compact "MEV extracted" sparkline tile -- full width, but the curve
-     itself stays a modest fixed size so it doesn't stretch out long. */
-  .chart-row{ height:auto; min-height:150px; padding:1.6rem; }
-  .chart-item{ align-items:center; text-align:center; gap:0.4rem; }
+  /* "MEV extracted" tile -- a tall, full-width cumulative bar chart. Label
+     and value sit over the bars' own headroom in the top-left corner instead
+     of taking a separate row, since the ascending bars leave that corner
+     empty on their own. */
+  .chart-row{
+    height:auto; min-height:300px; padding:1.8rem 1.8rem 0; position:relative; overflow:hidden;
+    display:block;
+  }
+  .chart-row-head{ position:relative; z-index:2; text-align:left; }
   .mini-chart-label{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); }
-  .mini-chart-visual{ width:100%; max-width:220px; height:56px; margin:0.2rem 0 0; }
+  .mini-chart-val{ font-family:var(--font-display); font-weight:400; font-size:1.7rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; margin-top:0.25em; }
+  .mini-chart-visual{ position:absolute; left:1.8rem; right:1.8rem; bottom:0; height:210px; }
   #mini-growth-chart{ display:block; width:100%; height:100%; overflow:visible; }
-  .mini-growth-line{ stroke:var(--chart-line); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-  .mini-chart-val{ font-family:var(--font-display); font-weight:400; font-size:1.5rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .mini-bar{ fill:url(#mini-bar-fill); }
+  @media (max-width:560px){ .chart-row{ min-height:260px; } .mini-chart-visual{ height:170px; left:1.2rem; right:1.2rem; } }
 
   /* PRODUCTS */
   .products{ border-bottom:1px solid var(--hairline); }
