@@ -21,26 +21,26 @@
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  /* Blue + purple bloom and a faint white highlight, pinned to the viewport
+     corners -- the sanctioned hints of hue in the system. These are painted
+     as extra layers of BODY'S OWN background (not a separate ::before
+     element), with background-attachment:fixed to keep them corner-pinned
+     as the page scrolls. A background is by definition painted behind an
+     element's own content -- there is no stacking-context/z-index for a
+     separate layer to get tangled in, so this is the one arrangement that
+     structurally cannot end up in front of anything on the page. */
   body{
     margin:0; color:var(--ink);
     font-family:var(--font-body);
-    background: linear-gradient(150deg,#221f28 0%,#17151b 52%,#0b0a0e 100%);
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-  }
-  /* Blue bloom + faint white highlight, pinned to the viewport corner -- the
-     sanctioned hint of hue in the system. Fixed + z-index:-1 so it always
-     sits behind every normal-flow element, never in front of a card.
-     (The purple accent lives inside .research instead, scrolling with the
-     page -- see below -- rather than as a second fixed/viewport-pinned
-     layer, which would otherwise re-overlap a different section every time
-     someone scrolls.) */
-  body::before{
-    content:"";
-    position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
       radial-gradient(1500px 760px at 104% -10%, var(--blue-bloom), transparent 52%),
-      radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%);
+      radial-gradient(1300px 820px at -6% 106%, var(--purple-bloom), transparent 55%),
+      radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%),
+      linear-gradient(150deg,#221f28 0%,#17151b 52%,#0b0a0e 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
   }
   a{ color:inherit; text-decoration:none; }
   ::selection{ background: rgba(255,255,255,.25); }
@@ -227,7 +227,7 @@
      the row always reads the same regardless of what it contains. */
   .prod-ctas{ display:flex; gap:0.9rem; margin-top:1.3rem; flex-wrap:wrap; }
   .prod-ctas .btn{ font-size:0.8rem; padding:0.65rem 1.2rem; min-width:150px; justify-content:center; }
-  .prod-ctas .prod-badge{ cursor:default; }
+  .prod-ctas .prod-badge{ cursor:default; color:var(--ink-dim); border-color:var(--hairline); background:transparent; }
   @media (max-width:760px){ .prod{ grid-template-columns:1fr; gap:0.8rem; } }
 
   /* PARTNERS */
@@ -241,20 +241,21 @@
   /* Partner logo grid -- dark glass tiles, all the same fixed size (sized off
      the widest wordmark, Balancer) with room to spare so a logo is never
      cropped. One row, native horizontal scroll (wheel, trackpad, or
-     click-drag); an edge mask fades the tiles out at both ends whenever a
-     row overflows, so it reads as pannable either direction without an
-     arrow that only implies one. */
+     click-drag); an edge mask fades the tiles out on whichever side still
+     has more to scroll to (main.js keeps --fade-l/--fade-r in sync with
+     scroll position), so it reads as pannable without an arrow that only
+     implies one direction -- and never fades/shadows a side that's already
+     scrolled all the way to. */
   .partner-grid{
     display:flex; flex-wrap:nowrap; gap:0.7rem; min-width:0;
     overflow-x:auto; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none;
     cursor:grab;
+    --fade-l:0px; --fade-r:0px;
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
   }
   .partner-grid::-webkit-scrollbar{ display:none; }
   .partner-grid.dragging{ cursor:grabbing; scroll-behavior:auto; }
-  .partner-grid.has-overflow{
-    mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
-  }
   .partner-tile{
     display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
     width:158px; height:76px; padding:1rem 1.1rem;
@@ -273,21 +274,15 @@
   }
   /* One-off: the Uniswap Security Fund tile shares the Uniswap protocol's
      unicorn mark, so it gets a small caption underneath to disambiguate. */
-  .partner-tile--labeled{ flex-direction:column; gap:0.3rem; }
-  .partner-tile--labeled .partner-logo{ max-height:58%; }
-  .partner-tile-caption{ font-family:var(--font-body); font-weight:700; font-size:0.6rem; letter-spacing:0.1em; color:var(--ink-dim); }
+  .partner-tile--wordmark{ justify-content:flex-start; gap:0.65rem; }
+  .partner-tile--wordmark .partner-logo{ max-width:30px; max-height:60%; flex-shrink:0; }
+  .partner-tile-wordmark{
+    font-family:var(--font-body); font-weight:700; font-size:0.72rem; line-height:1.3;
+    letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-muted); text-align:left;
+  }
 
   /* RESEARCH */
-  .research{ position:relative; overflow:hidden; border-bottom:1px solid var(--hairline); }
-  /* Purple accent, contained to this section and behind its own content only
-     (not fixed to the viewport, so it never drifts over other sections as
-     the page scrolls) -- z-index:-1 is scoped to .research's own stacking
-     context via position:relative above, so section text/hairlines always
-     paint above it. */
-  .research::before{
-    content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-    background: radial-gradient(900px 620px at -6% 96%, var(--purple-bloom), transparent 60%);
-  }
+  .research{ border-bottom:1px solid var(--hairline); }
   .paper-list{ max-width:1120px; margin:0 auto; display:flex; flex-direction:column; }
   .paper{ display:flex; gap:2rem; padding:1.5rem 0; border-top:1px solid var(--hairline); align-items:baseline; }
   .paper:first-child{ border-top:1px solid var(--hairline); }

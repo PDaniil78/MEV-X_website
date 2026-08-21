@@ -53,16 +53,22 @@
     });
   });
 
-  // Partner logo rows: one line each. When a row overflows it gets an edge
-  // fade (.has-overflow, in CSS) so it visibly continues both directions,
-  // and is pannable by wheel/trackpad (native overflow-x) or click-drag.
+  // Partner logo rows: one line each, pannable by wheel/trackpad (native
+  // overflow-x) or click-drag. The edge fade only appears on a side that
+  // still has more to scroll to -- never over a logo already scrolled flush
+  // to that edge -- so it's kept in sync with scroll position, not just
+  // "does this row overflow at all".
   document.querySelectorAll('.partner-grid').forEach(function(grid){
-    function syncOverflow(){
-      grid.classList.toggle('has-overflow', grid.scrollWidth > grid.clientWidth + 1);
+    function syncFade(){
+      var atStart = grid.scrollLeft <= 1;
+      var atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 1;
+      grid.style.setProperty('--fade-l', atStart ? '0px' : '28px');
+      grid.style.setProperty('--fade-r', atEnd ? '0px' : '28px');
     }
-    syncOverflow();
-    window.addEventListener('resize', syncOverflow);
-    window.addEventListener('load', syncOverflow);
+    syncFade();
+    grid.addEventListener('scroll', syncFade, { passive: true });
+    window.addEventListener('resize', syncFade);
+    window.addEventListener('load', syncFade);
 
     var dragging = false, startX = 0, startScroll = 0, moved = false;
     grid.addEventListener('pointerdown', function(e){
