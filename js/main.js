@@ -2,10 +2,16 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Count-up numbers: format with the element's own prefix/suffix/locale grouping.
+  // data-decimals (default 0) keeps whole-number counters unchanged while letting
+  // counters like "$18.3M" or "x11.5" animate to a fixed number of decimal places.
   function formatCount(el, value){
     var prefix = el.getAttribute('data-prefix') || '';
     var suffix = el.getAttribute('data-suffix') || '';
-    return prefix + Math.round(value).toLocaleString('en-US') + suffix;
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var fixed = value.toFixed(decimals);
+    var parts = fixed.split('.');
+    parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
+    return prefix + parts.join('.') + suffix;
   }
   function animateCount(el){
     var target = parseFloat(el.getAttribute('data-count'));

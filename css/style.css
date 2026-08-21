@@ -103,7 +103,8 @@
     .proof-grid > .reveal:nth-child(3){ transition-delay:160ms; }
     .prod-list > .reveal:nth-child(4),
     .partner-cats > .reveal:nth-child(4),
-    .paper-list > .reveal:nth-child(4){ transition-delay:240ms; }
+    .paper-list > .reveal:nth-child(4),
+    .proof-grid > .reveal:nth-child(4){ transition-delay:240ms; }
     .partner-cats > .reveal:nth-child(5){ transition-delay:320ms; }
 
     .navlinks a{ position:relative; }
@@ -165,7 +166,8 @@
      plain numbers, so it gets a row of its own. */
   .proof{ border-bottom:1px solid var(--hairline); padding:3rem 0; }
   .proof-in{ max-width:1120px; margin:0 auto; padding:0 1.5rem; display:flex; flex-direction:column; gap:1rem; }
-  .proof-grid{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem; }
+  .proof-top{ display:grid; grid-template-columns: 1fr 1.32fr; gap:1rem; align-items:stretch; }
+  .proof-grid{ display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap:1rem; }
   .proof-item{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
     padding:1.5rem 1.4rem; min-height:150px;
@@ -173,8 +175,36 @@
   }
   .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2.2rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .proof-item .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
-  @media (max-width:760px){ .proof-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:900px){ .proof-top{ grid-template-columns:1fr; } }
   @media (max-width:560px){ .proof-grid{grid-template-columns:1fr;} .proof-item{height:auto; min-height:130px;} }
+
+  /* Growth card -- "capture rate" S-curve, replacing the old bar sparkline.
+     Line + area reveal together via pathLength-normalised stroke-dashoffset
+     (no JS measurement needed), the same .reveal/.in trigger as everything else. */
+  .growth-card{
+    border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
+    padding:1.6rem 1.7rem 1.5rem; display:flex; flex-direction:column; min-height:320px;
+  }
+  .growth-label{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); text-align:center; }
+  .growth-chart{ position:relative; flex:1; margin-top:0.6rem; min-height:170px; }
+  .growth-chart svg{ display:block; width:100%; height:100%; overflow:visible; }
+  .growth-area{ opacity:0; transition: opacity .9s ease .3s; }
+  .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round;
+    stroke-dasharray:100; stroke-dashoffset:100; transition: stroke-dashoffset 1.5s cubic-bezier(.16,.84,.44,1); }
+  .growth-dot{ fill:var(--ink); opacity:0; transition: opacity .4s ease; }
+  .growth-dot.end{ transition-delay:1.4s; }
+  .reveal.in .growth-area{ opacity:1; }
+  .reveal.in .growth-path{ stroke-dashoffset:0; }
+  .reveal.in .growth-dot{ opacity:1; }
+  .growth-endpoint{ position:absolute; text-align:left; }
+  .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.05rem; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-muted); margin-top:0.15em; }
+  .growth-endpoint.start{ left:0; bottom:6%; }
+  .growth-endpoint.end{ right:0; top:0; text-align:right; }
+  .growth-multiplier{ text-align:center; margin-top:0.8rem; }
+  .growth-multiplier .x{ font-family:var(--font-display); font-weight:400; font-size:2rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .growth-multiplier .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.25em; }
+  @media (max-width:560px){ .growth-card{ min-height:280px; padding:1.3rem 1.2rem; } }
 
   /* Dune CTA -- same tile treatment as the stats, just with a button instead
      of a plain number. Button sits margin-top:1.5rem below the label, matching
