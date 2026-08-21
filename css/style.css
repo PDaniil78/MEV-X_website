@@ -28,7 +28,12 @@
      as the page scrolls. A background is by definition painted behind an
      element's own content -- there is no stacking-context/z-index for a
      separate layer to get tangled in, so this is the one arrangement that
-     structurally cannot end up in front of anything on the page. */
+     structurally cannot end up in front of anything on the page.
+     Only the three bloom layers get :fixed -- a fixed background is sized
+     to the viewport, so the base color layer stays :scroll (the default)
+     to keep covering the full document on any page taller than one
+     viewport; otherwise everything below the first screen falls through
+     to a blank white canvas. */
   body{
     margin:0; color:var(--ink);
     font-family:var(--font-body);
@@ -38,7 +43,7 @@
       radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%),
       linear-gradient(150deg,#221f28 0%,#17151b 52%,#0b0a0e 100%);
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: fixed, fixed, fixed, scroll;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
@@ -320,6 +325,115 @@
   .foot-links a:hover{ color:var(--ink); }
 
   @media (max-width:900px){ .hero-in{ grid-template-columns:1fr; } .proof-grid{grid-template-columns:1fr 1fr;} }
+
+  /* BLOG -- shared across blog/index.html (hub) and blog/<slug>/index.html
+     (article pages). Reuses every token/pattern above (chip-bg, hairline
+     rows, .band, .btn, .reveal) so the section reads as part of the same
+     system rather than a bolted-on subsite. */
+  .crumbs{
+    max-width:1120px; margin:0 auto 1.6rem; padding:0 1.5rem;
+    display:flex; align-items:center; gap:0.5em; flex-wrap:wrap;
+    font-family:var(--font-body); font-weight:600; font-size:0.75rem; letter-spacing:0.04em; color:var(--ink-dim);
+  }
+  .crumbs a{ color:var(--ink-muted); }
+  .crumbs a:hover{ color:var(--ink); }
+
+  /* Blog hub hero -- shorter than the homepage hero, no two-column split. */
+  .blog-hero{ padding:3.5rem 1.5rem 3rem; border-bottom:1px solid var(--hairline); }
+  .blog-hero-in{ max-width:1120px; margin:0 auto; }
+  .blog-hero h1{ font-size:clamp(2.4rem, 5vw, 3.4rem); max-width:22ch; }
+  .blog-hero .sub{ font-family:var(--font-body); font-weight:400; font-size:1.05rem; line-height:1.6; color:var(--ink-muted); max-width:58ch; margin-top:1.1rem; }
+
+  /* Tag filter -- pill row, client-side filtering only (no navigation). */
+  .tag-filter{ display:flex; flex-wrap:wrap; gap:0.6rem; max-width:1120px; margin:0 auto; padding:1.8rem 1.5rem 2.6rem; }
+  .tag-pill{
+    font-family:var(--font-body); font-weight:600; font-size:0.75rem; letter-spacing:0.03em;
+    color:var(--ink-muted); background:var(--chip-bg); border:1.5px solid var(--chip-border);
+    border-radius:999px; padding:0.5em 1.05em; cursor:pointer;
+  }
+  .tag-pill:hover{ color:var(--ink); border-color:rgba(255,255,255,.32); }
+  .tag-pill.active{ color:#0b0a0e; background:#fff; border-color:#fff; }
+
+  /* Article card grid. */
+  .blog-grid{ max-width:1120px; margin:0 auto; padding:0 1.5rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; }
+  .blog-card{
+    display:flex; flex-direction:column; gap:0.9rem;
+    background:var(--chip-bg); border:1.5px solid var(--chip-border); border-radius:20px;
+    padding:1.6rem 1.5rem; min-height:230px;
+  }
+  .blog-card:hover{ border-color:rgba(255,255,255,.3); }
+  .blog-card .tags{ display:flex; flex-wrap:wrap; gap:0.5em; }
+  .blog-card .tags span{ font-family:var(--font-body); font-weight:600; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-dim); }
+  .blog-card .tags span::after{ content:"·"; margin-left:0.5em; color:var(--ink-dim); }
+  .blog-card .tags span:last-child::after{ content:none; }
+  .blog-card h3{ font-size:1.5rem; line-height:1.05; flex:1; }
+  .blog-card .dek{ font-family:var(--font-body); font-weight:400; font-size:0.88rem; line-height:1.55; color:var(--ink-muted); }
+  .blog-card .meta{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; letter-spacing:0.04em; color:var(--ink-dim); display:flex; justify-content:space-between; align-items:center; margin-top:0.2rem; }
+  .blog-card[hidden]{ display:none; }
+  @media (max-width:900px){ .blog-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .blog-grid{ grid-template-columns:1fr; } }
+
+  .blog-empty{ max-width:1120px; margin:0 auto; padding:2rem 1.5rem; font-family:var(--font-body); color:var(--ink-muted); display:none; }
+  .blog-empty.show{ display:block; }
+
+  /* Article page. */
+  .article-head{ max-width:760px; margin:0 auto; padding:3.2rem 1.5rem 2.4rem; border-bottom:1px solid var(--hairline); }
+  .article-head .tags{ display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.2rem; }
+  .article-head .tags a{
+    font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--ink-muted); background:var(--chip-bg); border:1px solid var(--chip-border); border-radius:999px; padding:0.4em 0.9em;
+  }
+  .article-head .tags a:hover{ color:var(--ink); }
+  .article-head h1{ font-size:clamp(2.1rem, 4.4vw, 3rem); }
+  .article-head .dek{ font-family:var(--font-body); font-weight:400; font-size:1.08rem; line-height:1.6; color:var(--ink-muted); margin-top:1rem; max-width:62ch; }
+  .article-meta{
+    display:flex; flex-wrap:wrap; gap:1.4rem; margin-top:1.6rem;
+    font-family:var(--font-body); font-weight:600; font-size:0.78rem; letter-spacing:0.03em; color:var(--ink-dim);
+  }
+
+  .article-body{ max-width:760px; margin:0 auto; padding:3rem 1.5rem; font-family:var(--font-body); color:var(--ink); }
+  .article-body p{ font-size:1.05rem; line-height:1.75; color:rgba(255,255,255,.85); margin:0 0 1.4rem; }
+  .article-body h2{ font-size:1.55rem; margin:2.6rem 0 1rem; }
+  .article-body h3{ font-size:1.2rem; margin:2rem 0 0.8rem; }
+  .article-body ul, .article-body ol{ margin:0 0 1.4rem; padding-left:1.3rem; }
+  .article-body li{ font-size:1.02rem; line-height:1.7; color:rgba(255,255,255,.85); margin-bottom:0.5em; }
+  .article-body a{ color:var(--ink); text-decoration:underline; text-decoration-color:rgba(255,255,255,.35); text-underline-offset:0.15em; }
+  .article-body a:hover{ text-decoration-color:var(--ink); }
+  .article-body strong{ color:var(--ink); }
+
+  /* Answer-first summary box -- sits right under the dek so both a skimming
+     reader and an AI answer engine get the direct claim before the argument. */
+  .tldr{
+    background:var(--chip-bg); border:1.5px solid var(--chip-border); border-radius:16px;
+    padding:1.4rem 1.5rem; margin-bottom:0.5rem;
+  }
+  .tldr .k{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-bottom:0.6em; }
+  .tldr p{ font-size:0.98rem; line-height:1.6; color:var(--ink); margin:0; }
+
+  .key-facts{ list-style:none; margin:0 0 1.4rem; padding:0; display:flex; flex-direction:column; gap:0.6rem; }
+  .key-facts li{
+    font-size:0.98rem; line-height:1.6; color:rgba(255,255,255,.85);
+    padding-left:1.3rem; position:relative;
+  }
+  .key-facts li::before{ content:"—"; position:absolute; left:0; color:var(--ink-dim); }
+
+  .pull-quote{
+    border-left:3px solid rgba(139,92,246,.65); margin:2rem 0; padding:0.2rem 0 0.2rem 1.4rem;
+    font-family:var(--font-display); font-weight:400; font-size:1.5rem; line-height:1.3; color:var(--ink);
+  }
+
+  .faq{ margin-top:1rem; }
+  .faq-item{ border-top:1px solid var(--hairline); padding:1.4rem 0; }
+  .faq-item:last-child{ border-bottom:1px solid var(--hairline); }
+  .faq-item h3{ font-size:1.05rem; margin:0 0 0.6em; }
+  .faq-item p{ font-size:0.98rem; margin:0; }
+
+  .related{ border-top:1px solid var(--hairline); padding:3.5rem 1.5rem; }
+  .related-in{ max-width:1120px; margin:0 auto; }
+  .related h2{ font-size:1.5rem; margin-bottom:1.6rem; }
+  .related .blog-grid{ padding:0; max-width:none; }
+
+  @media (max-width:760px){ .blog-hero{ padding:2.6rem 1.5rem 2rem; } }
 
   /* RPC ENDPOINTS MODAL -- opened from the nav "RPC" link and the RPC
      product card's "View endpoints" button. */

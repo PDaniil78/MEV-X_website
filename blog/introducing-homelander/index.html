@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introducing Homelander: Atomic MEV Internalization | MEV-X</title>
+  <meta name="description" content="Homelander captures post-swap arbitrage atomically, in the same transaction as the swap that created it — turning MEV that would leak to external searchers into AMM yield.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/introducing-homelander/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/introducing-homelander/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:title" content="Introducing Homelander: Atomic MEV Internalization System">
+  <meta property="og:description" content="Homelander captures post-swap arbitrage atomically, in the same transaction as the swap that created it — turning MEV that would leak to external searchers into AMM yield.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="article:published_time" content="2025-12-01">
+  <meta property="article:section" content="MEV Internalization">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Introducing Homelander: Atomic MEV Internalization System">
+  <meta name="twitter:description" content="Homelander captures post-swap arbitrage atomically, in the same transaction as the swap that created it — turning MEV that would leak to external searchers into AMM yield.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Introducing Homelander: Atomic MEV Internalization System",
+    "description": "Homelander captures post-swap arbitrage atomically, in the same transaction as the swap that created it — turning MEV that would leak to external searchers into AMM yield.",
+    "datePublished": "2025-12-01",
+    "dateModified": "2025-12-01",
+    "author": { "@type": "Organization", "name": "MEV-X" },
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/introducing-homelander/",
+    "keywords": "MEV internalization, atomic arbitrage, AMM yield, MEV protection"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Introducing Homelander", "item": "https://mev-x.com/blog/introducing-homelander/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is MEV internalization?",
+        "acceptedAnswer": { "@type": "Answer", "text": "MEV internalization is when the protocol whose activity creates an arbitrage opportunity captures that opportunity itself, instead of letting it be extracted by an external searcher and paid away as priority fees to validators and block builders." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Homelander change the price a user gets on their swap?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. The arbitrage capture happens atomically around the user's swap, in the same transaction, without altering the price or execution the user sees. The value captured is the surplus that would otherwise have leaked to an external searcher." }
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../../#products">Products</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#">Docs</a>
+  </div>
+  <a href="../../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<nav class="crumbs reveal" aria-label="Breadcrumb">
+  <a href="../">Blog</a><span>/</span><a href="../?tag=mev-internalization">MEV Internalization</a><span>/</span><span>Introducing Homelander</span>
+</nav>
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=mev-internalization">MEV Internalization</a>
+    <a href="../?tag=amm-yield">AMM Yield</a>
+    <a href="../?tag=arbitrage">Arbitrage</a>
+  </div>
+  <h1>Introducing Homelander: Atomic MEV Internalization System</h1>
+  <p class="dek">Every swap that moves an AMM pool off the wider market price creates an arbitrage opportunity. Homelander is MEV-X's system for capturing that opportunity atomically — before it ever reaches an external searcher — and returning it as yield.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>Dec 1, 2025</span>
+    <span>5 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+  <div class="tldr reveal">
+    <div class="k">Answer first</div>
+    <p>Homelander is MEV-X's MEV internalization system for AMMs. It captures the post-swap arbitrage opportunity atomically, in the same transaction as the swap that creates it, and returns the captured value as AMM yield instead of letting it leak to external searchers, validators, and block builders.</p>
+  </div>
+
+  <h2>Every swap creates an arbitrage opportunity</h2>
+  <p>A swap on a constant-product or concentrated-liquidity AMM moves the pool's internal price. If the pool was priced in line with the wider market before the trade, it usually isn't afterward — the trade itself opens a small gap between the pool's price and the price available elsewhere. That gap is an arbitrage opportunity, and on any liquid chain it gets closed within one or two blocks.</p>
+  <p>Under the default setup, closing that gap is somebody else's job. External searchers monitor the mempool, detect the imbalance, and race to backrun it — paying most of what they capture to validators and block builders as priority fees just to win the race. The pool and its liquidity providers see none of it. This is the leakage side of MEV: value created by the pool's own activity, captured entirely outside it.</p>
+
+  <h2>What Homelander does differently</h2>
+  <p>Homelander resolves that same imbalance atomically, inside the transaction that creates it, rather than leaving it for an external auction to settle later. The mechanism is triggered directly by the swap's execution path — as a plugin on the AMM itself — so the backrun that closes the arbitrage gap is not a separate transaction competing in public mempool infrastructure. It is bundled with the state transition that created the opportunity in the first place.</p>
+  <p>That has two consequences. First, the value captured no longer depends on which searcher happened to win a given block's race — it's resolved deterministically as part of the swap. Second, because it never leaves the transaction boundary, there is no window in which an external party can see the opportunity and act on it before the protocol does.</p>
+
+  <h2>Why atomicity is the part that matters for MEV protection</h2>
+  <p>Atomicity is not a performance detail — it's the property that makes internalization safe to ship. If capture happened in a follow-up transaction, it would inherit every failure mode of an external backrun: it could be front-run, it could fail to land, and a failure would need its own error handling separate from the user's original swap. Because Homelander's capture logic executes inside the same transaction, it either commits together with the swap or not at all. There's no partial state where the swap succeeds but the internalization step is left dangling, and no separate execution path a user's transaction can get stuck behind.</p>
+
+  <ul class="key-facts">
+    <li>Homelander runs as an execution-layer plugin on the AMM, not a separate bot or off-chain service.</li>
+    <li>The user's swap price and execution are unaffected — internalization acts on the arbitrage surplus the swap creates, not on the swap itself.</li>
+    <li>Captured value is returned as AMM yield, on top of standard swap fees, to the pool and its liquidity providers.</li>
+    <li>Because capture is atomic, it carries the same execution guarantees as the swap it's attached to.</li>
+  </ul>
+
+  <p>This is the starting point for MEV-X's product line: Homelander is the internalization layer, and everything else — CEX–DEX arbitrage through Starlight, liquidations through Butcher, rebated order flow through MEV-X RPC — extends the same idea to other points in the transaction lifecycle where value would otherwise leak.</p>
+
+  <div class="faq">
+    <div class="faq-item">
+      <h3>What is MEV internalization?</h3>
+      <p>MEV internalization is when the protocol whose activity creates an arbitrage opportunity captures that opportunity itself, instead of letting it be extracted by an external searcher and paid away as priority fees to validators and block builders.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does Homelander change the price a user gets on their swap?</h3>
+      <p>No. The arbitrage capture happens atomically around the user's swap, in the same transaction, without altering the price or execution the user sees. The value captured is the surplus that would otherwise have leaked to an external searcher.</p>
+    </div>
+  </div>
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
+        <div class="tags"><span>Arbitrage</span><span>AMM Yield</span></div>
+        <h3>MEV Resolution in AMM-Based Systems: External and Internal Execution</h3>
+        <p class="dek">Who closes the post-swap arbitrage gap decides who keeps the value — a look at external versus internal execution.</p>
+        <div class="meta"><span>Dec 12, 2025</span><span>5 min read</span></div>
+      </a>
+      <a href="../mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal">
+        <div class="tags"><span>MEV Internalization</span><span>AMM Yield</span></div>
+        <h3>MEV Internalization: Keeping Value Inside the Protocol</h3>
+        <p class="dek">Three ways a protocol can handle post-swap MEV, and why leakage isn't actually unavoidable.</p>
+        <div class="meta"><span>Jan 28, 2026</span><span>5 min read</span></div>
+      </a>
+      <a href="../where-mev-actually-comes-from/" class="blog-card reveal">
+        <div class="tags"><span>Arbitrage</span><span>Research</span></div>
+        <h3>Where MEV Actually Comes From</h3>
+        <p class="dek">96.7% of atomic arbitrage on Polygon traces back to a single source transaction.</p>
+        <div class="meta"><span>Apr 9, 2026</span><span>6 min read</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../../js/main.js?v=13"></script>
+</body>
+</html>

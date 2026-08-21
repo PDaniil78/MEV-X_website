@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homelander Security Audit: Uniswap v4 — Summary and Outcomes | MEV-X</title>
+  <meta name="description" content="MixBytes' audit of Homelander's Uniswap v4 hook implementation found no critical or high-severity issues, confirming the hook contains external-execution failures without touching the user's swap.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/homelander-audit-uniswap-v4/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/homelander-audit-uniswap-v4/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:title" content="Homelander Security Audit: Uniswap v4 — Summary and Outcomes">
+  <meta property="og:description" content="MixBytes' audit of Homelander's Uniswap v4 hook implementation found no critical or high-severity issues.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="article:published_time" content="2026-05-06">
+  <meta property="article:section" content="Security Audits">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Homelander Security Audit: Uniswap v4 — Summary and Outcomes">
+  <meta name="twitter:description" content="MixBytes' audit found no critical or high-severity issues in the v4 hook implementation.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Homelander Security Audit: Uniswap v4 — Summary and Outcomes",
+    "description": "MixBytes' audit of Homelander's Uniswap v4 hook implementation found no critical or high-severity issues, confirming the hook contains external-execution failures without touching the user's swap.",
+    "datePublished": "2026-05-06",
+    "dateModified": "2026-05-06",
+    "author": { "@type": "Organization", "name": "MEV-X" },
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/homelander-audit-uniswap-v4/",
+    "keywords": "Uniswap v4 audit, MEV protection, security audit, MixBytes"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Homelander Security Audit: Uniswap v4", "item": "https://mev-x.com/blog/homelander-audit-uniswap-v4/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../../#products">Products</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#">Docs</a>
+  </div>
+  <a href="../../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<nav class="crumbs reveal" aria-label="Breadcrumb">
+  <a href="../">Blog</a><span>/</span><a href="../?tag=security-audits">Security Audits</a><span>/</span><span>Homelander Security Audit: Uniswap v4</span>
+</nav>
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=security-audits">Security Audits</a>
+    <a href="../?tag=protocol-integrations">Protocol Integrations</a>
+  </div>
+  <h1>Homelander Security Audit: Uniswap v4 — Summary and Outcomes</h1>
+  <p class="dek">Ahead of going live on Uniswap v4, Homelander's hook implementation went through an independent audit by MixBytes — testing whether the same isolation guarantee holds on a fundamentally different integration surface than Homelander's earlier deployments.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>May 6, 2026</span>
+    <span>4 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+  <div class="tldr reveal">
+    <div class="k">Answer first</div>
+    <p>MixBytes audited Homelander's Uniswap v4 hook implementation and found no critical or high-severity vulnerabilities. The audit confirmed that failures in the external execution stack are absorbed within the hook and do not propagate into the user's transaction — the same core safety property Homelander maintains across every AMM it integrates with.</p>
+  </div>
+
+  <h2>A new integration surface, the same question</h2>
+  <p>Uniswap v4's hook architecture is a different integration model than the plugin-based approach Homelander uses on other AMMs — hooks run with their own permissioning and lifecycle, tied directly into the pool's core swap logic. A new integration surface means the isolation property that protects users has to be re-verified from scratch, not assumed to carry over automatically from a previous audit on a different architecture. That's what this engagement tested.</p>
+
+  <h2>Scope and findings</h2>
+  <p>MixBytes reviewed the afterSwap hook implementation that Homelander uses to trigger its internal MEV capture logic on Uniswap v4 pools, along with the surrounding accounting and failure-handling paths. The audit found no critical or high-severity vulnerabilities in scope.</p>
+  <p>The specific outcome worth stating: failures in the external execution stack are absorbed within the hook and do not propagate into the user's transaction. In practice, that means if some part of the internal capture logic depends on external state or execution that doesn't resolve as expected, the hook contains that failure — it doesn't let it cascade back into the swap the user actually submitted.</p>
+
+  <ul class="key-facts">
+    <li>Audit firm: MixBytes, an independent smart-contract security auditor.</li>
+    <li>Scope: Homelander's afterSwap hook implementation on Uniswap v4 and its internal accounting/failure paths.</li>
+    <li>Result: no critical or high-severity vulnerabilities identified.</li>
+    <li>Key property confirmed: failures in external execution are absorbed by the hook and never reach the user's swap.</li>
+  </ul>
+
+  <p>This audit cleared the way for Homelander's Uniswap v4 expansion, announced separately, which runs on Uniswap Foundation grant support.</p>
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../homelander-expanding-to-uniswap-v4/" class="blog-card reveal">
+        <div class="tags"><span>Protocol Integrations</span><span>AMM Yield</span></div>
+        <h3>Homelander Is Expanding to Uniswap v4</h3>
+        <p class="dek">The afterSwap hook becomes the atomic MEV capture point on Uniswap v4.</p>
+        <div class="meta"><span>Apr 22, 2026</span><span>5 min read</span></div>
+      </a>
+      <a href="../homelander-audit-bailsec-algebra/" class="blog-card reveal">
+        <div class="tags"><span>Security Audits</span><span>Protocol Integrations</span></div>
+        <h3>Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes</h3>
+        <p class="dek">A differential audit of Homelander's Algebra plugin update.</p>
+        <div class="meta"><span>May 27, 2026</span><span>4 min read</span></div>
+      </a>
+      <a href="../homelander-security-audit-summary-and-outcomes/" class="blog-card reveal">
+        <div class="tags"><span>Security Audits</span><span>MEV Protection</span></div>
+        <h3>Homelander Security Audit: Summary and Outcomes</h3>
+        <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities.</p>
+        <div class="meta"><span>Jan 12, 2026</span><span>4 min read</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../../js/main.js?v=13"></script>
+</body>
+</html>

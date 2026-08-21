@@ -1,0 +1,35 @@
+# MEV-X
+
+> MEV-X is end-to-end MEV infrastructure for EVM chains: DEX internalization, CEX–DEX arbitrage, liquidations, and partner order flow. MEV that moves through MEV-X is found, extracted, and returned as yield instead of leaking to external searchers.
+
+MEV-X's core product, Homelander, captures post-swap arbitrage atomically — in the same transaction as the swap that creates it — and returns the captured value as AMM yield to the integrating protocol and its liquidity providers. This is MEV internalization: keeping the value a protocol's own trading activity creates inside the protocol, rather than routing it to external searchers, validators, and block builders through an open auction.
+
+## Products
+
+- [Homelander](https://mev-x.com/#products): MEV internalization for AMMs. Captures arbitrage atomically at the point of execution.
+- [Starlight](https://mev-x.com/#products): CEX–DEX arbitrage, available as part of Homelander.
+- [Butcher](https://mev-x.com/#products): Liquidation engine for lending markets across chains.
+- [MEV-X RPC](https://mev-x.com/#products): Private RPC endpoints with automatic MEV rebates for partner transaction flow.
+
+## Blog
+
+- [Blog index](https://mev-x.com/blog/): Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure.
+- [Introducing Homelander](https://mev-x.com/blog/introducing-homelander/): What atomic MEV internalization is and how it works.
+- [MEV Resolution in AMM-Based Systems](https://mev-x.com/blog/mev-resolution-in-amm-based-systems/): External vs. internal execution of post-swap arbitrage.
+- [MEV Internalization: Keeping Value Inside the Protocol](https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/): The three architectural options for handling protocol-created MEV.
+- [Where MEV Actually Comes From](https://mev-x.com/blog/where-mev-actually-comes-from/): Attribution research tracing 96.7% of atomic arbitrage on Polygon to a single source transaction.
+- [Every Chain Handles MEV Differently](https://mev-x.com/blog/every-chain-handles-mev-differently/): Comparing Ethereum PBS, Solana's Jito marketplace, Sui's object model, and protocol-level internalization.
+- [Homelander Is Expanding to Uniswap v4](https://mev-x.com/blog/homelander-expanding-to-uniswap-v4/): The afterSwap hook as an atomic MEV capture point.
+- [QuickSwap Integrates Homelander](https://mev-x.com/blog/quickswap-integrates-homelander/): Governance vote and MEV internalization as DEX infrastructure.
+
+## Research
+
+- [Google Scholar profile](https://scholar.google.com/citations?user=3msYZcQAAAAJ&hl=en): Peer-reviewed and preprint publications from the MEV-X research team.
+- [The Origins of MEV](https://arxiv.org/abs/2604.27979): Systematic attribution of arbitrage opportunity creation at scale.
+- [Unpacking Maximum Extractable Value on Polygon](https://arxiv.org/abs/2508.21473): 22 months of Polygon backrunning, atomic arbitrage.
+
+## Contact
+
+- Docs: https://docs.mev-x.com
+- Partners: https://partner.portal.mev-x.com/
+- Contact: contact@mev-x.com

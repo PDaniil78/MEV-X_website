@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MEV Internalization: Keeping Value Inside the Protocol | MEV-X</title>
+  <meta name="description" content="A protocol has three options for the MEV its own activity creates: ignore it, capture it natively, or route it to a partner. MEV leakage isn't actually unavoidable.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:title" content="MEV Internalization: Keeping Value Inside the Protocol">
+  <meta property="og:description" content="A protocol has three options for the MEV its own activity creates: ignore it, capture it natively, or route it to a partner. MEV leakage isn't actually unavoidable.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="article:published_time" content="2026-01-28">
+  <meta property="article:section" content="MEV Internalization">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MEV Internalization: Keeping Value Inside the Protocol">
+  <meta name="twitter:description" content="Three ways a protocol can handle post-swap MEV, and why leakage isn't actually unavoidable.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "MEV Internalization: Keeping Value Inside the Protocol",
+    "description": "A protocol has three options for the MEV its own activity creates: ignore it, capture it natively, or route it to a partner. MEV leakage isn't actually unavoidable.",
+    "datePublished": "2026-01-28",
+    "dateModified": "2026-01-28",
+    "author": { "@type": "Organization", "name": "MEV-X" },
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/",
+    "keywords": "MEV internalization, MEV protection, AMM yield, MEV leakage"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "MEV Internalization: Keeping Value Inside the Protocol", "item": "https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is MEV leakage unavoidable for AMM protocols?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Leakage is the default outcome only when a protocol takes no position on the MEV its own trading activity creates. Protocols that internalize that MEV, or route it through a partner under their control, keep some or all of the value that would otherwise go to external searchers." }
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../../#products">Products</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#">Docs</a>
+  </div>
+  <a href="../../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<nav class="crumbs reveal" aria-label="Breadcrumb">
+  <a href="../">Blog</a><span>/</span><a href="../?tag=mev-internalization">MEV Internalization</a><span>/</span><span>MEV Internalization: Keeping Value Inside the Protocol</span>
+</nav>
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=mev-internalization">MEV Internalization</a>
+    <a href="../?tag=mev-protection">MEV Protection</a>
+    <a href="../?tag=amm-yield">AMM Yield</a>
+  </div>
+  <h1>MEV Internalization: Keeping Value Inside the Protocol</h1>
+  <p class="dek">A protocol doesn't have to accept MEV leakage as the cost of doing business. There are three real architectural choices for the value its own activity creates — and only one of them keeps that value inside the protocol.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>Jan 28, 2026</span>
+    <span>5 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+  <div class="tldr reveal">
+    <div class="k">Answer first</div>
+    <p>A protocol facing post-swap MEV has three architectural options: do nothing and let it leak to external searchers, capture it natively through protocol-level logic, or route it to an external partner under negotiated terms. MEV leakage is a choice made by default, not a structural inevitability of on-chain markets.</p>
+  </div>
+
+  <h2>Option one: do nothing</h2>
+  <p>This is the default state of most AMMs, and it's a choice even when nobody explicitly makes it. Every swap that shifts a pool's price creates an arbitrage opportunity; if the protocol has no mechanism for capturing it, an external searcher will, almost immediately. The protocol's own trading volume becomes the raw material for a market it has no participation in. This is what "MEV leakage" means in practice — value the protocol generated, captured entirely outside it.</p>
+
+  <h2>Option two: protocol-native capture</h2>
+  <p>The second option is to build the capture mechanism directly into the protocol — internalization. Instead of leaving the post-swap imbalance for an external auction to resolve, the protocol resolves it itself, atomically, as part of its own execution logic. This is the approach behind Homelander: the arbitrage opportunity never becomes visible to outside searchers in the first place, because it's closed within the same transaction that created it. The captured value returns to the protocol as yield rather than leaving as priority fees to validators and builders.</p>
+
+  <h2>Option three: partnered external execution</h2>
+  <p>The third option sits between the other two. A protocol can route its MEV to a specific external partner — under a negotiated arrangement, such as a private order-flow agreement or a rebate structure — rather than leaving it open to whichever searcher wins the public auction. This captures some of the value that pure leakage would lose entirely, without requiring the protocol to build and maintain internalization logic itself. It's a reasonable middle ground, though it still depends on trusting a counterparty's execution and terms rather than having a deterministic, on-chain guarantee.</p>
+
+  <ul class="key-facts">
+    <li><strong>Do nothing:</strong> simplest to ship, and the value goes entirely to external searchers and block builders.</li>
+    <li><strong>Native capture:</strong> highest value retention, requires building internalization logic into the protocol's own execution path.</li>
+    <li><strong>Partnered execution:</strong> partial value retention through negotiated terms with an external actor, without in-house internalization engineering.</li>
+  </ul>
+
+  <p>The choice isn't really about whether MEV exists — a protocol's own activity will keep creating arbitrage opportunities regardless of what it decides. The choice is about who's positioned to capture that value once it exists, and that's an architectural decision a protocol can make deliberately instead of by default.</p>
+
+  <div class="faq">
+    <div class="faq-item">
+      <h3>Is MEV leakage unavoidable for AMM protocols?</h3>
+      <p>No. Leakage is the default outcome only when a protocol takes no position on the MEV its own trading activity creates. Protocols that internalize that MEV, or route it through a partner under their control, keep some or all of the value that would otherwise go to external searchers.</p>
+    </div>
+  </div>
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../introducing-homelander/" class="blog-card reveal">
+        <div class="tags"><span>MEV Internalization</span><span>AMM Yield</span></div>
+        <h3>Introducing Homelander: Atomic MEV Internalization System</h3>
+        <p class="dek">The system that captures post-swap arbitrage atomically and turns it into protocol yield.</p>
+        <div class="meta"><span>Dec 1, 2025</span><span>5 min read</span></div>
+      </a>
+      <a href="../every-chain-handles-mev-differently/" class="blog-card reveal">
+        <div class="tags"><span>MEV Protection</span><span>MEV Internalization</span></div>
+        <h3>Every Chain Handles MEV Differently — One Decided to Keep It Inside</h3>
+        <p class="dek">How Ethereum, Solana, and Sui each treat MEV, and what changes when a protocol captures it directly.</p>
+        <div class="meta"><span>Jun 16, 2026</span><span>6 min read</span></div>
+      </a>
+      <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
+        <div class="tags"><span>Arbitrage</span><span>AMM Yield</span></div>
+        <h3>MEV Resolution in AMM-Based Systems: External and Internal Execution</h3>
+        <p class="dek">Who closes the post-swap arbitrage gap decides who keeps the value.</p>
+        <div class="meta"><span>Dec 12, 2025</span><span>5 min read</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../../js/main.js?v=13"></script>
+</body>
+</html>

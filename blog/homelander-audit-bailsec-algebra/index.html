@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homelander Security Audit by Bailsec: Algebra Plugin | MEV-X</title>
+  <meta name="description" content="A differential audit of Homelander's Algebra plugin update — and why extending an already-audited execution model carries a different risk profile than shipping a new one.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/homelander-audit-bailsec-algebra/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/homelander-audit-bailsec-algebra/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:title" content="Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes">
+  <meta property="og:description" content="A differential audit of Homelander's Algebra plugin update, and why extending an audited execution model is a different risk profile than shipping a new one.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="article:published_time" content="2026-05-27">
+  <meta property="article:section" content="Security Audits">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes">
+  <meta name="twitter:description" content="A differential audit of Homelander's Algebra plugin update.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes",
+    "description": "A differential audit of Homelander's Algebra plugin update — and why extending an already-audited execution model carries a different risk profile than shipping a new one.",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": { "@type": "Organization", "name": "MEV-X" },
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/homelander-audit-bailsec-algebra/",
+    "keywords": "Algebra plugin audit, MEV protection, security audit, Bailsec"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Homelander Security Audit by Bailsec: Algebra Plugin", "item": "https://mev-x.com/blog/homelander-audit-bailsec-algebra/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../../#products">Products</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#">Docs</a>
+  </div>
+  <a href="../../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<nav class="crumbs reveal" aria-label="Breadcrumb">
+  <a href="../">Blog</a><span>/</span><a href="../?tag=security-audits">Security Audits</a><span>/</span><span>Homelander Security Audit by Bailsec: Algebra Plugin</span>
+</nav>
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=security-audits">Security Audits</a>
+    <a href="../?tag=protocol-integrations">Protocol Integrations</a>
+  </div>
+  <h1>Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes</h1>
+  <p class="dek">When Homelander's Algebra plugin was updated, Bailsec ran a differential audit rather than a full audit from scratch — a distinction that says something about how the review of an evolving system should actually work.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>May 27, 2026</span>
+    <span>4 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+  <div class="tldr reveal">
+    <div class="k">Answer first</div>
+    <p>Bailsec completed a differential security audit of Homelander's Algebra plugin update, focused specifically on what changed rather than re-reviewing the whole system. The audit found the updated implementation extends the previously audited execution model without introducing new classes of exploitable risk, and identified no high-severity vulnerabilities.</p>
+  </div>
+
+  <h2>Why a differential audit, specifically</h2>
+  <p>A full audit reviews a system as if seeing it for the first time. A differential audit takes the previously audited baseline as given and focuses the review on exactly what changed — in this case, an update to Homelander's Algebra plugin. That's not a lighter-weight substitute for a full audit; it's the more precise tool for the actual question at hand, which is whether a specific set of changes introduced new risk into a system whose baseline behavior is already understood.</p>
+
+  <h2>What changed, and what the audit tested</h2>
+  <p>The update modified how Homelander's Algebra integration handles its internal MEV capture logic on Algebra-based pools. Bailsec's review centered on whether those changes preserved the execution guarantees established in the original audit — most importantly, that the internal capture path can't affect the outcome of the user's underlying swap, even when it fails.</p>
+
+  <h2>The finding</h2>
+  <p>Bailsec's conclusion was direct: the updated Algebra plugin implementation extends the previously audited execution model without introducing new classes of exploitable risk. No high-severity vulnerabilities were identified. In other words, the changes did what they were meant to do — extend functionality — without changing the risk profile of the system underneath them.</p>
+
+  <ul class="key-facts">
+    <li>Audit firm: Bailsec, running a differential (change-focused) review rather than a full re-audit.</li>
+    <li>Scope: Homelander's updated Algebra plugin integration.</li>
+    <li>Result: no high-severity vulnerabilities; the update extends the audited baseline without new risk classes.</li>
+  </ul>
+
+  <p>Differential audits like this one are what makes it practical for MEV-X to keep extending Homelander to new AMM architectures and plugin updates without every change requiring a full ground-up re-review — while still giving integrators an independent answer every time the execution logic changes.</p>
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../homelander-audit-uniswap-v4/" class="blog-card reveal">
+        <div class="tags"><span>Security Audits</span><span>Protocol Integrations</span></div>
+        <h3>Homelander Security Audit: Uniswap v4 — Summary and Outcomes</h3>
+        <p class="dek">MixBytes audits the v4 hook implementation for the same isolation guarantee.</p>
+        <div class="meta"><span>May 6, 2026</span><span>4 min read</span></div>
+      </a>
+      <a href="../homelander-security-audit-summary-and-outcomes/" class="blog-card reveal">
+        <div class="tags"><span>Security Audits</span><span>MEV Protection</span></div>
+        <h3>Homelander Security Audit: Summary and Outcomes</h3>
+        <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities.</p>
+        <div class="meta"><span>Jan 12, 2026</span><span>4 min read</span></div>
+      </a>
+      <a href="../quickswap-integrates-homelander/" class="blog-card reveal">
+        <div class="tags"><span>Protocol Integrations</span><span>AMM Yield</span></div>
+        <h3>QuickSwap Integrates Homelander: MEV Internalization Becomes a DEX Infrastructure Standard</h3>
+        <p class="dek">QuickSwap's governance vote passed 3.2M QUICK in favor, zero against.</p>
+        <div class="meta"><span>May 18, 2026</span><span>5 min read</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../../js/main.js?v=13"></script>
+</body>
+</html>
