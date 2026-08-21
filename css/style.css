@@ -13,8 +13,8 @@
     --chip-bg: rgba(255,255,255,.035);
     --chip-border: rgba(255,255,255,.16);
 
-    --blue-bloom: rgba(40,78,205,.22);
-    --purple-bloom: rgba(139,92,246,.10);
+    --blue-bloom: rgba(40,78,205,.30);
+    --purple-bloom: rgba(139,92,246,.14);
     --chart-line: rgba(255,255,255,.85);
     --shadow: rgba(0,0,0,.45);
   }
@@ -138,7 +138,7 @@
     position: sticky; top:0; z-index:20;
     display:flex; align-items:center; justify-content:space-between;
     padding: 1.1rem 1.5rem; border-bottom:1px solid var(--hairline);
-    background: rgba(11,10,14,.88);
+    background: rgba(11,10,14,.55);
     backdrop-filter: blur(10px);
   }
   .wordmark{ display:flex; align-items:center; }
