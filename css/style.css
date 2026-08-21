@@ -331,7 +331,7 @@
   .growth-endpoint{ position:absolute; text-align:left; }
   .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
-  .growth-endpoint.start{ left:1%; top:90%; }
+  .growth-endpoint.start{ left:1%; top:78%; }
   .growth-endpoint.end{ right:2%; top:-7px; text-align:right; }
   @media (max-width:560px){ .growth-card{ min-height:260px; padding:1.3rem 1.2rem; } }
 
