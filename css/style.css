@@ -383,7 +383,7 @@
   .live-logo{ height:17px; width:auto; object-fit:contain; filter:brightness(0) invert(1); opacity:.62; transition:opacity .25s ease; display:block; flex-shrink:0; }
   .live-logo:hover{ opacity:1; }
 
-  .v1-feature{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:3rem; align-items:center; padding-bottom:3rem; margin-bottom:3rem; border-bottom:1px solid var(--hairline); }
+  .v1-feature{ display:grid; grid-template-columns:1fr 1.32fr; gap:3rem; align-items:center; padding-bottom:3rem; margin-bottom:3rem; border-bottom:1px solid var(--hairline); }
   .v1-feature h3{ font-size:2.6rem; margin-bottom:1rem; }
   .v1-feature .mech{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:1.02rem; line-height:1.65; max-width:52ch; margin-bottom:1.8rem; }
   .v1-feature .ctas{ display:flex; gap:0.9rem; flex-wrap:wrap; }
