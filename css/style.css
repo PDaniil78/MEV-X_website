@@ -21,34 +21,24 @@
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  /* Blue + purple bloom and a faint white highlight -- the sanctioned hints
-     of hue in the system. Painted as extra layers of BODY'S OWN background
-     (never a separate ::before/::after element or a fixed-position layer),
-     so there's no stacking context for them to end up in front of anything
-     in -- a background is definitionally behind its element's content.
-     Deliberately NOT background-attachment:fixed: that keeps a gradient
-     pinned to the viewport by re-anchoring its percentage positions to
-     whatever's on-screen as you scroll (and renders unreliably on mobile
-     Safari in particular), which is what let it visually collide with
-     different content at different scroll depths. Plain `scroll` attachment
-     anchors the gradients to fixed points on the page's own long canvas
-     instead -- blue stays near the hero, purple near the footer, full stop.
-     Y-positions are pixel/calc offsets from the top or bottom edge, not
-     percentages: a percentage Y is a fraction of the WHOLE document height,
-     so on a page this long (4500px+) "-10%"/"106%" land the gradient's
-     center hundreds of pixels off-canvas, leaving only its faint outer edge
-     (if any) actually on screen. A fixed pixel offset keeps the strongest,
-     most-visible part of each gradient anchored right at the hero / footer
-     regardless of how tall the page grows. */
+  /* Blue + purple bloom and a faint white highlight, pinned to the viewport
+     corners -- the sanctioned hints of hue in the system. These are painted
+     as extra layers of BODY'S OWN background (not a separate ::before
+     element), with background-attachment:fixed to keep them corner-pinned
+     as the page scrolls. A background is by definition painted behind an
+     element's own content -- there is no stacking-context/z-index for a
+     separate layer to get tangled in, so this is the one arrangement that
+     structurally cannot end up in front of anything on the page. */
   body{
     margin:0; color:var(--ink);
     font-family:var(--font-body);
     background:
-      radial-gradient(1500px 760px at 104% -60px, var(--blue-bloom), transparent 52%),
-      radial-gradient(1300px 820px at -6% calc(100% - 260px), var(--purple-bloom), transparent 55%),
-      radial-gradient(1100px 560px at 6% -90px, rgba(206,212,228,.08), transparent 58%),
+      radial-gradient(1500px 760px at 104% -10%, var(--blue-bloom), transparent 52%),
+      radial-gradient(1300px 820px at -6% 106%, var(--purple-bloom), transparent 55%),
+      radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%),
       linear-gradient(150deg,#221f28 0%,#17151b 52%,#0b0a0e 100%);
     background-repeat: no-repeat;
+    background-attachment: fixed;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
