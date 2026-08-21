@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
 
   <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -137,17 +137,35 @@
           <div class="l">Performance growth</div>
         </div>
         <div class="growth-chart">
+          <div class="hv-starfield" style="opacity:.45;"></div>
+          <div class="growth-glow"></div>
           <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="growth-fill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="rgba(199,190,255,.45)"/>
                 <stop offset="100%" stop-color="rgba(79,134,245,0)"/>
               </linearGradient>
+              <radialGradient id="growth-traveler-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(255,255,255,.95)"/>
+                <stop offset="100%" stop-color="rgba(199,190,255,0)"/>
+              </radialGradient>
             </defs>
             <path class="growth-area" d="M30.0,190.0 L41.5,189.2 L53.0,188.2 L64.5,187.1 L76.0,185.8 L87.4,184.3 L98.9,182.5 L110.4,180.5 L121.9,178.2 L133.4,175.5 L144.9,172.5 L156.4,169.0 L167.9,165.2 L179.4,161.0 L190.9,156.3 L202.3,151.3 L213.8,145.8 L225.3,140.1 L236.8,134.1 L248.3,127.9 L259.8,121.7 L271.3,115.4 L282.8,109.2 L294.3,103.2 L305.7,97.5 L317.2,92.0 L328.7,87.0 L340.2,82.3 L351.7,78.0 L363.2,74.2 L374.7,70.8 L386.2,67.7 L397.7,65.0 L409.1,62.7 L420.6,60.6 L432.1,58.9 L443.6,57.3 L455.1,56.0 L466.6,54.9 L478.1,54.0 L489.6,53.1 L501.1,52.4 L512.6,51.8 L524.0,51.3 L535.5,50.9 L547.0,50.6 L558.5,50.3 L570.0,50.0 L570,214 L30,214 Z" fill="url(#growth-fill)"/>
-            <path class="growth-path" pathLength="100" d="M30.0,190.0 L41.5,189.2 L53.0,188.2 L64.5,187.1 L76.0,185.8 L87.4,184.3 L98.9,182.5 L110.4,180.5 L121.9,178.2 L133.4,175.5 L144.9,172.5 L156.4,169.0 L167.9,165.2 L179.4,161.0 L190.9,156.3 L202.3,151.3 L213.8,145.8 L225.3,140.1 L236.8,134.1 L248.3,127.9 L259.8,121.7 L271.3,115.4 L282.8,109.2 L294.3,103.2 L305.7,97.5 L317.2,92.0 L328.7,87.0 L340.2,82.3 L351.7,78.0 L363.2,74.2 L374.7,70.8 L386.2,67.7 L397.7,65.0 L409.1,62.7 L420.6,60.6 L432.1,58.9 L443.6,57.3 L455.1,56.0 L466.6,54.9 L478.1,54.0 L489.6,53.1 L501.1,52.4 L512.6,51.8 L524.0,51.3 L535.5,50.9 L547.0,50.6 L558.5,50.3 L570.0,50.0"/>
+            <path id="growthPathTrace" class="growth-path" pathLength="100" d="M30.0,190.0 L41.5,189.2 L53.0,188.2 L64.5,187.1 L76.0,185.8 L87.4,184.3 L98.9,182.5 L110.4,180.5 L121.9,178.2 L133.4,175.5 L144.9,172.5 L156.4,169.0 L167.9,165.2 L179.4,161.0 L190.9,156.3 L202.3,151.3 L213.8,145.8 L225.3,140.1 L236.8,134.1 L248.3,127.9 L259.8,121.7 L271.3,115.4 L282.8,109.2 L294.3,103.2 L305.7,97.5 L317.2,92.0 L328.7,87.0 L340.2,82.3 L351.7,78.0 L363.2,74.2 L374.7,70.8 L386.2,67.7 L397.7,65.0 L409.1,62.7 L420.6,60.6 L432.1,58.9 L443.6,57.3 L455.1,56.0 L466.6,54.9 L478.1,54.0 L489.6,53.1 L501.1,52.4 L512.6,51.8 L524.0,51.3 L535.5,50.9 L547.0,50.6 L558.5,50.3 L570.0,50.0"/>
             <circle class="growth-dot start" cx="30" cy="190" r="4"/>
             <circle class="growth-dot end" cx="570" cy="50" r="4"/>
+            <circle class="growth-traveler-halo" r="9" fill="url(#growth-traveler-glow)">
+              <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#growthPathTrace"/>
+              </animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle class="growth-traveler" r="3" fill="#fff">
+              <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#growthPathTrace"/>
+              </animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
+            </circle>
           </svg>
           <div class="growth-endpoint start">
             <div class="v" data-count="0.126" data-decimals="3" data-suffix=" bps">0.126 bps</div>
@@ -353,7 +371,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=18"></script>
+<script src="js/main.js?v=19"></script>
 <script>
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

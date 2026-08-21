@@ -310,7 +310,7 @@
   .growth-head .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-head .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   .growth-chart{ position:relative; flex:1; min-height:140px; }
-  .growth-chart svg{ display:block; width:100%; height:100%; overflow:visible; }
+  .growth-chart svg{ display:block; position:relative; z-index:1; width:100%; height:100%; overflow:visible; }
   .growth-area{ opacity:0; transition: opacity .9s ease .3s; }
   .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
     stroke-dasharray:100; stroke-dashoffset:100; transition: stroke-dashoffset 1.5s cubic-bezier(.16,.84,.44,1); }
@@ -319,11 +319,20 @@
   .reveal.in .growth-area{ opacity:1; }
   .reveal.in .growth-path{ stroke-dashoffset:0; }
   .reveal.in .growth-dot{ opacity:1; }
+  /* Traveling spark that loops along the finished curve once it's drawn in,
+     plus a soft pulsing glow parked at the "now" point -- both borrowed from
+     the hero orbit's visual language so the two sections read as one system. */
+  .growth-traveler{ filter: drop-shadow(0 0 4px rgba(199,190,255,.9)); }
+  .growth-traveler-halo{ mix-blend-mode: screen; }
+  .growth-glow{ position:absolute; left:95%; top:22.7%; width:30px; height:30px; transform:translate(-50%,-50%); z-index:1;
+    border-radius:50%; background: radial-gradient(circle, rgba(199,190,255,.5), transparent 72%);
+    opacity:0; transition: opacity .5s ease 1.6s; animation: hv-twinkle 2.6s ease-in-out infinite 2s; }
+  .reveal.in .growth-glow{ opacity:1; }
   .growth-endpoint{ position:absolute; text-align:left; }
   .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   .growth-endpoint.start{ left:1%; top:90%; }
-  .growth-endpoint.end{ right:2%; top:0; text-align:right; }
+  .growth-endpoint.end{ right:2%; top:-7px; text-align:right; }
   @media (max-width:560px){ .growth-card{ min-height:260px; padding:1.3rem 1.2rem; } }
 
   /* Dune CTA -- same tile treatment as the stats, just with a button instead
