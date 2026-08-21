@@ -189,7 +189,7 @@
   .growth-chart{ position:relative; flex:1; margin-top:0.6rem; min-height:170px; }
   .growth-chart svg{ display:block; width:100%; height:100%; overflow:visible; }
   .growth-area{ opacity:0; transition: opacity .9s ease .3s; }
-  .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round;
+  .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
     stroke-dasharray:100; stroke-dashoffset:100; transition: stroke-dashoffset 1.5s cubic-bezier(.16,.84,.44,1); }
   .growth-dot{ fill:var(--ink); opacity:0; transition: opacity .4s ease; }
   .growth-dot.end{ transition-delay:1.4s; }
@@ -199,8 +199,8 @@
   .growth-endpoint{ position:absolute; text-align:left; }
   .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.05rem; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-muted); margin-top:0.15em; }
-  .growth-endpoint.start{ left:0; bottom:6%; }
-  .growth-endpoint.end{ right:0; top:0; text-align:right; }
+  .growth-endpoint.start{ left:1%; top:90%; }
+  .growth-endpoint.end{ right:2%; top:2%; text-align:right; }
   .growth-multiplier{ text-align:center; margin-top:0.8rem; }
   .growth-multiplier .x{ font-family:var(--font-display); font-weight:400; font-size:2rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-multiplier .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.25em; }
