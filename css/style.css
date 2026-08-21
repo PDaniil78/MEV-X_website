@@ -362,6 +362,18 @@
   .mini-bar{ fill:url(#mini-bar-fill); }
   @media (max-width:560px){ .chart-row{ min-height:260px; } .mini-chart-visual{ height:170px; left:1.2rem; right:1.2rem; } }
 
+  /* "Built on top of the MEV-X engine" -- the legacy traction strip from the
+     Homelander mockup, ported verbatim as its own section. Deliberately its
+     own grid class (not .proof-in) so it can't collide with the real
+     traction band up top; .proof-item/.dune-row/.chart-row etc. are reused
+     as-is since nothing else on the page still uses them. */
+  .engine-band{ border-top:1px solid var(--hairline); padding:3rem 0 3.5rem; }
+  .engine-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:stretch; margin-top:1.4rem; }
+  .proof-left{ display:flex; flex-direction:column; gap:1rem; }
+  .proof-top-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:760px){ .engine-grid{ grid-template-columns:1fr; } }
+  @media (max-width:560px){ .proof-top-row{ grid-template-columns:1fr; } }
+
   /* PRODUCTS */
   .products{ border-bottom:1px solid var(--hairline); }
   .section-head{ max-width:1120px; margin:0 auto 2.6rem; }
