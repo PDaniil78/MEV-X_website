@@ -149,14 +149,14 @@
   @media (max-width:760px){ .navlinks{display:none;} }
 
   /* HERO */
-  .hero{ padding: 4.5rem 1.5rem 3rem; border-bottom:1px solid var(--hairline); }
+  .hero{ padding: 3rem 1.5rem 3rem; border-bottom:1px solid var(--hairline); }
   .hero-in{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns: 1.05fr 0.95fr; gap:3.5rem; align-items:center; }
 
   /* HERO VISUAL -- Moonstone orbit: a belted sphere with drifting stars and
      occasional meteors, filling the empty right column of the hero. */
-  .hero-space{ position:relative; width:100%; aspect-ratio:1/.86; border-radius:18px; overflow:hidden;
+  .hero-space{ position:relative; width:90%; margin:0 auto; aspect-ratio:1/.86; border-radius:18px; overflow:hidden;
     background: rgba(255,255,255,.02); border:1px solid var(--panel-border); }
-  @media (max-width:900px){ .hero-space{ aspect-ratio:1/.85; margin-top:1rem; } }
+  @media (max-width:900px){ .hero-space{ width:100%; aspect-ratio:1/.85; margin-top:1rem; } }
 
   .hv-vignette{ position:absolute; inset:0; z-index:1; pointer-events:none;
     background: radial-gradient(120% 120% at 50% 38%, transparent 52%, rgba(0,0,0,.4) 100%); }
@@ -287,10 +287,12 @@
   .proof-grid{ display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap:1rem; }
   .proof-item{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
-    padding:1.5rem 1.4rem; min-height:150px;
+    padding:1.5rem 1.4rem; min-height:132px;
     display:flex; flex-direction:column; justify-content:flex-start;
+    transition: border-color .25s ease;
   }
-  .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2.8rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .proof-item:hover{ border-color: rgba(255,255,255,.32); }
+  .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .proof-item .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   @media (max-width:900px){ .proof-top{ grid-template-columns:1fr; } }
   @media (max-width:560px){ .proof-grid{grid-template-columns:1fr;} .proof-item{height:auto; min-height:130px;} }
@@ -300,9 +302,14 @@
      (no JS measurement needed), the same .reveal/.in trigger as everything else. */
   .growth-card{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
-    padding:1.6rem 1.7rem 1.5rem; display:flex; flex-direction:column; min-height:320px;
+    padding:1.5rem 1.4rem; display:flex; flex-direction:column; min-height:284px;
+    transition: border-color .25s ease;
   }
-  .growth-chart{ position:relative; flex:1; min-height:190px; }
+  .growth-card:hover{ border-color: rgba(255,255,255,.32); }
+  .growth-head{ margin-bottom:0.5rem; }
+  .growth-head .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .growth-head .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
+  .growth-chart{ position:relative; flex:1; min-height:140px; }
   .growth-chart svg{ display:block; width:100%; height:100%; overflow:visible; }
   .growth-area{ opacity:0; transition: opacity .9s ease .3s; }
   .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
@@ -313,14 +320,11 @@
   .reveal.in .growth-path{ stroke-dashoffset:0; }
   .reveal.in .growth-dot{ opacity:1; }
   .growth-endpoint{ position:absolute; text-align:left; }
-  .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
-  .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.25em; }
-  .growth-endpoint.start{ left:1%; top:92%; }
-  .growth-endpoint.end{ right:2%; top:6%; text-align:right; }
-  .growth-multiplier{ text-align:center; margin-top:0.8rem; }
-  .growth-multiplier .x{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
-  .growth-multiplier .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.25em; }
-  @media (max-width:560px){ .growth-card{ min-height:280px; padding:1.3rem 1.2rem; } }
+  .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.2em; }
+  .growth-endpoint.start{ left:1%; top:88%; }
+  .growth-endpoint.end{ right:2%; top:0; text-align:right; }
+  @media (max-width:560px){ .growth-card{ min-height:260px; padding:1.3rem 1.2rem; } }
 
   /* Dune CTA -- same tile treatment as the stats, just with a button instead
      of a plain number. Button sits margin-top:1.5rem below the label, matching

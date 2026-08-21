@@ -51,6 +51,29 @@
     document.querySelectorAll('.reveal [data-count]').forEach(function(el){ el.textContent = formatCount(el, parseFloat(el.getAttribute('data-count'))); });
   }
 
+  // Hover replay for the traction tiles: re-run the count-up (and, for the
+  // growth card, the chart's line/area draw-in) each time the pointer enters,
+  // regardless of scroll state. Chart elements get transition:none for the
+  // instant they're reset to their start state, so the redraw never flashes
+  // backwards before playing forwards again.
+  if(!reduceMotion){
+    document.querySelectorAll('.proof-item.reveal, .growth-card.reveal').forEach(function(card){
+      card.addEventListener('mouseenter', function(){
+        var counters = card.querySelectorAll('[data-count]');
+        var chartEls = card.querySelectorAll('.growth-path, .growth-area, .growth-dot');
+        chartEls.forEach(function(el){ el.style.transition = 'none'; });
+        card.classList.remove('in');
+        counters.forEach(resetCount);
+        void card.offsetWidth;
+        chartEls.forEach(function(el){ el.style.transition = ''; });
+        requestAnimationFrame(function(){
+          card.classList.add('in');
+          counters.forEach(animateCount);
+        });
+      });
+    });
+  }
+
   // Hero entrance, staggered via each element's own transition-delay.
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){

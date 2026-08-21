@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=16">
+  <link rel="stylesheet" href="css/style.css?v=17">
 
   <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -128,10 +128,14 @@
       <div class="proof-grid">
         <div class="proof-item reveal"><div class="n" data-count="5">5</div><div class="l">Dexes integrated</div></div>
         <div class="proof-item reveal"><div class="n" data-count="78">78</div><div class="l">Live pools</div></div>
-        <div class="proof-item reveal"><div class="n" data-prefix="+$" data-count="18.3" data-decimals="1" data-suffix="M">+$18.3M</div><div class="l">TVL enhanced</div></div>
-        <div class="proof-item reveal"><div class="n" data-prefix="+$" data-count="1" data-suffix="B">+$1B</div><div class="l">Volume processed</div></div>
+        <div class="proof-item reveal"><div class="n" data-prefix="$" data-count="18.3" data-decimals="1" data-suffix="M+">$18.3M+</div><div class="l">TVL enhanced</div></div>
+        <div class="proof-item reveal"><div class="n" data-prefix="$" data-count="1" data-suffix="B+">$1B+</div><div class="l">Volume processed</div></div>
       </div>
       <div class="growth-card reveal">
+        <div class="growth-head">
+          <div class="n" data-prefix="&times;" data-count="11.5" data-decimals="1">&times;11.5</div>
+          <div class="l">Performance growth</div>
+        </div>
         <div class="growth-chart">
           <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
             <defs>
@@ -153,10 +157,6 @@
             <div class="v" data-count="1.451" data-decimals="3" data-suffix=" bps">1.451 bps</div>
             <div class="l">Now</div>
           </div>
-        </div>
-        <div class="growth-multiplier">
-          <div class="x" data-prefix="&times;" data-count="11.5" data-decimals="1">&times;11.5</div>
-          <div class="l">Performance growth</div>
         </div>
       </div>
     </div>
@@ -353,7 +353,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=16"></script>
+<script src="js/main.js?v=17"></script>
 <script>
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
