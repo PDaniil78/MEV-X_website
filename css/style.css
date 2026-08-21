@@ -289,9 +289,9 @@
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
     padding:1.5rem 1.4rem; min-height:132px;
     display:flex; flex-direction:column; justify-content:flex-start;
-    transition: border-color .25s ease;
+    transition: border-color .3s ease, box-shadow .3s ease;
   }
-  .proof-item:hover{ border-color: rgba(255,255,255,.32); }
+  .proof-item:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   .proof-item .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .proof-item .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   @media (max-width:900px){ .proof-top{ grid-template-columns:1fr; } }
@@ -303,9 +303,9 @@
   .growth-card{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
     padding:1.5rem 1.4rem; display:flex; flex-direction:column; min-height:284px;
-    transition: border-color .25s ease;
+    transition: border-color .3s ease, box-shadow .3s ease;
   }
-  .growth-card:hover{ border-color: rgba(255,255,255,.32); }
+  .growth-card:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   .growth-head{ margin-bottom:0.5rem; }
   .growth-head .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-head .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
@@ -321,8 +321,8 @@
   .reveal.in .growth-dot{ opacity:1; }
   .growth-endpoint{ position:absolute; text-align:left; }
   .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
-  .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.2em; }
-  .growth-endpoint.start{ left:1%; top:88%; }
+  .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
+  .growth-endpoint.start{ left:1%; top:90%; }
   .growth-endpoint.end{ right:2%; top:0; text-align:right; }
   @media (max-width:560px){ .growth-card{ min-height:260px; padding:1.3rem 1.2rem; } }
 
