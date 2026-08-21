@@ -53,6 +53,24 @@
     });
   });
 
+  // Partner logo rows: one line each, an arrow appears only when a row's
+  // tiles overflow it, scrolling one row-width per click.
+  document.querySelectorAll('.partner-row').forEach(function(row){
+    var grid = row.querySelector('.partner-grid');
+    var btn = row.querySelector('.partner-scroll-next');
+    if(!grid || !btn) return;
+    function syncOverflow(){
+      var overflowing = grid.scrollWidth > grid.clientWidth + 1;
+      btn.hidden = !overflowing;
+    }
+    btn.addEventListener('click', function(){
+      grid.scrollBy({ left: grid.clientWidth * 0.9, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+    syncOverflow();
+    window.addEventListener('resize', syncOverflow);
+    window.addEventListener('load', syncOverflow);
+  });
+
   // Sticky scroll-progress bar.
   var progressBar = document.getElementById('scroll-progress');
   var progressTicking = false;
