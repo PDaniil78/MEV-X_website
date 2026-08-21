@@ -53,23 +53,69 @@
     });
   });
 
-  // Partner logo rows: one line each, an arrow appears only when a row's
-  // tiles overflow it, scrolling one row-width per click.
-  document.querySelectorAll('.partner-row').forEach(function(row){
-    var grid = row.querySelector('.partner-grid');
-    var btn = row.querySelector('.partner-scroll-next');
-    if(!grid || !btn) return;
+  // Partner logo rows: one line each. When a row overflows it gets an edge
+  // fade (.has-overflow, in CSS) so it visibly continues both directions,
+  // and is pannable by wheel/trackpad (native overflow-x) or click-drag.
+  document.querySelectorAll('.partner-grid').forEach(function(grid){
     function syncOverflow(){
-      var overflowing = grid.scrollWidth > grid.clientWidth + 1;
-      btn.hidden = !overflowing;
+      grid.classList.toggle('has-overflow', grid.scrollWidth > grid.clientWidth + 1);
     }
-    btn.addEventListener('click', function(){
-      grid.scrollBy({ left: grid.clientWidth * 0.9, behavior: reduceMotion ? 'auto' : 'smooth' });
-    });
     syncOverflow();
     window.addEventListener('resize', syncOverflow);
     window.addEventListener('load', syncOverflow);
+
+    var dragging = false, startX = 0, startScroll = 0, moved = false;
+    grid.addEventListener('pointerdown', function(e){
+      dragging = true; moved = false;
+      startX = e.clientX; startScroll = grid.scrollLeft;
+      grid.classList.add('dragging');
+      grid.setPointerCapture(e.pointerId);
+    });
+    grid.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var dx = e.clientX - startX;
+      if(Math.abs(dx) > 3) moved = true;
+      grid.scrollLeft = startScroll - dx;
+    });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(evt){
+      grid.addEventListener(evt, function(){ dragging = false; grid.classList.remove('dragging'); });
+    });
+    // Suppress the click a drag ends on, so dragging never fires as a stray click.
+    grid.addEventListener('click', function(e){ if(moved){ e.preventDefault(); moved = false; } }, true);
   });
+
+  // RPC endpoints modal -- opened from the nav link and the RPC product card.
+  var rpcModal = document.getElementById('rpc-modal');
+  if(rpcModal){
+    function openRpcModal(){
+      rpcModal.hidden = false;
+      requestAnimationFrame(function(){ rpcModal.classList.add('in'); });
+      document.body.style.overflow = 'hidden';
+    }
+    function closeRpcModal(){
+      rpcModal.classList.remove('in');
+      document.body.style.overflow = '';
+      setTimeout(function(){ rpcModal.hidden = true; }, reduceMotion ? 0 : 250);
+    }
+    document.querySelectorAll('.rpc-trigger').forEach(function(el){
+      el.addEventListener('click', function(e){ e.preventDefault(); openRpcModal(); });
+    });
+    rpcModal.querySelector('.modal-close').addEventListener('click', closeRpcModal);
+    rpcModal.addEventListener('click', function(e){ if(e.target === rpcModal) closeRpcModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !rpcModal.hidden) closeRpcModal(); });
+    rpcModal.querySelectorAll('.rpc-copy').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var url = btn.getAttribute('data-url');
+        var reset = function(){ btn.textContent = 'copy'; };
+        var showCopied = function(){ btn.textContent = 'copied'; setTimeout(reset, 1400); };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(url).then(showCopied, reset);
+        } else {
+          reset();
+        }
+      });
+    });
+  }
 
   // Sticky scroll-progress bar.
   var progressBar = document.getElementById('scroll-progress');

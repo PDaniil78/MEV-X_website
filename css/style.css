@@ -14,7 +14,7 @@
     --chip-border: rgba(255,255,255,.16);
 
     --blue-bloom: rgba(40,78,205,.30);
-    --purple-bloom: rgba(139,92,246,.20);
+    --purple-bloom: rgba(139,92,246,.14);
     --chart-line: rgba(255,255,255,.85);
     --shadow: rgba(0,0,0,.45);
   }
@@ -28,16 +28,18 @@
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
-  /* Blue + purple bloom and faint white highlight, pinned to the viewport
-     corners -- the sanctioned hints of hue in the system. Fixed + z-index:-1
-     so they always sit behind every normal-flow element on the page, never
-     in front of a card. */
+  /* Blue bloom + faint white highlight, pinned to the viewport corner -- the
+     sanctioned hint of hue in the system. Fixed + z-index:-1 so it always
+     sits behind every normal-flow element, never in front of a card.
+     (The purple accent lives inside .research instead, scrolling with the
+     page -- see below -- rather than as a second fixed/viewport-pinned
+     layer, which would otherwise re-overlap a different section every time
+     someone scrolls.) */
   body::before{
     content:"";
     position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
       radial-gradient(1500px 760px at 104% -10%, var(--blue-bloom), transparent 52%),
-      radial-gradient(1300px 820px at -8% 108%, var(--purple-bloom), transparent 55%),
       radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%);
   }
   a{ color:inherit; text-decoration:none; }
@@ -73,8 +75,8 @@
     .btn.primary:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(255,255,255,.35); }
     .btn.ghost:hover, .navcta:hover{ transform: translateY(-2px); }
     .btn:active, .navcta:active{ transform: translateY(0); }
-    .prod:hover h3::before{ box-shadow: 0 0 14px 1px rgba(139,92,246,.6); }
-    .partner-tile:hover{ border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.065); transform: translateY(-2px); }
+    .prod:hover h3::before{ box-shadow: 0 0 7px 0 rgba(139,92,246,.55); }
+    .partner-tile:hover{ border-color: rgba(255,255,255,.32); box-shadow: 0 0 10px rgba(139,92,246,.4); }
     .partner-tile:hover .partner-logo{ opacity: 1; }
     .partner-tile.placeholder:hover{ color: var(--ink-muted); border-color: rgba(255,255,255,.28); }
 
@@ -110,39 +112,6 @@
       background:var(--ink); transition: right .3s cubic-bezier(.16,.84,.44,1);
     }
     .navlinks a:hover::after{ right:0; }
-
-    /* SCROLLYTELLING -- diagram flow-steps light up in sequence as the
-       product row reveals, so the mechanism reads as a path, not a list. */
-    .diagram .flow-step{ opacity:0; transform:translateX(-6px); transition: opacity .45s ease, transform .45s ease; }
-    .prod.in .diagram .flow-step{ opacity:1; transform:none; }
-    .diagram .flow-step:nth-child(1){ transition-delay:0ms; }
-    .diagram .flow-step:nth-child(2){ transition-delay:110ms; }
-    .diagram .flow-step:nth-child(3){ transition-delay:220ms; }
-    .diagram .flow-step:nth-child(4){ transition-delay:330ms; }
-    .diagram .flow-step:nth-child(5){ transition-delay:440ms; }
-    .prod.in .diagram .node.hot{ animation: nodeGlow 1.4s ease-out; animation-delay:0ms; }
-    .prod.in .diagram .node.hot:nth-child(3){ animation-delay:220ms; }
-    .prod.in .diagram .node.hot:nth-child(5){ animation-delay:440ms; }
-    @keyframes nodeGlow{
-      0%{ box-shadow: 0 0 0 0 transparent; }
-      30%{ box-shadow: 0 0 0 4px rgba(255,255,255,.35); }
-      100%{ box-shadow: 0 0 0 0 transparent; }
-    }
-
-    /* TOOLTIPS on diagram nodes */
-    .diagram .node{ position:relative; cursor:help; }
-    .diagram .node[data-tip]:hover::after,
-    .diagram .node[data-tip]:focus-visible::after{
-      content: attr(data-tip);
-      position:absolute; bottom:calc(100% + 9px); left:50%; transform:translateX(-50%);
-      background: var(--panel-bg); color:var(--ink); border:1px solid var(--panel-border);
-      backdrop-filter: blur(4px);
-      padding:0.6rem 0.8rem; font-family:var(--font-body); font-size:0.82rem;
-      font-style:normal; text-transform:none; letter-spacing:normal; font-weight:400;
-      line-height:1.4; white-space:normal; width:max-content; max-width:220px;
-      border-radius:10px; box-shadow:0 10px 24px -10px rgba(0,0,0,0.7); z-index:5;
-      pointer-events:none;
-    }
 
     /* SCROLL PROGRESS */
     #scroll-progress{ transition: transform .1s linear; }
@@ -182,7 +151,7 @@
   .hero h1 em{ font-style:normal; text-decoration:underline; text-decoration-color:rgba(255,255,255,.35); text-underline-offset:0.1em; text-decoration-thickness:2px; }
   .hero .sub{ font-family:var(--font-body); font-weight:400; font-size:1.1rem; line-height:1.6; color:var(--ink-muted); max-width:52ch; margin-top:1.4rem; }
   .hero-ctas{ display:flex; gap:0.9rem; margin-top:2.2rem; flex-wrap:wrap; }
-  .btn{ font-family:var(--font-body); font-weight:600; font-size:0.88rem; padding:0.9rem 1.5rem; border-radius:999px; display:inline-flex; align-items:center; gap:0.5em; }
+  .btn{ font-family:var(--font-body); font-weight:600; font-size:0.88rem; padding:0.9rem 1.5rem; border-radius:999px; display:inline-flex; align-items:center; gap:0.5em; border:none; background:none; cursor:pointer; }
   .btn.primary{ background:#fff; color:#0b0a0e; }
   .btn.primary:hover{ background: rgba(255,255,255,.88); }
   .btn.ghost{ background:var(--chip-bg); border:1.5px solid var(--chip-border); color:var(--ink); }
@@ -241,7 +210,7 @@
   .section-head p{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:1.05rem; margin-top:0.6em; max-width:56ch; }
   .partners .section-head p{ max-width:none; white-space:nowrap; }
   .prod-list{ max-width:1120px; margin:0 auto; display:flex; flex-direction:column; }
-  .prod{ display:grid; grid-template-columns: 220px 1fr; gap:2.5rem; padding:2.4rem 0; border-top:1px solid var(--hairline); align-items:baseline; min-height:290px; }
+  .prod{ display:grid; grid-template-columns: 220px 1fr; gap:2.5rem; padding:2.4rem 0; border-top:1px solid var(--hairline); align-items:baseline; min-height:240px; }
   .prod:first-child{ border-top:1px solid var(--hairline); }
   .prod .tag{ font-family:var(--font-body); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-muted); }
   .prod h3{
@@ -253,13 +222,12 @@
     transition: box-shadow .4s ease;
   }
   .prod .mech{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:1rem; line-height:1.6; max-width:60ch; margin-top:0.9rem; }
+  /* Every product ends in the same pill row -- real link(s) where there's
+     somewhere to go, a plain (non-link) pill of the same size elsewhere, so
+     the row always reads the same regardless of what it contains. */
   .prod-ctas{ display:flex; gap:0.9rem; margin-top:1.3rem; flex-wrap:wrap; }
-  .prod .live{ font-family:var(--font-body); font-weight:500; font-size:0.74rem; color:var(--ink-dim); margin-top:1rem; }
-  .prod .diagram{ display:flex; align-items:center; gap:0.5rem; font-family:var(--font-body); font-weight:600; font-size:0.72rem; letter-spacing:0.03em; color:var(--ink-dim); margin-top:1.1rem; flex-wrap:wrap; }
-  .diagram .node{ border:1px solid var(--chip-border); background:var(--chip-bg); padding:0.4em 0.8em; border-radius:999px; color:var(--ink-muted); }
-  .diagram .arrow{ color:var(--ink-dim); }
-  .diagram .node.hot{ background:#fff; border-color:#fff; color:#0b0a0e; }
-  .prod .live a{ color:var(--ink-url); text-underline-offset:2px; text-decoration:underline; }
+  .prod-ctas .btn{ font-size:0.8rem; padding:0.65rem 1.2rem; min-width:150px; justify-content:center; }
+  .prod-ctas .prod-badge{ cursor:default; }
   @media (max-width:760px){ .prod{ grid-template-columns:1fr; gap:0.8rem; } }
 
   /* PARTNERS */
@@ -271,19 +239,25 @@
   @media (max-width:760px){ .partner-cat{ grid-template-columns:1fr; gap:0.6rem; } }
 
   /* Partner logo grid -- dark glass tiles, all the same fixed size (sized off
-     the widest wordmark, Balancer) so the row reads as a clean strip; one row
-     only, an arrow button appears to scroll further tiles into view instead
-     of wrapping. Monochrome marks by default, brightening on hover instead of
-     leaning on any brand color. */
-  .partner-row{ display:flex; align-items:center; gap:0.6rem; min-width:0; }
+     the widest wordmark, Balancer) with room to spare so a logo is never
+     cropped. One row, native horizontal scroll (wheel, trackpad, or
+     click-drag); an edge mask fades the tiles out at both ends whenever a
+     row overflows, so it reads as pannable either direction without an
+     arrow that only implies one. */
   .partner-grid{
     display:flex; flex-wrap:nowrap; gap:0.7rem; min-width:0;
     overflow-x:auto; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none;
+    cursor:grab;
   }
   .partner-grid::-webkit-scrollbar{ display:none; }
+  .partner-grid.dragging{ cursor:grabbing; scroll-behavior:auto; }
+  .partner-grid.has-overflow{
+    mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  }
   .partner-tile{
     display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
-    width:150px; height:56px; padding:0.7rem 1rem;
+    width:158px; height:76px; padding:1rem 1.1rem;
     background:var(--chip-bg); border:1px solid var(--chip-border);
     border-radius:12px;
   }
@@ -297,21 +271,23 @@
     color:var(--ink-dim);
     background:transparent; border-style:dashed;
   }
-
-  /* Round arrow button, shown only when a row's logos overflow it (main.js
-     toggles [hidden] per row after measuring scrollWidth). */
-  .partner-scroll-next{
-    flex-shrink:0; width:2.6rem; height:2.6rem; border-radius:50%; font-size:1rem; line-height:1;
-    border:1.5px solid var(--chip-border); background:var(--chip-bg); color:var(--ink);
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-    transition: background-color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .3s ease;
-  }
-  .partner-scroll-next:hover{ background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.4); box-shadow: 0 0 14px rgba(139,92,246,.45); }
-  .partner-scroll-next:active{ transform: scale(0.9); }
-  .partner-scroll-next[hidden]{ display:none; }
+  /* One-off: the Uniswap Security Fund tile shares the Uniswap protocol's
+     unicorn mark, so it gets a small caption underneath to disambiguate. */
+  .partner-tile--labeled{ flex-direction:column; gap:0.3rem; }
+  .partner-tile--labeled .partner-logo{ max-height:58%; }
+  .partner-tile-caption{ font-family:var(--font-body); font-weight:700; font-size:0.6rem; letter-spacing:0.1em; color:var(--ink-dim); }
 
   /* RESEARCH */
-  .research{ border-bottom:1px solid var(--hairline); }
+  .research{ position:relative; overflow:hidden; border-bottom:1px solid var(--hairline); }
+  /* Purple accent, contained to this section and behind its own content only
+     (not fixed to the viewport, so it never drifts over other sections as
+     the page scrolls) -- z-index:-1 is scoped to .research's own stacking
+     context via position:relative above, so section text/hairlines always
+     paint above it. */
+  .research::before{
+    content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background: radial-gradient(900px 620px at -6% 96%, var(--purple-bloom), transparent 60%);
+  }
   .paper-list{ max-width:1120px; margin:0 auto; display:flex; flex-direction:column; }
   .paper{ display:flex; gap:2rem; padding:1.5rem 0; border-top:1px solid var(--hairline); align-items:baseline; }
   .paper:first-child{ border-top:1px solid var(--hairline); }
@@ -349,3 +325,53 @@
   .foot-links a:hover{ color:var(--ink); }
 
   @media (max-width:900px){ .hero-in{ grid-template-columns:1fr; } .proof-grid{grid-template-columns:1fr 1fr;} }
+
+  /* RPC ENDPOINTS MODAL -- opened from the nav "RPC" link and the RPC
+     product card's "View endpoints" button. */
+  .modal-backdrop{
+    position:fixed; inset:0; z-index:100;
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    background: rgba(6,5,8,.68); backdrop-filter: blur(6px);
+    opacity:0; transition: opacity .25s ease;
+  }
+  .modal-backdrop.in{ opacity:1; }
+  .modal-backdrop[hidden]{ display:none; }
+  .modal-panel{
+    width:100%; max-width:460px; max-height:calc(100vh - 3rem); overflow-y:auto;
+    background:var(--panel-bg); border:1.5px solid var(--panel-border); border-radius:24px;
+    backdrop-filter: blur(10px); padding:2rem; position:relative;
+    transform: translateY(10px) scale(.98); transition: transform .25s cubic-bezier(.16,.84,.44,1);
+  }
+  .modal-backdrop.in .modal-panel{ transform:none; }
+  .modal-close{
+    position:absolute; top:1.1rem; right:1.1rem; width:2rem; height:2rem; border-radius:50%;
+    border:1.5px solid var(--chip-border); background:var(--chip-bg); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; font-size:0.8rem; cursor:pointer;
+    transition: border-color .25s ease, background-color .25s ease;
+  }
+  .modal-close:hover{ border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
+  .modal-panel h3{ font-size:1.7rem; padding-right:1.8rem; }
+  .modal-panel > p{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:0.92rem; line-height:1.55; margin-top:0.8rem; }
+  .rpc-row{ margin-top:1.4rem; }
+  .rpc-region{ font-family:var(--font-body); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-dim); margin-bottom:0.5rem; }
+  .rpc-url-box{
+    display:flex; align-items:center; justify-content:space-between; gap:0.8rem;
+    border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:12px;
+    padding:0.85rem 1rem; overflow:hidden;
+  }
+  .rpc-url-box code{
+    font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace; font-size:0.85rem;
+    color:var(--ink); font-weight:600; overflow-x:auto; white-space:nowrap;
+  }
+  .rpc-copy{
+    flex-shrink:0; font-family:var(--font-body); font-weight:600; font-size:0.75rem; color:var(--ink-muted);
+    background:transparent; border:none; cursor:pointer; padding:0.2rem 0.3rem;
+    transition: color .2s ease;
+  }
+  .rpc-copy:hover{ color:var(--ink); }
+  .rpc-portal-link{
+    display:block; margin-top:1.6rem; font-family:var(--font-body); font-weight:600; font-size:0.85rem; color:var(--ink);
+    border:1.5px solid var(--chip-border); border-radius:999px; padding:0.75rem 1.2rem; text-align:center;
+    transition: border-color .25s ease;
+  }
+  .rpc-portal-link:hover{ border-color: rgba(255,255,255,.35); }
