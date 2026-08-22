@@ -297,42 +297,50 @@
   @media (max-width:900px){ .proof-top{ grid-template-columns:1fr; } }
   @media (max-width:560px){ .proof-grid{grid-template-columns:1fr;} .proof-item{height:auto; min-height:130px;} }
 
-  /* Growth card -- "capture rate" S-curve, replacing the old bar sparkline.
-     Line + area reveal together via pathLength-normalised stroke-dashoffset
-     (no JS measurement needed), the same .reveal/.in trigger as everything else. */
+  .proof-head{ max-width:640px; margin:0 0 2rem; }
+  .proof-head h2{ font-family:var(--font-display); font-weight:400; font-size:clamp(1.6rem,3vw,2rem); line-height:1.08; margin:.4rem 0 .6rem; letter-spacing:.01em; color:var(--ink); }
+  .proof-head p{ font-family:var(--font-body); font-size:.92rem; line-height:1.6; color:var(--ink-muted); margin:0; max-width:60ch; }
+
+  /* Growth card -- "capture rate" S-curve. Line is a 3-layer glow stack
+     (soft halo + mid glow + gradient-along-path core), the fill is a radial
+     glow sized to stay lit all the way to "Now" rather than fading out
+     mid-curve, and a five-point comet loops the finished path with a real
+     trailing tail once it draws in. */
   .growth-card{
     border:1.5px solid var(--chip-border); background:var(--chip-bg); border-radius:16px;
     padding:1.5rem 1.4rem; display:flex; flex-direction:column; min-height:284px;
     transition: border-color .3s ease, box-shadow .3s ease;
   }
   .growth-card:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
-  .growth-head{ margin-bottom:0.5rem; }
+  .growth-head{ margin-bottom:0.5rem; position:relative; z-index:4; }
   .growth-head .n{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-head .l{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   .growth-chart{ position:relative; flex:1; min-height:140px; }
   .growth-chart svg{ display:block; position:relative; z-index:1; width:100%; height:100%; overflow:visible; }
-  .growth-area{ opacity:0; transition: opacity .9s ease .3s; }
-  .growth-path{ fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-    stroke-dasharray:100; stroke-dashoffset:100; transition: stroke-dashoffset 1.5s cubic-bezier(.16,.84,.44,1); }
-  .growth-dot{ fill:var(--ink); opacity:0; transition: opacity .4s ease; }
-  .growth-dot.end{ transition-delay:1.4s; }
+  .growth-chart .grid-line{ stroke:rgba(255,255,255,.055); stroke-width:1; stroke-dasharray:2 4; }
+  .growth-area{ opacity:0; transition: opacity .9s ease 1.2s; }
   .reveal.in .growth-area{ opacity:1; }
-  .reveal.in .growth-path{ stroke-dashoffset:0; }
+  .growth-stroke-back{ fill:none; stroke:var(--lavender); stroke-width:9; stroke-linecap:round; opacity:0; filter:url(#growth-blur6);
+    transition: opacity .8s ease .6s; }
+  .growth-stroke-mid{ fill:none; stroke:var(--lavender); stroke-width:4; stroke-linecap:round; opacity:0; filter:url(#growth-blur2);
+    transition: opacity .8s ease .8s; }
+  .reveal.in .growth-stroke-back{ opacity:.18; }
+  .reveal.in .growth-stroke-mid{ opacity:.4; }
+  .growth-stroke{ fill:none; stroke:url(#growth-stroke-grad); stroke-linecap:round; stroke-linejoin:round; filter:url(#growth-bloom);
+    stroke-dasharray:400; stroke-dashoffset:400; transition: stroke-dashoffset 1.5s cubic-bezier(.16,.84,.44,1); }
+  .reveal.in .growth-stroke{ stroke-dashoffset:0; }
+  .growth-dot{ fill:#fff; opacity:0; transition: opacity .4s ease; }
+  .growth-dot.end{ transition-delay:1.5s; }
   .reveal.in .growth-dot{ opacity:1; }
-  /* Traveling spark that loops along the finished curve once it's drawn in,
-     plus a soft pulsing glow parked at the "now" point -- both borrowed from
-     the hero orbit's visual language so the two sections read as one system. */
-  .growth-traveler{ filter: drop-shadow(0 0 4px rgba(199,190,255,.9)); }
-  .growth-traveler-halo{ mix-blend-mode: screen; }
-  .growth-glow{ position:absolute; left:95%; top:22.7%; width:30px; height:30px; transform:translate(-50%,-50%); z-index:1;
-    border-radius:50%; background: radial-gradient(circle, rgba(199,190,255,.5), transparent 72%);
-    opacity:0; transition: opacity .5s ease 1.6s; animation: hv-twinkle 2.6s ease-in-out infinite 2s; }
-  .reveal.in .growth-glow{ opacity:1; }
-  .growth-endpoint{ position:absolute; text-align:left; }
+  .growth-pulse{ fill:none; stroke:var(--lavender); stroke-width:1.4; opacity:0; }
+  .reveal.in .growth-pulse{ animation: growth-pulse-ring 2.1s ease-out infinite 2.3s; }
+  @keyframes growth-pulse-ring{ 0%{ r:5; opacity:.7; } 100%{ r:13; opacity:0; } }
+  .growth-comet{ filter: drop-shadow(0 0 2px rgba(199,190,255,.9)); }
+  .growth-endpoint{ position:absolute; text-align:left; z-index:4; }
   .growth-endpoint .v{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; letter-spacing:0.02em; color:var(--ink); font-variant-numeric:tabular-nums; }
   .growth-endpoint .l{ font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink-muted); margin-top:0.4em; }
   .growth-endpoint.start{ left:1%; top:78%; }
-  .growth-endpoint.end{ right:2%; top:-7px; text-align:right; }
+  .growth-endpoint.end{ right:2%; top:-2px; text-align:right; }
   @media (max-width:560px){ .growth-card{ min-height:260px; padding:1.3rem 1.2rem; } }
 
   /* Dune CTA -- same tile treatment as the stats, just with a button instead

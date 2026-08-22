@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=24">
+  <link rel="stylesheet" href="css/style.css?v=25">
 
   <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -124,6 +124,11 @@
 
 <section class="proof">
   <div class="band-in proof-in">
+    <div class="proof-head">
+      <p class="eyebrow">Traction</p>
+      <h2>The gap keeps closing.</h2>
+      <p>Capture rate is up 11.5x and climbing. Every basis point flows straight to LPs.</p>
+    </div>
     <div class="proof-top">
       <div class="proof-grid">
         <div class="proof-item reveal"><div class="n" data-count="5">5</div><div class="l">Dexes integrated</div></div>
@@ -138,34 +143,36 @@
         </div>
         <div class="growth-chart">
           <div class="hv-starfield" style="opacity:.45;"></div>
-          <div class="growth-glow"></div>
           <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
             <defs>
-              <linearGradient id="growth-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(199,190,255,.45)"/>
-                <stop offset="100%" stop-color="rgba(79,134,245,0)"/>
+              <linearGradient id="growth-stroke-grad" gradientUnits="userSpaceOnUse" x1="30" y1="160" x2="570" y2="50">
+                <stop offset="0%" stop-color="#4F86F5"/><stop offset="45%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#C7BEFF"/>
               </linearGradient>
-              <radialGradient id="growth-traveler-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(255,255,255,.95)"/>
-                <stop offset="100%" stop-color="rgba(199,190,255,0)"/>
+              <radialGradient id="growth-fill-grad" gradientUnits="userSpaceOnUse" cx="460" cy="60" r="420">
+                <stop offset="0%" stop-color="rgba(199,190,255,.34)"/><stop offset="45%" stop-color="rgba(139,92,246,.16)"/><stop offset="100%" stop-color="rgba(79,134,245,0)"/>
               </radialGradient>
+              <filter id="growth-blur6" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+              <filter id="growth-blur2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2"/></filter>
+              <filter id="growth-bloom" x="-60%" y="-60%" width="220%" height="220%">
+                <feDropShadow dx="0" dy="0" stdDeviation="3.2" flood-color="#8B5CF6" flood-opacity=".55"/>
+              </filter>
             </defs>
-            <path class="growth-area" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0 L570,214 L30,214 Z" fill="url(#growth-fill)"/>
-            <path id="growthPathTrace" class="growth-path" pathLength="100" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0"/>
+            <line class="grid-line" x1="30" y1="65" x2="570" y2="65"/><line class="grid-line" x1="30" y1="115" x2="570" y2="115"/><line class="grid-line" x1="30" y1="165" x2="570" y2="165"/>
+            <path class="growth-area" fill="url(#growth-fill-grad)" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0 L570,214 L30,214 Z"/>
+            <path class="growth-stroke-back" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0"/>
+            <path class="growth-stroke-mid" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0"/>
+            <path class="growth-stroke" stroke-width="2.5" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0"/>
+            <circle class="growth-pulse" cx="570" cy="50" r="5"/>
             <circle class="growth-dot start" cx="30" cy="160" r="4"/>
             <circle class="growth-dot end" cx="570" cy="50" r="4"/>
-            <circle class="growth-traveler-halo" r="9" fill="url(#growth-traveler-glow)">
-              <animateMotion dur="7s" begin="1.8s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#growthPathTrace"/>
-              </animateMotion>
-              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="7s" begin="1.8s" repeatCount="indefinite"/>
+            <circle class="growth-comet" r="1.6" fill="#C7BEFF" opacity=".18"><animateMotion dur="7s" begin="2.44s" repeatCount="indefinite"><mpath href="#growthPathTrace"/></animateMotion></circle>
+            <circle class="growth-comet" r="1.9" fill="#C7BEFF" opacity=".32"><animateMotion dur="7s" begin="2.38s" repeatCount="indefinite"><mpath href="#growthPathTrace"/></animateMotion></circle>
+            <circle class="growth-comet" r="2.2" fill="#fff" opacity=".5"><animateMotion dur="7s" begin="2.32s" repeatCount="indefinite"><mpath href="#growthPathTrace"/></animateMotion></circle>
+            <circle class="growth-comet" r="2.6" fill="#fff" opacity=".75"><animateMotion dur="7s" begin="2.26s" repeatCount="indefinite"><mpath href="#growthPathTrace"/></animateMotion></circle>
+            <circle class="growth-comet" r="3" fill="#fff"><animateMotion dur="7s" begin="2.2s" repeatCount="indefinite"><mpath href="#growthPathTrace"/></animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.94;1" dur="7s" begin="2.2s" repeatCount="indefinite"/>
             </circle>
-            <circle class="growth-traveler" r="3" fill="#fff">
-              <animateMotion dur="7s" begin="1.8s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#growthPathTrace"/>
-              </animateMotion>
-              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="7s" begin="1.8s" repeatCount="indefinite"/>
-            </circle>
+            <path id="growthPathTrace" style="fill:none; stroke:none;" d="M30.0,160.0 L41.5,159.4 L53.0,158.6 L64.5,157.7 L76.0,156.7 L87.4,155.5 L98.9,154.1 L110.4,152.5 L121.9,150.7 L133.4,148.6 L144.9,146.2 L156.4,143.5 L167.9,140.5 L179.4,137.2 L190.9,133.5 L202.3,129.6 L213.8,125.3 L225.3,120.8 L236.8,116.1 L248.3,111.2 L259.8,106.3 L271.3,101.4 L282.8,96.5 L294.3,91.8 L305.7,87.3 L317.2,83.0 L328.7,79.0 L340.2,75.4 L351.7,72.0 L363.2,69.0 L374.7,66.3 L386.2,63.9 L397.7,61.8 L409.1,60.0 L420.6,58.4 L432.1,57.0 L443.6,55.8 L455.1,54.7 L466.6,53.9 L478.1,53.1 L489.6,52.5 L501.1,51.9 L512.6,51.5 L524.0,51.1 L535.5,50.7 L547.0,50.4 L558.5,50.2 L570.0,50.0"/>
           </svg>
           <div class="growth-endpoint start">
             <div class="v" data-count="0.126" data-decimals="3" data-suffix=" bps">0.126 bps</div>
@@ -511,7 +518,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=21"></script>
+<script src="js/main.js?v=22"></script>
 <script>
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

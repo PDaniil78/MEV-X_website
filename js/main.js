@@ -60,7 +60,7 @@
     document.querySelectorAll('.proof-item.reveal, .growth-card.reveal').forEach(function(card){
       card.addEventListener('mouseenter', function(){
         var counters = card.querySelectorAll('[data-count]');
-        var chartEls = card.querySelectorAll('.growth-path, .growth-area, .growth-dot');
+        var chartEls = card.querySelectorAll('.growth-stroke, .growth-stroke-back, .growth-stroke-mid, .growth-area, .growth-dot');
         chartEls.forEach(function(el){ el.style.transition = 'none'; });
         card.classList.remove('in');
         counters.forEach(resetCount);
