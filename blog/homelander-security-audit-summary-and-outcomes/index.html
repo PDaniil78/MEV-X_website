@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=17">
+  <link rel="stylesheet" href="../../css/style.css?v=18">
 
   <script type="application/ld+json">
   {
@@ -180,6 +180,29 @@
     <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
   </div>
 </footer>
+
+<div class="modal-backdrop" id="rpc-modal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="rpc-modal-title">
+    <button type="button" class="modal-close" aria-label="Close">✕</button>
+    <h3 id="rpc-modal-title">RPC endpoints</h3>
+    <p>Send your transactions to the region nearest you. The endpoints are shared — your Partner ID travels in the request, not the URL.</p>
+    <div class="rpc-row">
+      <div class="rpc-region">EU</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.eu.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.eu.mev-x.com">copy</button>
+      </div>
+    </div>
+    <div class="rpc-row">
+      <div class="rpc-region">US</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.us.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.us.mev-x.com">copy</button>
+      </div>
+    </div>
+    <a href="https://partner.portal.mev-x.com/" target="_blank" rel="noopener" class="rpc-portal-link">Get your Partner ID at partner.portal.mev-x.com →</a>
+  </div>
+</div>
 
 <script src="../../js/main.js?v=13"></script>
 </body>

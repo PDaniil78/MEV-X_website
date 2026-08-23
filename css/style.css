@@ -645,7 +645,7 @@
   .blog-empty.show{ display:block; }
 
   /* Article page. */
-  .article-head{ max-width:760px; margin:0 auto; padding:3.2rem 1.5rem 2.4rem; border-bottom:1px solid var(--hairline); }
+  .article-head{ max-width:760px; margin:0 auto; padding:3.2rem 1.5rem 2.4rem; }
   .article-head .tags{ display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.2rem; }
   .article-head .tags a{
     font-family:var(--font-body); font-weight:600; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em;
