@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=15">
+  <link rel="stylesheet" href="../../css/style.css?v=16">
 
   <script type="application/ld+json">
   {
@@ -84,6 +84,20 @@
   </script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="coverGround" cx="26%" cy="24%" r="90%">
+      <stop offset="0%" stop-color="#3a2a66"/>
+      <stop offset="45%" stop-color="#241a44"/>
+      <stop offset="100%" stop-color="#120e26"/>
+    </radialGradient>
+    <filter id="coverGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4"/></filter>
+    <filter id="coverGrain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+</svg>
 
 <div id="scroll-progress"></div>
 <nav>
@@ -92,8 +106,9 @@
     <a href="../../#products">Homelander app</a>
     <a href="../../#">Docs</a>
     <a href="../../#partners">Partners</a>
-    <a href="../">Blog</a>
     <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
   </div>
   <a href="../../#" class="navcta">Talk to the team →</a>
 </nav>
@@ -160,19 +175,19 @@
     <h2>Related reading</h2>
     <div class="blog-grid">
       <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:288deg"></div>
-        <h3>MEV Resolution in AMM-Based Systems:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M112,25 L150,48 L112,71" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8" filter="url(#coverGlow)"/><path d="M188,25 L150,48 L188,71" fill="none" stroke="#4F86F5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>External vs Internal MEV Resolution in AMMs</h3>
         <p class="dek">Who closes the post-swap arbitrage gap decides who keeps the value — a look at external versus internal execution.</p>
         <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>
       </a>
       <a href="../mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:216deg"></div>
-        <h3>MEV Internalization:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="27" fill="none" stroke="#4F86F5" stroke-width="1.5" opacity=".5"/><circle cx="150" cy="48" r="9" fill="#C7BEFF" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Keeping MEV Value Inside the Protocol</h3>
         <p class="dek">Three ways a protocol can handle post-swap MEV, and why leakage isn't actually unavoidable.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>
       <a href="../where-mev-actually-comes-from/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:180deg"></div>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M104,22 Q150,48 150,48" fill="none" stroke="#4F86F5" stroke-width="1.5" opacity=".55"/><path d="M104,74 Q150,48 150,48" fill="none" stroke="#8B5CF6" stroke-width="1.5" opacity=".55"/><path d="M206,30 Q150,48 150,48" fill="none" stroke="#C7BEFF" stroke-width="1.5" opacity=".55"/><circle cx="150" cy="48" r="6" fill="#fff" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
         <h3>Where MEV Actually Comes From</h3>
         <p class="dek">96.7% of atomic arbitrage on Polygon traces back to a single source transaction.</p>
         <div class="meta"><span class="meta-date">Apr 9, 2026</span><div class="meta-tags"><span>Research</span></div></div>

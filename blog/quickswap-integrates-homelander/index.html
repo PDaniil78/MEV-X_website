@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=15">
+  <link rel="stylesheet" href="../../css/style.css?v=16">
 
   <script type="application/ld+json">
   {
@@ -66,6 +66,20 @@
   </script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="coverGround" cx="26%" cy="24%" r="90%">
+      <stop offset="0%" stop-color="#3a2a66"/>
+      <stop offset="45%" stop-color="#241a44"/>
+      <stop offset="100%" stop-color="#120e26"/>
+    </radialGradient>
+    <filter id="coverGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4"/></filter>
+    <filter id="coverGrain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+</svg>
 
 <div id="scroll-progress"></div>
 <nav>
@@ -74,8 +88,9 @@
     <a href="../../#products">Homelander app</a>
     <a href="../../#">Docs</a>
     <a href="../../#partners">Partners</a>
-    <a href="../">Blog</a>
     <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
   </div>
   <a href="../../#" class="navcta">Talk to the team →</a>
 </nav>
@@ -126,20 +141,20 @@
     <h2>Related reading</h2>
     <div class="blog-grid">
       <a href="../homelander-expanding-to-uniswap-v4/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:144deg"></div>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="9" fill="#C7BEFF" filter="url(#coverGlow)"/><circle cx="150" cy="48" r="19" fill="none" stroke="#8B5CF6" stroke-width="1.5" opacity=".5"/><circle cx="150" cy="48" r="29" fill="none" stroke="#4F86F5" stroke-width="1" opacity=".3"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
         <h3>Homelander Is Expanding to Uniswap v4</h3>
         <p class="dek">The afterSwap hook becomes the atomic MEV capture point on Uniswap v4.</p>
         <div class="meta"><span class="meta-date">Apr 22, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
       </a>
       <a href="../mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:216deg"></div>
-        <h3>MEV Internalization:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="27" fill="none" stroke="#4F86F5" stroke-width="1.5" opacity=".5"/><circle cx="150" cy="48" r="9" fill="#C7BEFF" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Keeping MEV Value Inside the Protocol</h3>
         <p class="dek">Three ways a protocol can handle post-swap MEV, and why leakage isn't actually unavoidable.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>
       <a href="../introducing-homelander/" class="blog-card reveal">
-        <div class="blog-cover" style="--hue:324deg"></div>
-        <h3>Introducing Homelander:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="13" fill="#C7BEFF" filter="url(#coverGlow)"/><path d="M150,22 L150,10 M150,74 L150,86 M124,48 L112,48 M176,48 L188,48" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" opacity=".55"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Introducing Homelander</h3>
         <p class="dek">The system that captures post-swap arbitrage atomically and turns it into protocol yield.</p>
         <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>

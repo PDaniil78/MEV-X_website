@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/style.css?v=15">
+  <link rel="stylesheet" href="../css/style.css?v=16">
 
   <script type="application/ld+json">
   {
@@ -63,6 +63,20 @@
   </script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="coverGround" cx="26%" cy="24%" r="90%">
+      <stop offset="0%" stop-color="#3a2a66"/>
+      <stop offset="45%" stop-color="#241a44"/>
+      <stop offset="100%" stop-color="#120e26"/>
+    </radialGradient>
+    <filter id="coverGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4"/></filter>
+    <filter id="coverGrain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+</svg>
 
 <div id="scroll-progress"></div>
 <nav>
@@ -71,8 +85,9 @@
     <a href="../#products">Homelander app</a>
     <a href="../#">Docs</a>
     <a href="../#partners">Partners</a>
-    <a href="./">Blog</a>
     <a href="../#" class="rpc-trigger">RPC</a>
+    <a href="../#research">Research</a>
+    <a href="./">Blog</a>
   </div>
   <a href="../#" class="navcta">Talk to the team →</a>
 </nav>
@@ -80,7 +95,7 @@
 <header class="blog-hero">
   <div class="blog-hero-in">
     <h1 class="reveal">MEV-X Blog</h1>
-    <p class="sub reveal">MEV-X is a research-driven team studying how value moves through on-chain markets. Our work covers MEV internalization, AMM yield, DEX security, and the infrastructure decisions that decide who captures the value behind every swap.</p>
+    <p class="sub reveal">Engineering notes from the team building Homelander. We write about where MEV actually comes from, how AMM yield compounds, and what it takes to ship security-audited infrastructure that DEXes choose to integrate.</p>
   </div>
 </header>
 
@@ -97,71 +112,71 @@
   <div class="blog-grid" id="blog-grid">
 
     <a href="every-chain-handles-mev-differently/" class="blog-card reveal" data-tags="mev-internalization research">
-        <div class="blog-cover" style="--hue:0deg"></div>
-        <h3>Every Chain Handles MEV Differently —</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="90" cy="35" r="4" fill="#C7BEFF"/><circle cx="150" cy="60" r="5" fill="#8B5CF6"/><circle cx="210" cy="30" r="4" fill="#4F86F5"/><path d="M90,35 L150,60 L210,30" fill="none" stroke="#8B5CF6" stroke-width="1.5" opacity=".55" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>How Ethereum, Solana and Sui Handle MEV</h3>
         <p class="dek">How Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each treat MEV — and what changes when a protocol captures it directly instead of auctioning it off.</p>
         <div class="meta"><span class="meta-date">Jun 16, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>Research</span></div></div>
       </a>
 
     <a href="quickswap-integrates-homelander/" class="blog-card reveal" data-tags="news amm-yield">
-        <div class="blog-cover" style="--hue:36deg"></div>
-        <h3>QuickSwap Integrates Homelander:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="130" cy="48" r="22" fill="none" stroke="#4F86F5" stroke-width="2" opacity=".7" filter="url(#coverGlow)"/><circle cx="167" cy="48" r="22" fill="none" stroke="#C7BEFF" stroke-width="2" opacity=".7" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>QuickSwap Integrates Homelander</h3>
         <p class="dek">QuickSwap's governance vote passed 3.2M QUICK in favor, zero against. What that says about where DEX infrastructure is heading.</p>
         <div class="meta"><span class="meta-date">May 18, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
       </a>
 
     <a href="homelander-audit-bailsec-algebra/" class="blog-card reveal" data-tags="security-audits news">
-        <div class="blog-cover" style="--hue:72deg"></div>
-        <h3>Homelander Security Audit by Bailsec:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M138,18 L162,26 V50 C162,64 152,72 138,76 C124,72 114,64 114,50 V26 Z" fill="none" stroke="#8B5CF6" stroke-width="2" opacity=".85" filter="url(#coverGlow)"/><path d="M127,47 L135,55 L150,38" fill="none" stroke="#C7BEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Bailsec Audits the Algebra Plugin</h3>
         <p class="dek">A differential audit of Homelander's Algebra plugin update, and why extending an already-audited execution model is a different risk profile than shipping a new one.</p>
         <div class="meta"><span class="meta-date">May 27, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
       </a>
 
     <a href="homelander-audit-uniswap-v4/" class="blog-card reveal" data-tags="security-audits news">
-        <div class="blog-cover" style="--hue:108deg"></div>
-        <h3>Homelander Security Audit:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M150,16 L176,25 V51 C176,66 165,75 150,80 C135,75 124,66 124,51 V25 Z" fill="none" stroke="#4F86F5" stroke-width="2" opacity=".85" filter="url(#coverGlow)"/><path d="M139,49 L147,57 L163,39" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>MixBytes Audits the Uniswap v4 Hook</h3>
         <p class="dek">MixBytes' audit of the Uniswap v4 hook implementation, and how the hook contains external-execution failures instead of letting them touch the user's swap.</p>
         <div class="meta"><span class="meta-date">May 6, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
       </a>
 
     <a href="homelander-expanding-to-uniswap-v4/" class="blog-card reveal" data-tags="news amm-yield">
-        <div class="blog-cover" style="--hue:144deg"></div>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="9" fill="#C7BEFF" filter="url(#coverGlow)"/><circle cx="150" cy="48" r="19" fill="none" stroke="#8B5CF6" stroke-width="1.5" opacity=".5"/><circle cx="150" cy="48" r="29" fill="none" stroke="#4F86F5" stroke-width="1" opacity=".3"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
         <h3>Homelander Is Expanding to Uniswap v4</h3>
         <p class="dek">With Uniswap Foundation grant support, Homelander moves onto v4's hook architecture — and the afterSwap hook becomes the atomic capture point.</p>
         <div class="meta"><span class="meta-date">Apr 22, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
       </a>
 
     <a href="where-mev-actually-comes-from/" class="blog-card reveal" data-tags="research">
-        <div class="blog-cover" style="--hue:180deg"></div>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M104,22 Q150,48 150,48" fill="none" stroke="#4F86F5" stroke-width="1.5" opacity=".55"/><path d="M104,74 Q150,48 150,48" fill="none" stroke="#8B5CF6" stroke-width="1.5" opacity=".55"/><path d="M206,30 Q150,48 150,48" fill="none" stroke="#C7BEFF" stroke-width="1.5" opacity=".55"/><circle cx="150" cy="48" r="6" fill="#fff" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
         <h3>Where MEV Actually Comes From</h3>
         <p class="dek">Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction. What that means for how MEV protection should be designed.</p>
         <div class="meta"><span class="meta-date">Apr 9, 2026</span><div class="meta-tags"><span>Research</span></div></div>
       </a>
 
     <a href="mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal" data-tags="mev-internalization amm-yield">
-        <div class="blog-cover" style="--hue:216deg"></div>
-        <h3>MEV Internalization:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="27" fill="none" stroke="#4F86F5" stroke-width="1.5" opacity=".5"/><circle cx="150" cy="48" r="9" fill="#C7BEFF" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Keeping MEV Value Inside the Protocol</h3>
         <p class="dek">Three ways a protocol can handle post-swap MEV — ignore it, capture it natively, or route it to an external partner — and why leakage isn't actually unavoidable.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>
 
     <a href="homelander-security-audit-summary-and-outcomes/" class="blog-card reveal" data-tags="security-audits">
-        <div class="blog-cover" style="--hue:252deg"></div>
-        <h3>Homelander Security Audit:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M163,18 L189,27 V52 C189,66 178,75 163,79 C148,75 138,66 138,52 V27 Z" fill="none" stroke="#C7BEFF" stroke-width="2" opacity=".85" filter="url(#coverGlow)"/><path d="M152,50 L160,58 L175,41" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Bailsec's First Homelander Audit</h3>
         <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities — and confirmed that a failed internal MEV path can't touch the user's swap outcome.</p>
         <div class="meta"><span class="meta-date">Jan 12, 2026</span><div class="meta-tags"><span>Security Audits</span></div></div>
       </a>
 
     <a href="mev-resolution-in-amm-based-systems/" class="blog-card reveal" data-tags="amm-yield mev-internalization">
-        <div class="blog-cover" style="--hue:288deg"></div>
-        <h3>MEV Resolution in AMM-Based Systems:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><path d="M112,25 L150,48 L112,71" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8" filter="url(#coverGlow)"/><path d="M188,25 L150,48 L188,71" fill="none" stroke="#4F86F5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8" filter="url(#coverGlow)"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>External vs Internal MEV Resolution in AMMs</h3>
         <p class="dek">Every swap that moves a pool off the market price creates an arbitrage opportunity. Who closes it — an external searcher or the protocol itself — decides who keeps the value.</p>
         <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>
       </a>
 
     <a href="introducing-homelander/" class="blog-card reveal" data-tags="mev-internalization amm-yield">
-        <div class="blog-cover" style="--hue:324deg"></div>
-        <h3>Introducing Homelander:</h3>
+        <div class="blog-cover"><svg viewBox="0 0 300 96" preserveAspectRatio="xMidYMid slice"><rect width="300" height="96" fill="url(#coverGround)"/><circle cx="150" cy="48" r="13" fill="#C7BEFF" filter="url(#coverGlow)"/><path d="M150,22 L150,10 M150,74 L150,86 M124,48 L112,48 M176,48 L188,48" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" opacity=".55"/><rect width="300" height="96" filter="url(#coverGrain)" opacity=".5" style="mix-blend-mode:overlay"/></svg></div>
+        <h3>Introducing Homelander</h3>
         <p class="dek">The system that captures post-swap arbitrage atomically, in the same transaction, and turns it into yield for the protocol instead of letting it leak to validators and block builders.</p>
         <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>
