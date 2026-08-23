@@ -377,8 +377,10 @@
   .dune-row .go{
     font-family:var(--font-body); font-weight:600; font-size:0.8rem; color:var(--ink); align-self:flex-start;
     border:1.5px solid var(--chip-border); border-radius:999px; padding:0.5em 1.1em; margin-top:1.5rem;
+    transition: border-color .25s ease, background-color .25s ease;
   }
   .dune-row:hover{ border-color: rgba(255,255,255,.35); }
+  .dune-row:hover .go{ border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.06); }
 
   /* "MEV extracted" tile -- a tall, full-width cumulative bar chart. Label
      and value sit over the bars' own headroom in the top-left corner instead
