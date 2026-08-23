@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/style.css?v=28">
 
   <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -54,6 +54,60 @@
       <path d="M 51.5,15.5 C 64.8375,15.3334 78.1708,15.5001 91.5,16C 94.9931,17.4781 95.3264,19.4781 92.5,22C 79.5043,22.4999 66.5043,22.6666 53.5,22.5C 46.6634,42.1753 39.33,61.6753 31.5,81C 29.5594,81.7429 27.7261,81.5762 26,80.5C 19.4708,64.5793 13.1375,48.5793 7,32.5C 5.6771,26.8042 7.34376,25.4708 12,28.5C 17.6667,42.5 23.3333,56.5 29,70.5C 35.3333,53.8333 41.6667,37.1667 48,20.5C 48.6972,18.4156 49.8639,16.7489 51.5,15.5 Z"/>
       <path d="M 57.5,40.5 C 59.924,40.1924 62.2573,40.5258 64.5,41.5C 67.1367,45.9684 69.97,50.3017 73,54.5C 75.9584,50.0843 78.7917,45.5843 81.5,41C 83.9018,40.1859 86.2351,40.3526 88.5,41.5C 84.6969,47.8014 80.6969,53.968 76.5,60C 80.6254,66.4164 84.6254,72.9164 88.5,79.5C 86.1667,80.8333 83.8333,80.8333 81.5,79.5C 78.8573,74.8679 75.8573,70.5346 72.5,66.5C 69.624,71.086 66.624,75.586 63.5,80C 61.1667,80.6667 58.8333,80.6667 56.5,80C 60.6405,73.5455 64.6405,67.0455 68.5,60.5C 64.8154,53.8226 61.1488,47.1559 57.5,40.5 Z"/>
     </symbol>
+    <g id="xmark-path">
+      <path d="M 51.5,15.5 C 64.8375,15.3334 78.1708,15.5001 91.5,16C 94.9931,17.4781 95.3264,19.4781 92.5,22C 79.5043,22.4999 66.5043,22.6666 53.5,22.5C 46.6634,42.1753 39.33,61.6753 31.5,81C 29.5594,81.7429 27.7261,81.5762 26,80.5C 19.4708,64.5793 13.1375,48.5793 7,32.5C 5.6771,26.8042 7.34376,25.4708 12,28.5C 17.6667,42.5 23.3333,56.5 29,70.5C 35.3333,53.8333 41.6667,37.1667 48,20.5C 48.6972,18.4156 49.8639,16.7489 51.5,15.5 Z"/>
+      <path d="M 57.5,40.5 C 59.924,40.1924 62.2573,40.5258 64.5,41.5C 67.1367,45.9684 69.97,50.3017 73,54.5C 75.9584,50.0843 78.7917,45.5843 81.5,41C 83.9018,40.1859 86.2351,40.3526 88.5,41.5C 84.6969,47.8014 80.6969,53.968 76.5,60C 80.6254,66.4164 84.6254,72.9164 88.5,79.5C 86.1667,80.8333 83.8333,80.8333 81.5,79.5C 78.8573,74.8679 75.8573,70.5346 72.5,66.5C 69.624,71.086 66.624,75.586 63.5,80C 61.1667,80.6667 58.8333,80.6667 56.5,80C 60.6405,73.5455 64.6405,67.0455 68.5,60.5C 64.8154,53.8226 61.1488,47.1559 57.5,40.5 Z"/>
+    </g>
+    <radialGradient id="bubbleBaseGrad" cx="30%" cy="26%" r="80%">
+      <stop offset="0%" stop-color="#faf8ff"/>
+      <stop offset="14%" stop-color="#C7BEFF"/>
+      <stop offset="34%" stop-color="#8f78e6"/>
+      <stop offset="55%" stop-color="#8B5CF6"/>
+      <stop offset="76%" stop-color="#2a1c52"/>
+      <stop offset="100%" stop-color="#0e0a1f"/>
+    </radialGradient>
+    <radialGradient id="bubbleWashBlue" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4F86F5" stop-opacity=".95"/>
+      <stop offset="100%" stop-color="#4F86F5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bubbleWashViolet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bubbleWashLavender" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C7BEFF" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#C7BEFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bubbleCrescentGrad" x1="36" y1="147" x2="164" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="45%" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bubbleCrescentBlueGrad" x1="37" y1="124" x2="110" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#C7BEFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#C7BEFF" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#C7BEFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="bubbleGlintGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="55%" stop-color="#fff" stop-opacity=".7"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bubbleVignette" cx="50%" cy="50%" r="50%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="88%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity=".38"/>
+    </radialGradient>
+    <filter id="bubbleSoftBlur3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="bubbleGrainF" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.06 0"/>
+    </filter>
+    <filter id="bubbleLogoEtch" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="0" flood-color="#000" flood-opacity=".55"/>
+      <feDropShadow dx="0" dy="-1" stdDeviation="0" flood-color="#fff" flood-opacity=".35"/>
+    </filter>
+    <clipPath id="bubbleSphereClip"><circle cx="200" cy="200" r="188"/></clipPath>
   </defs>
 </svg>
 
@@ -108,9 +162,35 @@
           <div class="hv-star-deco" style="transform:translate(-50%,-50%) rotate(200deg) translateX(140px);"><span style="--s:3px; --o:.7; --tdur:2.5s; --tdelay:1.8s;"></span></div>
           <div class="hv-star-deco" style="transform:translate(-50%,-50%) rotate(320deg) translateX(140px);"><span style="--s:1.5px; --o:.45; --tdur:3.6s; --tdelay:.9s;"></span></div>
         </div>
-        <div class="hv-core-shadow" style="top:calc(44% + 40px);"></div>
-        <div class="hv-halo" style="--hsize:120px; --hc1:var(--lavender); --hc2:var(--lavender); --hop:.35; --hspeed:26s; --hm1:56%; --hm2:60%; --hm3:80%; --hm4:84%; filter:blur(2px);"></div>
-        <div class="hv-core"><span class="hv-swirl"></span><svg><use href="#xmark"></use></svg></div>
+        <div class="hv-core-shadow" style="width:75px; height:16px; margin-left:-37.5px; top:calc(44% + 53px);"></div>
+        <div class="hv-halo" style="--hsize:106px; --hc1:var(--lavender); --hc2:var(--lavender); --hop:.32; --hspeed:26s; --hm1:56%; --hm2:60%; --hm3:80%; --hm4:84%; filter:blur(2px);"></div>
+        <div class="hv-bubble">
+          <svg viewBox="0 0 400 400">
+            <g clip-path="url(#bubbleSphereClip)">
+              <circle cx="200" cy="200" r="188" fill="url(#bubbleBaseGrad)"/>
+              <g class="hv-bubble-wash" style="mix-blend-mode:screen;">
+                <ellipse cx="100" cy="255" rx="115" ry="95" fill="url(#bubbleWashBlue)" filter="url(#bubbleSoftBlur3)" opacity=".85"/>
+                <ellipse cx="290" cy="140" rx="90" ry="80" fill="url(#bubbleWashViolet)" filter="url(#bubbleSoftBlur3)" opacity=".65"/>
+              </g>
+              <g class="hv-bubble-wash-2" style="mix-blend-mode:screen;">
+                <ellipse cx="255" cy="310" rx="100" ry="70" fill="url(#bubbleWashLavender)" filter="url(#bubbleSoftBlur3)" opacity=".55"/>
+                <ellipse cx="130" cy="110" rx="80" ry="70" fill="url(#bubbleWashBlue)" filter="url(#bubbleSoftBlur3)" opacity=".5"/>
+                <ellipse cx="320" cy="255" rx="70" ry="90" fill="url(#bubbleWashBlue)" filter="url(#bubbleSoftBlur3)" opacity=".6"/>
+              </g>
+              <circle cx="200" cy="200" r="188" fill="url(#bubbleVignette)"/>
+              <g class="hv-bubble-crescent">
+                <path d="M36.4,146.8 A172,172 0 0,1 164.2,31.8" fill="none" stroke="url(#bubbleCrescentGrad)" stroke-width="20" stroke-linecap="round" filter="url(#bubbleSoftBlur3)"/>
+                <path d="M36.4,146.8 A172,172 0 0,1 164.2,31.8" fill="none" stroke="url(#bubbleCrescentGrad)" stroke-width="8" stroke-linecap="round"/>
+                <path d="M36.9,123.9 A180,180 0 0,1 110.0,44.1" fill="none" stroke="url(#bubbleCrescentBlueGrad)" stroke-width="10" stroke-linecap="round" filter="url(#bubbleSoftBlur3)"/>
+              </g>
+              <ellipse cx="212" cy="130" rx="7" ry="7" fill="url(#bubbleGlintGrad)" opacity=".85"/>
+              <g transform="translate(145.22,147.47) scale(1.105)"><use href="#xmark-path" fill="#241a44" filter="url(#bubbleLogoEtch)"/></g>
+              <g transform="translate(144.22,146.47) scale(1.105)"><use href="#xmark-path" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="0.8"/></g>
+              <rect x="0" y="0" width="400" height="400" filter="url(#bubbleGrainF)"/>
+            </g>
+            <circle cx="200" cy="200" r="187" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.5"/>
+          </svg>
+        </div>
         <div class="hv-ring-front"></div>
         <div class="hv-stat-panel">
           <div class="hv-stat-row"><span>Pools Earning Yield</span><b id="heroOrbitPools">61</b></div>
@@ -238,6 +318,7 @@
         </div>
 
         <div class="v1-copy">
+          <p class="v1-kicker">MEV-X Homelander</p>
           <h3 class="accent-bar">Extra Yield From Every Swap</h3>
           <p class="mech">Every swap on your pool leaves a small gap that arbitrage bots are already racing to grab. Homelander catches it first, before they do, and pays it straight to you and your LPs &mdash; extra yield on top of what the pool already earns, automatically, on every trade.</p>
           <div class="ctas">
