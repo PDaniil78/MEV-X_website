@@ -36,7 +36,31 @@
 
   <link rel="stylesheet" href="css/style.css?v=28">
 
-  <!-- Google Analytics (GA4) -- paste your measurement ID below to enable
+  <!-- Structured data: helps Google render a knowledge panel / rich result -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MEV-X",
+    "url": "https://mev-x.com/",
+    "logo": "https://mev-x.com/assets/img/mevx.svg",
+    "description": "MEV-X is end-to-end MEV infrastructure: DEX internalization, CEX–DEX arbitrage, liquidations, and partner order flow — MEV found, extracted, and returned.",
+    "sameAs": [
+      "https://medium.com/@MEV-X",
+      "https://dune.com/mev_x_stat/usd"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MEV-X",
+    "url": "https://mev-x.com/"
+  }
+  </script>
+
+  <!-- Google Analytics (GA4) -- replace G-XXXXXXXXXX with your real Measurement ID -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -44,7 +68,6 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
   </script>
-  -->
 </head>
 <body>
 
@@ -477,45 +500,45 @@
     <div class="partner-cat reveal">
       <div class="cat-name">Protocols</div>
       <div class="partner-grid">
-        <span class="partner-tile"><img src="assets/partners/uniswap.png" alt="Uniswap" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/pancakeswap.png" alt="PancakeSwap" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/algebra.png" alt="Algebra" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/aave.png" alt="AAVE" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/morpho.png" alt="Morpho" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/curve.png" alt="Curve" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/compound.png" alt="Compound" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/balancer.png" alt="Balancer" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/aerodrome.png" alt="Aerodrome" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/lifi.png" alt="LI.FI" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/woo.png" alt="WOO" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/dodo.png" alt="DODO" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/uniswap.png" alt="Uniswap" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/pancakeswap.png" alt="PancakeSwap" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/algebra.png" alt="Algebra" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/aave.png" alt="AAVE" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/morpho.png" alt="Morpho" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/curve.png" alt="Curve" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/compound.png" alt="Compound" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/balancer.png" alt="Balancer" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/aerodrome.png" alt="Aerodrome" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/lifi.png" alt="LI.FI" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/woo.png" alt="WOO" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/dodo.png" alt="DODO" loading="lazy" decoding="async" class="partner-logo"></span>
       </div>
     </div>
     <div class="partner-cat reveal">
       <div class="cat-name">Infrastructure</div>
       <div class="partner-grid">
-        <span class="partner-tile"><img src="assets/partners/flashbots.png" alt="Flashbots" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/fastlane.png" alt="FastLane (Atlas)" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/blink.png" alt="Blink" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/barter.png" alt="Barter" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/bebop.png" alt="Bebop" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/flashbots.png" alt="Flashbots" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/fastlane.png" alt="FastLane (Atlas)" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/blink.png" alt="Blink" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/barter.png" alt="Barter" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/bebop.png" alt="Bebop" loading="lazy" decoding="async" class="partner-logo"></span>
       </div>
     </div>
     <div class="partner-cat reveal">
       <div class="cat-name">Security</div>
       <div class="partner-grid">
-        <span class="partner-tile"><img src="assets/partners/bailsec.png" alt="Bailsec" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/mixbytes.png" alt="MixBytes" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/areta.png" alt="Areta" class="partner-logo"></span>
-        <span class="partner-tile partner-tile--wordmark"><img src="assets/partners/uniswapsecurityfund.png" alt="" class="partner-logo" aria-hidden="true"><span class="partner-tile-wordmark">Uniswap<br>Foundation</span></span>
+        <span class="partner-tile"><img src="assets/partners/bailsec.png" alt="Bailsec" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/mixbytes.png" alt="MixBytes" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/areta.png" alt="Areta" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile partner-tile--wordmark"><img src="assets/partners/uniswapsecurityfund.png" alt="" loading="lazy" decoding="async" class="partner-logo" aria-hidden="true"><span class="partner-tile-wordmark">Uniswap<br>Foundation</span></span>
       </div>
     </div>
     <div class="partner-cat reveal">
       <div class="cat-name">Dexes</div>
       <div class="partner-grid">
-        <span class="partner-tile"><img src="assets/partners/quickswap.png" alt="QuickSwap" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/hydrex.png" alt="Hydrex" class="partner-logo"></span>
-        <span class="partner-tile"><img src="assets/partners/sparkdex.png" alt="SparkDEX" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/quickswap.png" alt="QuickSwap" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/hydrex.png" alt="Hydrex" loading="lazy" decoding="async" class="partner-logo"></span>
+        <span class="partner-tile"><img src="assets/partners/sparkdex.png" alt="SparkDEX" loading="lazy" decoding="async" class="partner-logo"></span>
       </div>
     </div>
   </div>
