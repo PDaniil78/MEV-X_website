@@ -179,7 +179,9 @@
   /* HERO VISUAL -- Moonstone orbit: a belted sphere with drifting stars and
      occasional meteors, filling the empty right column of the hero. */
   .hero-space{ position:relative; width:90%; margin:0 auto; aspect-ratio:1/.86; border-radius:18px; overflow:hidden;
-    background: rgba(255,255,255,.02); border:1px solid var(--panel-border); }
+    background: rgba(255,255,255,.02); border:1px solid var(--panel-border);
+    transition: border-color .3s ease, box-shadow .3s ease; }
+  .hero-space:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   @media (max-width:900px){ .hero-space{ width:100%; aspect-ratio:1/.85; margin-top:1rem; } }
 
   .hv-vignette{ position:absolute; inset:0; z-index:1; pointer-events:none;
@@ -435,7 +437,9 @@
     .v1-feature .ctas{ justify-content:flex-start; }
   }
 
-  .diagram{ border:1px solid var(--chip-border); border-radius:16px; background:var(--chip-bg); padding:1.6rem; }
+  .diagram{ border:1px solid var(--chip-border); border-radius:16px; background:var(--chip-bg); padding:1.6rem;
+    transition: border-color .3s ease, box-shadow .3s ease; }
+  .diagram:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   .diagram .live-block{ padding-bottom:1.3rem; margin-bottom:1.3rem; border-bottom:1px solid var(--hairline); }
   .diagram svg{ width:100%; height:auto; display:block; }
   .diagram-node{ fill:rgba(255,255,255,.04); stroke:var(--chip-border); stroke-width:1; }
@@ -548,11 +552,20 @@
   .close-card{
     background:var(--chip-bg); border:1.5px solid var(--chip-border); border-radius:24px;
     padding:2.2rem; display:flex; flex-direction:column; justify-content:space-between; min-height:190px;
+    position:relative;
   }
-  .close-card:hover{ border-color: rgba(255,255,255,.32); }
+  .close-card:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   .close-card .k{ font-family:var(--font-body); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-muted); }
   .close-card h3{ font-size:1.7rem; margin-top:0.7rem; }
-  .close-card .go{ font-family:var(--font-body); font-weight:600; font-size:0.85rem; color:var(--ink-url); margin-top:1.4rem; }
+  .close-card .go{ font-family:var(--font-body); font-weight:600; font-size:0.85rem; color:var(--ink-url); margin-top:1.4rem; position:relative; z-index:2; }
+  /* "Talk to the Team" needs two click targets in one card -- the whole
+     card goes to Telegram, but the email is its own mailto link. A plain
+     nested <a> isn't valid HTML, so the card is a div with a full-cover
+     link behind the content, and the email link sits above it (z-index)
+     so a click there hits the mailto instead of the overlay. */
+  .close-card-hit{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
+  .close-card-email{ position:relative; z-index:2; color:inherit; }
+  .close-card-email:hover{ text-decoration:underline; }
   @media (max-width:760px){ .close-in{ grid-template-columns:1fr; } }
 
   footer{ border-top:1px solid var(--hairline); padding:2.2rem 1.5rem; }
