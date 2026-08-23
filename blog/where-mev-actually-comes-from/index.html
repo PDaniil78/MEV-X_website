@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where MEV Actually Comes From | MEV-X</title>
+  <meta name="description" content="Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction. What that means for how MEV protection should be designed.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/where-mev-actually-comes-from/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/where-mev-actually-comes-from/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:title" content="Where MEV Actually Comes From">
+  <meta property="og:description" content="Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="article:published_time" content="2026-04-09">
+  <meta property="article:section" content="Research">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Where MEV Actually Comes From">
+  <meta name="twitter:description" content="96.7% of atomic arbitrage on Polygon traces back to a single source transaction.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Where MEV Actually Comes From",
+    "description": "Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction.",
+    "datePublished": "2026-04-09",
+    "dateModified": "2026-04-09",
+    "author": { "@type": "Organization", "name": "MEV-X" },
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/where-mev-actually-comes-from/",
+    "keywords": "atomic arbitrage, MEV attribution, MEV protection, Polygon MEV research"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "Where MEV Actually Comes From", "item": "https://mev-x.com/blog/where-mev-actually-comes-from/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What percentage of atomic arbitrage on Polygon traces back to a single source transaction?",
+        "acceptedAnswer": { "@type": "Answer", "text": "96.7%, according to MEV-X's attribution research across 1.05 million Polygon blocks, using four independent attribution methods that converged on the same result. The study identified $334,799 in extracted MEV over the analyzed period." }
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../../#products">Products</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#">Docs</a>
+  </div>
+  <a href="../../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<nav class="crumbs reveal" aria-label="Breadcrumb">
+  <a href="../">Blog</a><span>/</span><a href="../?tag=arbitrage">Arbitrage</a><span>/</span><span>Where MEV Actually Comes From</span>
+</nav>
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=arbitrage">Arbitrage</a>
+    <a href="../?tag=research">Research</a>
+    <a href="../?tag=mev-protection">MEV Protection</a>
+  </div>
+  <h1>Where MEV Actually Comes From</h1>
+  <p class="dek">Most atomic arbitrage on a chain isn't spread evenly across thousands of independent trades. MEV-X's attribution research on Polygon found the vast majority of it traces back to one place.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>Apr 9, 2026</span>
+    <span>6 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+  <div class="tldr reveal">
+    <div class="k">Answer first</div>
+    <p>Using four independent attribution methods across 1.05 million Polygon blocks, MEV-X's research traced 96.7% of atomic arbitrage back to a single source transaction, accounting for $334,799 in extracted MEV over the study period. Arbitrage isn't diffuse — it's concentrated at one identifiable point in the transaction flow, which is exactly the point MEV protection needs to target.</p>
+  </div>
+
+  <h2>Why attribution matters</h2>
+  <p>It's easy to think of MEV as something that happens diffusely — thousands of small arbitrage opportunities scattered across a chain's transaction volume, each requiring its own detection and response. If that were true, MEV protection would be a matter of covering as much surface area as possible. MEV-X's attribution research asked a more specific question: when an atomic arbitrage opportunity appears, where does it actually originate? Tracing that origin changes what an effective defense looks like.</p>
+
+  <h2>The method</h2>
+  <p>The study analyzed 1.05 million blocks of Polygon activity and applied four independent attribution methods to identify, for each instance of atomic arbitrage, the originating transaction that created the opportunity in the first place. Using multiple independent methods rather than one was deliberate — attribution claims are only credible when different analytical approaches converge on the same answer rather than each surfacing a different story.</p>
+
+  <h2>The finding</h2>
+  <p>They converged: 96.7% of atomic arbitrage traced back to a single source transaction, representing $334,799 in extracted MEV across the analyzed period. That's a strong concentration result. It means the overwhelming majority of arbitrage opportunity on the chain isn't the product of many independent, unrelated trades — it's created by one specific, identifiable kind of transaction, over and over.</p>
+
+  <h2>What this means for MEV protection design</h2>
+  <p>Concentration is good news for anyone trying to build a defense, because it turns a broad surveillance problem into a targeted one. If arbitrage opportunity were genuinely diffuse, internalizing it would require instrumenting every possible transaction type a protocol might see. Because it's concentrated, a system like Homelander can focus its capture logic on the specific execution path where the opportunity actually forms — the swap itself — and catch the overwhelming majority of the value without needing to chase a long tail of edge cases.</p>
+  <p>This is also the empirical basis for treating MEV internalization as tractable rather than aspirational: the research shows the problem has a concentrated, addressable structure, not an intractably distributed one.</p>
+
+  <ul class="key-facts">
+    <li>1.05M Polygon blocks analyzed, using four independent attribution methods.</li>
+    <li>96.7% of atomic arbitrage traced to a single source transaction type.</li>
+    <li>$334,799 in extracted MEV accounted for across the study period.</li>
+    <li>Full methodology published as "The Origins of MEV: Systematic Attribution of Arbitrage Opportunity Creation at Scale" (arXiv preprint, 2026).</li>
+  </ul>
+
+  <div class="faq">
+    <div class="faq-item">
+      <h3>What percentage of atomic arbitrage on Polygon traces back to a single source transaction?</h3>
+      <p>96.7%, according to MEV-X's attribution research across 1.05 million Polygon blocks, using four independent attribution methods that converged on the same result. The study identified $334,799 in extracted MEV over the analyzed period.</p>
+    </div>
+  </div>
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
+        <div class="tags"><span>Arbitrage</span><span>AMM Yield</span></div>
+        <h3>MEV Resolution in AMM-Based Systems: External and Internal Execution</h3>
+        <p class="dek">Who closes the post-swap arbitrage gap decides who keeps the value.</p>
+        <div class="meta"><span>Dec 12, 2025</span><span>5 min read</span></div>
+      </a>
+      <a href="../introducing-homelander/" class="blog-card reveal">
+        <div class="tags"><span>MEV Internalization</span><span>AMM Yield</span></div>
+        <h3>Introducing Homelander: Atomic MEV Internalization System</h3>
+        <p class="dek">The system that captures post-swap arbitrage atomically and turns it into protocol yield.</p>
+        <div class="meta"><span>Dec 1, 2025</span><span>5 min read</span></div>
+      </a>
+      <a href="../every-chain-handles-mev-differently/" class="blog-card reveal">
+        <div class="tags"><span>MEV Protection</span><span>MEV Internalization</span></div>
+        <h3>Every Chain Handles MEV Differently — One Decided to Keep It Inside</h3>
+        <p class="dek">How Ethereum, Solana, and Sui each treat MEV, and what changes when a protocol captures it directly.</p>
+        <div class="meta"><span>Jun 16, 2026</span><span>6 min read</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="../../#">Twitter</a><a href="../../#">GitHub</a><a href="../../#">Telegram</a><a href="../../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../../js/main.js?v=13"></script>
+</body>
+</html>

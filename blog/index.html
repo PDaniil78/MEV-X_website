@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog — MEV, Arbitrage & AMM Yield Research | MEV-X</title>
+  <meta name="description" content="MEV-X's research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure — how MEV moves through markets, and how to keep it inside the protocol.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mev-x.com/blog/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mev-x.com/blog/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Blog — MEV, Arbitrage & AMM Yield Research | MEV-X">
+  <meta property="og:description" content="Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure from the team behind MEV-X.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog — MEV, Arbitrage & AMM Yield Research | MEV-X">
+  <meta name="twitter:description" content="Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure from the team behind MEV-X.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css?v=14">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "MEV-X Blog",
+    "url": "https://mev-x.com/blog/",
+    "description": "Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure.",
+    "publisher": { "@type": "Organization", "name": "MEV-X", "url": "https://mev-x.com/", "logo": "https://mev-x.com/assets/img/mevx.svg" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../" class="wordmark"><img src="../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks">
+    <a href="../#products">Products</a>
+    <a href="../#partners">Partners</a>
+    <a href="../#research">Research</a>
+    <a href="./">Blog</a>
+    <a href="../#" class="rpc-trigger">RPC</a>
+    <a href="../#">Docs</a>
+  </div>
+  <a href="../#" class="navcta">Talk to the team →</a>
+</nav>
+
+<header class="blog-hero">
+  <div class="blog-hero-in">
+    <p class="eyebrow reveal">MEV-X Blog</p>
+    <h1 class="reveal">Notes on MEV, arbitrage, and AMM yield.</h1>
+    <p class="sub reveal">How value actually moves through on-chain markets, what MEV protection looks like in production, and how MEV internalization turns arbitrage that would otherwise leak to searchers into AMM yield — written by the team building it.</p>
+  </div>
+</header>
+
+<div class="tag-filter reveal" id="tag-filter" role="toolbar" aria-label="Filter articles by topic">
+  <button type="button" class="tag-pill active" data-tag="all">All</button>
+  <button type="button" class="tag-pill" data-tag="arbitrage">Arbitrage</button>
+  <button type="button" class="tag-pill" data-tag="mev-protection">MEV Protection</button>
+  <button type="button" class="tag-pill" data-tag="amm-yield">AMM Yield</button>
+  <button type="button" class="tag-pill" data-tag="mev-internalization">MEV Internalization</button>
+  <button type="button" class="tag-pill" data-tag="security-audits">Security Audits</button>
+  <button type="button" class="tag-pill" data-tag="protocol-integrations">Protocol Integrations</button>
+  <button type="button" class="tag-pill" data-tag="research">Research</button>
+</div>
+
+<section class="blog band" style="padding-top:0">
+  <div class="blog-grid" id="blog-grid">
+
+    <a href="every-chain-handles-mev-differently/" class="blog-card reveal" data-tags="mev-protection mev-internalization research">
+      <div class="tags"><span>MEV Protection</span><span>MEV Internalization</span></div>
+      <h3>Every Chain Handles MEV Differently — One Decided to Keep It Inside</h3>
+      <p class="dek">How Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each treat MEV — and what changes when a protocol captures it directly instead of auctioning it off.</p>
+      <div class="meta"><span>Jun 16, 2026</span><span>6 min read</span></div>
+    </a>
+
+    <a href="quickswap-integrates-homelander/" class="blog-card reveal" data-tags="protocol-integrations amm-yield mev-internalization">
+      <div class="tags"><span>Protocol Integrations</span><span>AMM Yield</span></div>
+      <h3>QuickSwap Integrates Homelander: MEV Internalization Becomes a DEX Infrastructure Standard</h3>
+      <p class="dek">QuickSwap's governance vote passed 3.2M QUICK in favor, zero against. What that says about where DEX infrastructure is heading.</p>
+      <div class="meta"><span>May 18, 2026</span><span>5 min read</span></div>
+    </a>
+
+    <a href="homelander-audit-bailsec-algebra/" class="blog-card reveal" data-tags="security-audits protocol-integrations">
+      <div class="tags"><span>Security Audits</span><span>Protocol Integrations</span></div>
+      <h3>Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes</h3>
+      <p class="dek">A differential audit of Homelander's Algebra plugin update, and why extending an already-audited execution model is a different risk profile than shipping a new one.</p>
+      <div class="meta"><span>May 27, 2026</span><span>4 min read</span></div>
+    </a>
+
+    <a href="homelander-audit-uniswap-v4/" class="blog-card reveal" data-tags="security-audits protocol-integrations">
+      <div class="tags"><span>Security Audits</span><span>Protocol Integrations</span></div>
+      <h3>Homelander Security Audit: Uniswap v4 — Summary and Outcomes</h3>
+      <p class="dek">MixBytes' audit of the Uniswap v4 hook implementation, and how the hook contains external-execution failures instead of letting them touch the user's swap.</p>
+      <div class="meta"><span>May 6, 2026</span><span>4 min read</span></div>
+    </a>
+
+    <a href="homelander-expanding-to-uniswap-v4/" class="blog-card reveal" data-tags="protocol-integrations amm-yield mev-internalization">
+      <div class="tags"><span>Protocol Integrations</span><span>AMM Yield</span></div>
+      <h3>Homelander Is Expanding to Uniswap v4</h3>
+      <p class="dek">With Uniswap Foundation grant support, Homelander moves onto v4's hook architecture — and the afterSwap hook becomes the atomic capture point.</p>
+      <div class="meta"><span>Apr 22, 2026</span><span>5 min read</span></div>
+    </a>
+
+    <a href="where-mev-actually-comes-from/" class="blog-card reveal" data-tags="arbitrage research mev-protection">
+      <div class="tags"><span>Arbitrage</span><span>Research</span></div>
+      <h3>Where MEV Actually Comes From</h3>
+      <p class="dek">Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction. What that means for how MEV protection should be designed.</p>
+      <div class="meta"><span>Apr 9, 2026</span><span>6 min read</span></div>
+    </a>
+
+    <a href="mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal" data-tags="mev-internalization mev-protection amm-yield">
+      <div class="tags"><span>MEV Internalization</span><span>AMM Yield</span></div>
+      <h3>MEV Internalization: Keeping Value Inside the Protocol</h3>
+      <p class="dek">Three ways a protocol can handle post-swap MEV — ignore it, capture it natively, or route it to an external partner — and why leakage isn't actually unavoidable.</p>
+      <div class="meta"><span>Jan 28, 2026</span><span>5 min read</span></div>
+    </a>
+
+    <a href="homelander-security-audit-summary-and-outcomes/" class="blog-card reveal" data-tags="security-audits mev-protection">
+      <div class="tags"><span>Security Audits</span><span>MEV Protection</span></div>
+      <h3>Homelander Security Audit: Summary and Outcomes</h3>
+      <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities — and confirmed that a failed internal MEV path can't touch the user's swap outcome.</p>
+      <div class="meta"><span>Jan 12, 2026</span><span>4 min read</span></div>
+    </a>
+
+    <a href="mev-resolution-in-amm-based-systems/" class="blog-card reveal" data-tags="arbitrage amm-yield mev-internalization">
+      <div class="tags"><span>Arbitrage</span><span>AMM Yield</span></div>
+      <h3>MEV Resolution in AMM-Based Systems: External and Internal Execution</h3>
+      <p class="dek">Every swap that moves a pool off the market price creates an arbitrage opportunity. Who closes it — an external searcher or the protocol itself — decides who keeps the value.</p>
+      <div class="meta"><span>Dec 12, 2025</span><span>5 min read</span></div>
+    </a>
+
+    <a href="introducing-homelander/" class="blog-card reveal" data-tags="mev-internalization amm-yield arbitrage">
+      <div class="tags"><span>MEV Internalization</span><span>AMM Yield</span></div>
+      <h3>Introducing Homelander: Atomic MEV Internalization System</h3>
+      <p class="dek">The system that captures post-swap arbitrage atomically, in the same transaction, and turns it into yield for the protocol instead of letting it leak to validators and block builders.</p>
+      <div class="meta"><span>Dec 1, 2025</span><span>5 min read</span></div>
+    </a>
+
+  </div>
+  <p class="blog-empty" id="blog-empty">No articles match that tag yet.</p>
+</section>
+
+<section class="research band" id="papers" style="border-top:1px solid var(--hairline)">
+  <div class="section-head reveal">
+    <h2>Academic Research</h2>
+    <p>Peer-reviewed and preprint work from the MEV-X research team, published independently of this blog.</p>
+  </div>
+  <div class="paper-list">
+    <a href="https://arxiv.org/abs/2604.28014" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">Preprint · arXiv 2026</div>
+      <div class="body">
+        <div class="t">From Impermanent Loss to Sustainable Gain: Quantifying Profitability Zones for Liquidity Providers on DEX</div>
+        <div class="desc">A mathematical model of AMM arbitrage that bounds LP–arbitrageur joint revenue and derives the pool fee needed to stay in the impermanent-gain zone.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://arxiv.org/abs/2604.28017" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">Preprint · arXiv 2026</div>
+      <div class="body">
+        <div class="t">Characterizing Path-Independent Fees: A Route to Zero Impermanent Loss in CPMMs</div>
+        <div class="desc">A closed-form fee framework for CPMMs that removes path dependence and constructs zero-impermanent-loss pools without breaking composability.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://arxiv.org/abs/2605.21498" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">Preprint · arXiv 2026</div>
+      <div class="body">
+        <div class="t">Chain Reactions: How Nonce Collisions in ECDSA Compromise Polygon MEV Searchers</div>
+        <div class="desc">A linear-algebra attack recovering private keys from searchers whose latency-driven nonce reuse creates exploitable signature patterns — a cautionary study in what MEV protection has to defend against.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://arxiv.org/abs/2604.27979" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">Preprint · arXiv 2026</div>
+      <div class="body">
+        <div class="t">The Origins of MEV: Systematic Attribution of Arbitrage Opportunity Creation at Scale</div>
+        <div class="desc">Four independent methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction, across 1.05M blocks and $334,799 in extracted MEV.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://arxiv.org/abs/2510.14642" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">Preprint · arXiv 2025</div>
+      <div class="body">
+        <div class="t">The Bidding Games: Reinforcement Learning for MEV Extraction on Polygon Blockchain</div>
+        <div class="desc">A PPO-based bidding agent for Polygon Atlas's sealed-bid auctions, capturing 49% of available profits alongside existing searchers and 81% when replacing the market leader.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+    <a href="https://arxiv.org/abs/2508.21473" target="_blank" rel="noopener" class="paper reveal">
+      <div class="date mono">IEEE ICBC · 2025</div>
+      <div class="body">
+        <div class="t">Unpacking Maximum Extractable Value on Polygon: A Study on Atomic Arbitrage</div>
+        <div class="desc">22 months and 23M blocks of Polygon backrunning, comparing spam-based and auction-based searcher strategies and what actually drives their profitability.</div>
+      </div>
+      <div class="go">Read →</div>
+    </a>
+  </div>
+  <a href="https://scholar.google.com/citations?user=3msYZcQAAAAJ&hl=en" target="_blank" rel="noopener" class="paper-more reveal">Full publication list on Google Scholar →</a>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="../#" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">docs.mev-x.com →</div>
+    </a>
+    <a href="../#" class="close-card reveal">
+      <div><div class="k">For partners &amp; researchers</div><h3>Talk to the Team</h3></div>
+      <div class="go">contact@mev-x.com →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="./">Blog</a><a href="../#">Twitter</a><a href="../#">GitHub</a><a href="../#">Telegram</a><a href="../#">Whitepaper</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a><a href="https://dune.com/mev_x_stat/usd" target="_blank" rel="noopener">Dune</a></div>
+  </div>
+</footer>
+
+<script src="../js/main.js?v=13"></script>
+<script>
+  (function(){
+    var pills = document.querySelectorAll('.tag-pill');
+    var cards = document.querySelectorAll('.blog-card');
+    var empty = document.getElementById('blog-empty');
+    function applyTag(tag){
+      var match_pill = null;
+      var visible = 0;
+      pills.forEach(function(p){
+        var active = p.getAttribute('data-tag') === tag;
+        p.classList.toggle('active', active);
+        if(active) match_pill = p;
+      });
+      if(!match_pill){ tag = 'all'; pills[0].classList.add('active'); }
+      cards.forEach(function(card){
+        var match = tag === 'all' || (card.getAttribute('data-tags') || '').indexOf(tag) !== -1;
+        card.hidden = !match;
+        if(match) visible++;
+      });
+      empty.classList.toggle('show', visible === 0);
+    }
+    pills.forEach(function(pill){
+      pill.addEventListener('click', function(){
+        applyTag(pill.getAttribute('data-tag'));
+        history.replaceState(null, '', pill.getAttribute('data-tag') === 'all' ? location.pathname : '?tag=' + pill.getAttribute('data-tag'));
+      });
+    });
+    var initialTag = new URLSearchParams(location.search).get('tag');
+    if(initialTag) applyTag(initialTag);
+  })();
+</script>
+</body>
+</html>
