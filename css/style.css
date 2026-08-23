@@ -414,13 +414,8 @@
   .partners .section-head p{ max-width:none; white-space:nowrap; }
   /* Homelander feature -- flagship product showcase (replaces the old
      equal-weight four-product grid; Starlight/Butcher/RPC now live in the
-     "Also from MEV-X" strip below it). */
-  .accent-bar{ position:relative; padding-right:1.1rem; }
-  .accent-bar::before{
-    content:""; position:absolute; right:0; top:0.12em; bottom:0.12em; width:3px; border-radius:2px;
-    background:linear-gradient(180deg, var(--lavender), var(--violet) 50%, var(--blue));
-  }
-
+     "Also from MEV-X" strip below it). The kicker (product name) leads,
+     the subhead is the secondary line underneath it. */
   .live-cap{ font-size:0.66rem; font-weight:700; text-transform:uppercase; letter-spacing:0.16em; color:var(--ink-dim); margin-bottom:0.9rem; }
   .live-row{ display:flex; align-items:center; flex-wrap:nowrap; gap:1.1rem; }
   @media (max-width:520px){ .live-row{ flex-wrap:wrap; row-gap:0.7rem; } }
@@ -428,9 +423,9 @@
   .live-logo:hover{ opacity:1; }
 
   .v1-feature{ display:grid; grid-template-columns:1fr 1.32fr; gap:3rem; align-items:center; padding-bottom:3rem; margin-bottom:3rem; border-bottom:1px solid var(--hairline); }
-  .v1-feature h3{ font-size:2.6rem; margin-bottom:1rem; }
   .v1-copy{ text-align:right; }
-  .v1-kicker{ font-family:var(--font-display); font-weight:400; font-size:1.5rem; letter-spacing:.04em; text-transform:uppercase; color:var(--ink); margin:0 0 .3rem; }
+  .v1-kicker{ font-family:var(--font-display); font-weight:400; font-size:2.6rem; letter-spacing:.02em; text-transform:uppercase; color:var(--ink); margin:0 0 .3rem; }
+  .v1-feature .v1-subhead{ font-size:1.3rem; font-weight:400; color:var(--ink-muted); margin-bottom:1rem; }
   .v1-feature .mech{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:1.02rem; line-height:1.65; max-width:52ch; margin:0 0 1.8rem auto; }
   .v1-feature .ctas{ display:flex; gap:0.9rem; flex-wrap:wrap; justify-content:flex-end; }
   @media (max-width:820px){
@@ -438,8 +433,6 @@
     .v1-copy{ text-align:left; }
     .v1-feature .mech{ margin:0 0 1.8rem 0; }
     .v1-feature .ctas{ justify-content:flex-start; }
-    .accent-bar{ padding-right:0; padding-left:1.1rem; }
-    .accent-bar::before{ right:auto; left:0; }
   }
 
   .diagram{ border:1px solid var(--chip-border); border-radius:16px; background:var(--chip-bg); padding:1.6rem; }
