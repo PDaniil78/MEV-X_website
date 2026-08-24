@@ -23,7 +23,8 @@ scratch files, none of which belong in a public root.
 These block progress and cannot be done from a shell session, so raise them
 early rather than discovering them mid-run:
 
-- **Path A** — `cloudflared tunnel login` opens a browser authorisation flow.
+- **Path A** — creating the tunnel in the Cloudflare dashboard and copying its
+  connector token; then deleting the Webflow DNS records at cutover.
 - **Path C** — cluster access has to be granted by whoever holds it.
 - **Cloudflare DNS** — the cutover record, on the account that owns the zone.
 - **Webflow** — detaching the custom domain, in the Webflow project settings.
@@ -31,17 +32,31 @@ early rather than discovering them mid-run:
 
 ## What is already running
 
+Corrected from the first session on the box — the original table here was
+inferred from outside and got two things wrong. Trust this version.
+
 | port | listener | notes |
 | --- | --- | --- |
-| 22 | sshd | |
-| 80 | **Next.js, bound directly** | Homelander app. No `Server:` header and Next's own 404 page — it is *not* behind nginx. |
-| 8080 | uvicorn | some Python backend |
-| 8093 | nginx/1.29.7 | this static site |
-| 443 | **nothing** | closed or filtered |
+| 22 | sshd | login is `pdaniil178`, **not root**; sudo prompts for a password |
+| 80 | Next.js, bound directly | Homelander app. Not behind nginx. Do not touch. |
+| 8080 | uvicorn | some Python backend. Do not touch. |
+| 8093 | **Docker container `mevx-website`** (nginx:alpine), host 8093 → container 80 | |
+| 443 | nothing | closed or filtered |
 
-Two consequences drive everything else: **nginx cannot take port 80** without
-first moving a live app off it, and **443 is not reachable**, so certbot's
-HTTP-01 challenge cannot complete as things stand.
+The two corrections that matter:
+
+**:8093 is a container, not a system nginx.** There is no `/etc/nginx`, no
+`/var/www`, and no nginx binary on the host — the `Server: nginx/1.29.7` header
+comes from inside the image. Anything in this runbook that said to edit host
+nginx config or rsync into `/var/www` was wrong; the image is the unit of
+deployment and `deploy/nginx.mev-x.com.conf` ships inside it.
+
+**There is no root.** That rules out `apt install`, writing to `/etc`, and
+`systemctl` — which is what blocked the first attempt at Path A. Path A below
+is rewritten to need none of them.
+
+Docker itself is usable without root, since the site container is already being
+managed from this account. Everything below relies on that and nothing more.
 
 ## DNS as it stands
 
@@ -66,38 +81,38 @@ that needs a redirect map.
 
 ## Path A — Cloudflare Tunnel (recommended)
 
-Needs no open inbound port, no certificate, no firewall change, and never
-touches the Next.js app on :80. Cloudflare terminates TLS and `cloudflared`
-dials out to nginx on localhost.
+Needs no open inbound port, no certificate, no firewall change, **and no root**.
+Cloudflare terminates TLS and the connector dials out to the site container.
+
+Run the connector as a container and manage the tunnel from the Cloudflare
+dashboard. This avoids all three things the host cannot give you: no `apt`, no
+`/etc/cloudflared`, no systemd unit — `--restart unless-stopped` is what
+survives a reboot. It also avoids `cloudflared tunnel login`, whose browser flow
+a shell session cannot complete anyway.
+
+**A human does this part**, in the Cloudflare dashboard:
+
+1. Zero Trust → Networks → Tunnels → *Create a tunnel* → **Cloudflared**.
+2. Name it `mev-x-website`. Copy the connector **token** it shows.
+3. Leave the public hostname config for after the connector is up.
+
+**Then on the box**, with that token:
 
 ```sh
-curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg \
-  | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
-echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" \
-  | tee /etc/apt/sources.list.d/cloudflared.list
-apt update && apt install -y cloudflared
+docker run -d --name cloudflared --restart unless-stopped --network host \
+  cloudflare/cloudflared:latest tunnel --no-autoupdate run --token <TOKEN>
 
-cloudflared tunnel login          # prints a URL — a human opens it and picks the mev-x.com zone
-cloudflared tunnel create mev-x-website
+docker logs -f cloudflared      # wait for "Registered tunnel connection"
 ```
 
-`/etc/cloudflared/config.yml`:
+`--network host` is what lets the connector reach the site on
+`http://localhost:8093` without touching the existing container or creating a
+docker network. (The tidier alternative is a user-defined network with both
+containers on it, addressing the site as `http://mevx-website:80` — do that if
+`--network host` is unavailable.)
 
-```yaml
-tunnel: <TUNNEL-UUID>
-credentials-file: /root/.cloudflared/<TUNNEL-UUID>.json
-ingress:
-  - hostname: mev-x.com
-    service: http://127.0.0.1:8093
-  - hostname: www.mev-x.com
-    service: http://127.0.0.1:8093
-  - service: http_status:404
-```
-
-```sh
-cloudflared service install
-systemctl enable --now cloudflared
-```
+The token is a credential: pass it through the environment or a file rather
+than pasting it into a shell history that gets shared.
 
 ### Prove the tunnel on a throwaway hostname first
 
@@ -106,17 +121,15 @@ moment the command returns. So do not let the production domain be the first
 hostname this tunnel ever serves. Add a preview hostname to the same tunnel,
 verify everything through it, and only then route the real one.
 
-Add to the `ingress:` list in `config.yml`, above the `http_status:404` catch-all:
+In the tunnel's **Public Hostnames** tab, add one:
 
-```yaml
-  - hostname: preview.mev-x.com
-    service: http://127.0.0.1:8093
-```
+| field | value |
+| --- | --- |
+| Subdomain | `preview` |
+| Domain | `mev-x.com` |
+| Service | `HTTP` → `localhost:8093` |
 
-```sh
-systemctl restart cloudflared
-cloudflared tunnel route dns mev-x-website preview.mev-x.com
-```
+Saving it creates the DNS record automatically.
 
 `preview.mev-x.com` has no existing record, so this touches nothing live. It
 gives you the whole real path — Cloudflare TLS, the tunnel, Host forwarding
@@ -128,26 +141,25 @@ production domain is still quietly on Webflow.
 
 Only once preview is clean:
 
-```sh
-cloudflared tunnel route dns --overwrite-dns mev-x-website mev-x.com
-cloudflared tunnel route dns --overwrite-dns mev-x-website www.mev-x.com
-```
+Add two more public hostnames the same way — `mev-x.com` (empty subdomain) and
+`www.mev-x.com`, both pointing at `HTTP` → `localhost:8093`.
 
-`--overwrite-dns` is required: the Webflow A and CNAME records are in the way,
-and without it the route command refuses rather than replacing them.
+The existing Webflow A and CNAME records are in the way. Delete them in the
+Cloudflare DNS tab first, or the tunnel's record cannot be created; that
+deletion is the moment the domain stops serving Webflow.
 
-Afterwards, delete the `preview.mev-x.com` hostname from `config.yml` and its
-DNS record — a second hostname serving an identical copy of the site is exactly
+Afterwards, delete the `preview.mev-x.com` public hostname and its DNS record — a second hostname serving an identical copy of the site is exactly
 the duplicate-content problem the canonical tags exist to prevent. (While it is
 up it is harmless: nothing links to it and it is not in the sitemap.)
 
-`cloudflared tunnel login` opens a browser flow. A headless session cannot
-complete it; hand that one step to a human.
-
 ## Path B — nginx owns 80 and 443
 
-Only if a tunnel is ruled out. This restructures the front door of a running
-production app, so it is the riskier option the day before a send.
+**Not applicable to this box as it stands**: there is no root and no system
+nginx, and :80 belongs to a live Next.js process. Kept for a machine that does
+have a system nginx and an account that can restart it.
+
+This restructures the front door of a running production app, so it is the
+riskier option the day before a send.
 
 1. Move Next.js off :80 — bind it to `127.0.0.1:3000` (change the service unit
    / `PORT`, then restart) and confirm the app still answers there.
@@ -227,35 +239,24 @@ Two things to check once it is up, before touching DNS:
 
 ## Deploying the site itself
 
-Independent of path, and safe to do right now — it only updates what :8093
-already serves.
+Safe to do at any time — it only changes what :8093 serves, and nothing public
+points there yet.
 
 ```sh
-deploy/deploy.sh root@204.168.153.69 /var/www/mev-x-website
+git pull                       # master
+deploy/deploy-container.sh
 ```
 
-`build.sh` assembles `dist/` first, so raw logo sources, `design/`, `deploy/`
-and scratch files never reach the public root. The rsync uses `--delete`, which
-matters this time: the article images moved from PNG to WebP, and the old PNGs
-must actually disappear rather than linger.
+That builds the image (which runs `build.sh`, so only `dist/` is published, and
+`nginx -t`, so a broken config fails the build rather than the rollout), renames
+the outgoing container to a dated name instead of deleting it, starts the new
+one on 8093, and prints three smoke checks.
 
-Confirm the remote root before the first run — it is whatever the existing
-:8093 vhost points at:
+Rollback is one line, printed by the script, and the previous container is still
+sitting there stopped.
 
-```sh
-grep -rn '8093' /etc/nginx/ | head
-```
-
-Then install the vhost from `deploy/nginx.mev-x.com.conf`, which replaces
-whatever currently serves :8093 and adds the caching, security headers, the
-branded 404 and the blocks on `/assets/partners-raw/` and friends. Its default
-`listen 8093` is what Path A wants; Path B swaps in the commented ssl block.
-
-HSTS is deliberately scoped to the apex — `max-age=31536000`, without
-`includeSubDomains`, so a future HTTP-only subdomain cannot be locked out by a
-header served from `mev-x.com`. If the ingress or Cloudflare adds its own HSTS
-with a different max-age, let that one win and drop this line rather than
-serving two.
+`deploy/deploy.sh` is for a host running a system nginx — **not this box**. It
+is kept for whatever machine eventually runs one.
 
 ## Verifying the cutover
 
@@ -282,8 +283,11 @@ or the project keeps claiming it.
 
 ## Rolling back
 
-Path A: `systemctl stop cloudflared`, then restore in Cloudflare DNS —
+Path A: `docker stop cloudflared`, then restore in Cloudflare DNS —
 `mev-x.com` A `198.202.211.1`, `www` CNAME `cdn.webflow.com`.
+To roll back the site itself rather than the domain, `deploy-container.sh`
+prints the one-line command and leaves the previous container stopped, not
+deleted.
 Path B: restore the same two records.
 
 Either way it is a 30-second TTL and the Webflow project is untouched.
