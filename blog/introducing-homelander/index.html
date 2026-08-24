@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=38">
+  <link rel="stylesheet" href="../../css/style.css?v=39">
 
   <script type="application/ld+json">
   {
@@ -71,33 +71,20 @@
   </script>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <radialGradient id="coverGround" cx="26%" cy="24%" r="90%">
-      <stop offset="0%" stop-color="#3a2a66"/>
-      <stop offset="45%" stop-color="#241a44"/>
-      <stop offset="100%" stop-color="#120e26"/>
-    </radialGradient>
-    <filter id="coverGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4"/></filter>
-    <filter id="coverGrain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
-    </filter>
-  </defs>
-</svg>
-
 <div id="scroll-progress"></div>
 <nav>
   <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
-  <div class="navlinks">
+  <div class="navlinks" id="navlinks">
     <a href="https://homelander.mev-x.com" target="_blank" rel="noopener">Homelander app</a>
     <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Docs</a>
     <a href="../../#partners">Partners</a>
     <a href="../../#" class="rpc-trigger">RPC</a>
     <a href="../../#research">Research</a>
     <a href="../">Blog</a>
+    <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta-mobile">Talk to the team →</a>
   </div>
   <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta">Talk to the team →</a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
 </nav>
 
 
@@ -179,112 +166,19 @@
     <h2>Related reading</h2>
     <div class="blog-grid">
       <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-mev-resolution-in-amm-based-systems" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#2a2050"/>
-      <stop offset="55%" stop-color="#150e2c"/>
-      <stop offset="100%" stop-color="#08060f"/>
-    </radialGradient>
-    <linearGradient id="gA-mev-resolution-in-amm-based-systems" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <linearGradient id="gB-mev-resolution-in-amm-based-systems" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <filter id="softBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-mev-resolution-in-amm-based-systems" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-mev-resolution-in-amm-based-systems" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-mev-resolution-in-amm-based-systems" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-mev-resolution-in-amm-based-systems" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-mev-resolution-in-amm-based-systems)"/>
-    <circle cx="169.5" cy="103.3" r="7.24" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="162.8" cy="11.5" r="7.43" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="180.5" cy="88.6" r="9.77" fill="#4F86F5" opacity="0.22" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/>
-    <g filter="url(#softBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="none" stroke="url(#gA-mev-resolution-in-amm-based-systems)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)"/></g>
-    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)" opacity="0.55"/>
-    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="none" stroke="url(#gB-mev-resolution-in-amm-based-systems)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-mev-resolution-in-amm-based-systems)" opacity="0.85"><circle cx="68.4" cy="-7.5" r="1.68" fill="#8B5CF6" opacity="0.22"/><circle cx="246.6" cy="14.7" r="1.14" fill="#C7BEFF" opacity="0.22"/><circle cx="157.2" cy="40.7" r="1.76" fill="#ffffff" opacity="0.35"/><circle cx="253.9" cy="24.4" r="0.75" fill="#ffffff" opacity="0.34"/><circle cx="110.6" cy="36.3" r="1.20" fill="#C7BEFF" opacity="0.34"/><circle cx="25.3" cy="113.4" r="1.85" fill="#ffffff" opacity="0.40"/><circle cx="104.9" cy="77.5" r="1.19" fill="#C7BEFF" opacity="0.45"/><circle cx="147.8" cy="122.7" r="1.72" fill="#4F86F5" opacity="0.37"/><circle cx="201.6" cy="12.7" r="1.03" fill="#C7BEFF" opacity="0.22"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-resolution-in-amm-based-systems)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-mev-resolution-in-amm-based-systems)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/mev-resolution-in-amm-based-systems/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>External vs Internal MEV Resolution in AMMs</h3>
         <p class="dek">Post-swap price imbalances get resolved one of two ways: externally, through open searcher competition, or internally, by the protocol capturing the imbalance atomically inside its own transaction.</p>
         <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>
       </a>
       <a href="../mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-mev-internalization-keeping-value-inside-the-protocol" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#2f2258"/>
-      <stop offset="55%" stop-color="#170f30"/>
-      <stop offset="100%" stop-color="#09070f"/>
-    </radialGradient>
-    <linearGradient id="gA-mev-internalization-keeping-value-inside-the-protocol" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <linearGradient id="gB-mev-internalization-keeping-value-inside-the-protocol" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <filter id="softBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-mev-internalization-keeping-value-inside-the-protocol" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-mev-internalization-keeping-value-inside-the-protocol" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-mev-internalization-keeping-value-inside-the-protocol" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="78" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-mev-internalization-keeping-value-inside-the-protocol" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-mev-internalization-keeping-value-inside-the-protocol)"/>
-    <circle cx="244.8" cy="91.1" r="8.30" fill="#4F86F5" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="255.1" cy="78.8" r="9.30" fill="#ffffff" opacity="0.10" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="226.3" cy="68.3" r="6.04" fill="#C7BEFF" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/>
-    <g filter="url(#softBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/>
-    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="none" stroke="url(#gA-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.4"/>
-    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="none" stroke="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.85"><circle cx="283.9" cy="48.4" r="0.76" fill="#C7BEFF" opacity="0.49"/><circle cx="100.8" cy="126.7" r="0.98" fill="#ffffff" opacity="0.36"/><circle cx="112.8" cy="40.8" r="0.92" fill="#ffffff" opacity="0.46"/><circle cx="125.9" cy="100.0" r="1.35" fill="#ffffff" opacity="0.36"/><circle cx="211.2" cy="-7.1" r="1.54" fill="#ffffff" opacity="0.37"/><circle cx="268.4" cy="94.4" r="2.13" fill="#ffffff" opacity="0.47"/><circle cx="13.1" cy="77.5" r="1.49" fill="#ffffff" opacity="0.40"/><circle cx="142.8" cy="71.0" r="1.40" fill="#C7BEFF" opacity="0.25"/><circle cx="148.6" cy="84.6" r="1.01" fill="#C7BEFF" opacity="0.38"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-internalization-keeping-value-inside-the-protocol)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-mev-internalization-keeping-value-inside-the-protocol)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>Keeping Value Inside the Protocol</h3>
         <p class="dek">A protocol facing post-swap MEV has three real options: do nothing, capture it natively, or route it to a partner. Leakage is a default choice, not a structural inevitability of on-chain markets.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
       </a>
       <a href="../where-mev-actually-comes-from/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-where-mev-actually-comes-from" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#2a2050"/>
-      <stop offset="55%" stop-color="#150e2c"/>
-      <stop offset="100%" stop-color="#08060f"/>
-    </radialGradient>
-    <linearGradient id="gA-where-mev-actually-comes-from" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <linearGradient id="gB-where-mev-actually-comes-from" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <filter id="softBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-where-mev-actually-comes-from" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-where-mev-actually-comes-from" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-where-mev-actually-comes-from" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="26" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-where-mev-actually-comes-from" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-where-mev-actually-comes-from)"/>
-    <circle cx="68.2" cy="39.8" r="7.24" fill="#C7BEFF" opacity="0.16" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="231.0" cy="87.6" r="8.04" fill="#4F86F5" opacity="0.15" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="220.2" cy="81.8" r="6.91" fill="#4F86F5" opacity="0.21" filter="url(#bokehBlur-where-mev-actually-comes-from)"/>
-    <g filter="url(#softBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/></g>
-    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/>
-    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="none" stroke="url(#gA-where-mev-actually-comes-from)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)"/></g>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)" opacity="0.65"/>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="none" stroke="url(#gB-where-mev-actually-comes-from)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-where-mev-actually-comes-from)" opacity="0.85"><circle cx="66.4" cy="34.6" r="1.47" fill="#ffffff" opacity="0.32"/><circle cx="271.3" cy="131.5" r="1.46" fill="#ffffff" opacity="0.39"/><circle cx="298.0" cy="129.9" r="1.45" fill="#ffffff" opacity="0.42"/><circle cx="142.1" cy="47.1" r="1.69" fill="#C7BEFF" opacity="0.19"/><circle cx="47.8" cy="47.4" r="1.92" fill="#4F86F5" opacity="0.18"/><circle cx="9.4" cy="137.9" r="1.04" fill="#4F86F5" opacity="0.36"/><circle cx="50.9" cy="50.6" r="1.52" fill="#ffffff" opacity="0.20"/><circle cx="206.7" cy="129.4" r="1.23" fill="#ffffff" opacity="0.47"/><circle cx="105.8" cy="21.7" r="1.77" fill="#ffffff" opacity="0.27"/></g>
-    <rect width="300" height="132" filter="url(#grain-where-mev-actually-comes-from)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-where-mev-actually-comes-from)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/where-mev-actually-comes-from/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>Where MEV Actually Comes From</h3>
         <p class="dek">Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction, exactly the point that MEV protection needs to target directly.</p>
         <div class="meta"><span class="meta-date">Apr 9, 2026</span><div class="meta-tags"><span>Research</span></div></div>
@@ -337,6 +231,6 @@
   </div>
 </div>
 
-<script src="../../js/main.js?v=13"></script>
+<script src="../../js/main.js?v=39"></script>
 </body>
 </html>

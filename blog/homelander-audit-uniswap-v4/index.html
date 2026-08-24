@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=38">
+  <link rel="stylesheet" href="../../css/style.css?v=39">
 
   <script type="application/ld+json">
   {
@@ -71,33 +71,20 @@
   </script>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <radialGradient id="coverGround" cx="26%" cy="24%" r="90%">
-      <stop offset="0%" stop-color="#3a2a66"/>
-      <stop offset="45%" stop-color="#241a44"/>
-      <stop offset="100%" stop-color="#120e26"/>
-    </radialGradient>
-    <filter id="coverGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.4"/></filter>
-    <filter id="coverGrain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="6" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
-    </filter>
-  </defs>
-</svg>
-
 <div id="scroll-progress"></div>
 <nav>
   <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
-  <div class="navlinks">
+  <div class="navlinks" id="navlinks">
     <a href="https://homelander.mev-x.com" target="_blank" rel="noopener">Homelander app</a>
     <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Docs</a>
     <a href="../../#partners">Partners</a>
     <a href="../../#" class="rpc-trigger">RPC</a>
     <a href="../../#research">Research</a>
     <a href="../">Blog</a>
+    <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta-mobile">Talk to the team →</a>
   </div>
   <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta">Talk to the team →</a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
 </nav>
 
 
@@ -167,112 +154,19 @@
     <h2>Related reading</h2>
     <div class="blog-grid">
       <a href="../homelander-expanding-to-uniswap-v4/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-homelander-expanding-to-uniswap-v4" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#241a44"/>
-      <stop offset="55%" stop-color="#160c30"/>
-      <stop offset="100%" stop-color="#08050f"/>
-    </radialGradient>
-    <linearGradient id="gA-homelander-expanding-to-uniswap-v4" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <linearGradient id="gB-homelander-expanding-to-uniswap-v4" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <filter id="softBlur-homelander-expanding-to-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-homelander-expanding-to-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-homelander-expanding-to-uniswap-v4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-homelander-expanding-to-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-homelander-expanding-to-uniswap-v4" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-homelander-expanding-to-uniswap-v4" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-homelander-expanding-to-uniswap-v4)"/>
-    <circle cx="261.6" cy="24.2" r="9.13" fill="#C7BEFF" opacity="0.17" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/><circle cx="190.5" cy="57.7" r="10.94" fill="#C7BEFF" opacity="0.22" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/><circle cx="69.1" cy="103.3" r="9.86" fill="#C7BEFF" opacity="0.11" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/>
-    <g filter="url(#softBlur-homelander-expanding-to-uniswap-v4)" opacity="0.5"><path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/></g>
-    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/>
-    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="none" stroke="url(#gA-homelander-expanding-to-uniswap-v4)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-homelander-expanding-to-uniswap-v4)" opacity="0.5"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-expanding-to-uniswap-v4)"/></g>
-    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-expanding-to-uniswap-v4)" opacity="0.5"/>
-    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="none" stroke="url(#gB-homelander-expanding-to-uniswap-v4)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-homelander-expanding-to-uniswap-v4)" opacity="0.85"><circle cx="21.1" cy="48.8" r="1.53" fill="#8B5CF6" opacity="0.35"/><circle cx="59.2" cy="98.0" r="0.94" fill="#C7BEFF" opacity="0.32"/><circle cx="75.3" cy="20.9" r="1.60" fill="#C7BEFF" opacity="0.36"/><circle cx="235.5" cy="45.1" r="0.91" fill="#ffffff" opacity="0.47"/><circle cx="286.6" cy="49.9" r="1.38" fill="#ffffff" opacity="0.25"/><circle cx="133.0" cy="34.5" r="1.37" fill="#8B5CF6" opacity="0.28"/><circle cx="197.6" cy="65.2" r="1.92" fill="#ffffff" opacity="0.25"/><circle cx="166.6" cy="78.4" r="1.79" fill="#C7BEFF" opacity="0.49"/><circle cx="152.8" cy="-4.6" r="1.00" fill="#ffffff" opacity="0.49"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-expanding-to-uniswap-v4)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-homelander-expanding-to-uniswap-v4)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/homelander-expanding-to-uniswap-v4/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>Homelander Is Expanding to Uniswap v4</h3>
         <p class="dek">With Uniswap Foundation grant support, Homelander moves onto v4's hook architecture, and the afterSwap hook becomes the atomic point where the internal MEV backrun executes and captures value.</p>
         <div class="meta"><span class="meta-date">Apr 22, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
       </a>
       <a href="../homelander-audit-bailsec-algebra/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-homelander-audit-bailsec-algebra" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#2a2050"/>
-      <stop offset="55%" stop-color="#150e2c"/>
-      <stop offset="100%" stop-color="#08060f"/>
-    </radialGradient>
-    <linearGradient id="gA-homelander-audit-bailsec-algebra" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <linearGradient id="gB-homelander-audit-bailsec-algebra" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <filter id="softBlur-homelander-audit-bailsec-algebra" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-homelander-audit-bailsec-algebra" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-homelander-audit-bailsec-algebra" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-homelander-audit-bailsec-algebra" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-homelander-audit-bailsec-algebra" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="52" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-homelander-audit-bailsec-algebra" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-homelander-audit-bailsec-algebra)"/>
-    <circle cx="111.2" cy="76.5" r="8.85" fill="#C7BEFF" opacity="0.17" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/><circle cx="71.0" cy="32.0" r="7.73" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/><circle cx="279.1" cy="57.2" r="10.96" fill="#C7BEFF" opacity="0.18" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/>
-    <g filter="url(#softBlur-homelander-audit-bailsec-algebra)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-homelander-audit-bailsec-algebra)"/></g>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-homelander-audit-bailsec-algebra)"/>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="none" stroke="url(#gA-homelander-audit-bailsec-algebra)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-homelander-audit-bailsec-algebra)" opacity="0.5"><path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-homelander-audit-bailsec-algebra)"/></g>
-    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-homelander-audit-bailsec-algebra)" opacity="0.4"/>
-    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="none" stroke="url(#gB-homelander-audit-bailsec-algebra)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-homelander-audit-bailsec-algebra)" opacity="0.85"><circle cx="26.7" cy="73.7" r="1.62" fill="#ffffff" opacity="0.28"/><circle cx="20.6" cy="77.3" r="1.78" fill="#4F86F5" opacity="0.34"/><circle cx="300.1" cy="51.6" r="1.54" fill="#4F86F5" opacity="0.29"/><circle cx="131.7" cy="71.5" r="1.01" fill="#8B5CF6" opacity="0.38"/><circle cx="270.1" cy="9.2" r="1.03" fill="#ffffff" opacity="0.28"/><circle cx="12.5" cy="29.7" r="0.91" fill="#ffffff" opacity="0.50"/><circle cx="58.4" cy="8.1" r="0.85" fill="#ffffff" opacity="0.35"/><circle cx="169.4" cy="20.4" r="2.03" fill="#8B5CF6" opacity="0.43"/><circle cx="278.3" cy="-2.4" r="1.34" fill="#ffffff" opacity="0.23"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-audit-bailsec-algebra)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-homelander-audit-bailsec-algebra)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/homelander-audit-bailsec-algebra/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>Bailsec Audits the Algebra Plugin</h3>
         <p class="dek">A differential audit of Homelander's Algebra plugin update, focused on what changed rather than re-reviewing the whole system, found no new classes of exploitable risk introduced.</p>
         <div class="meta"><span class="meta-date">May 27, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
       </a>
       <a href="../homelander-security-audit-summary-and-outcomes/" class="blog-card reveal">
-        <div class="blog-cover"><svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice"><defs>
-    <radialGradient id="ground-homelander-security-audit-summary-and-outcomes" cx="30%" cy="15%" r="100%">
-      <stop offset="0%" stop-color="#241a44"/>
-      <stop offset="55%" stop-color="#160c30"/>
-      <stop offset="100%" stop-color="#08050f"/>
-    </radialGradient>
-    <linearGradient id="gA-homelander-security-audit-summary-and-outcomes" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <linearGradient id="gB-homelander-security-audit-summary-and-outcomes" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <filter id="softBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="midBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fineBlur-homelander-security-audit-summary-and-outcomes" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
-    <filter id="bokehBlur-homelander-security-audit-summary-and-outcomes" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
-    <filter id="grain-homelander-security-audit-summary-and-outcomes" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="25" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
-    </filter>
-    <radialGradient id="vignette-homelander-security-audit-summary-and-outcomes" cx="50%" cy="42%" r="75%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
-    </radialGradient>
-  </defs><rect width="300" height="132" fill="url(#ground-homelander-security-audit-summary-and-outcomes)"/>
-    <circle cx="70.9" cy="109.4" r="5.38" fill="#C7BEFF" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="163.7" cy="53.8" r="9.88" fill="#ffffff" opacity="0.13" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="227.3" cy="83.4" r="8.47" fill="#ffffff" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/>
-    <g filter="url(#softBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/></g>
-    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/>
-    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="none" stroke="url(#gA-homelander-security-audit-summary-and-outcomes)" stroke-width="1.3" opacity="0.55"/>
-    <g filter="url(#midBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)"/></g>
-    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)" opacity="0.5"/>
-    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gB-homelander-security-audit-summary-and-outcomes)" stroke-width="1" opacity="0.4"/>
-    <g filter="url(#fineBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.85"><circle cx="222.8" cy="59.4" r="1.93" fill="#C7BEFF" opacity="0.28"/><circle cx="289.8" cy="29.9" r="1.11" fill="#ffffff" opacity="0.47"/><circle cx="68.9" cy="81.7" r="2.07" fill="#C7BEFF" opacity="0.30"/><circle cx="247.0" cy="42.8" r="1.40" fill="#4F86F5" opacity="0.44"/><circle cx="291.0" cy="99.7" r="1.21" fill="#8B5CF6" opacity="0.30"/><circle cx="139.5" cy="69.9" r="0.97" fill="#ffffff" opacity="0.39"/><circle cx="8.3" cy="104.0" r="1.55" fill="#4F86F5" opacity="0.27"/><circle cx="176.9" cy="76.0" r="1.91" fill="#C7BEFF" opacity="0.49"/><circle cx="245.7" cy="101.7" r="1.96" fill="#8B5CF6" opacity="0.45"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-security-audit-summary-and-outcomes)" style="mix-blend-mode:overlay" opacity="0.7"/>
-    <rect width="300" height="132" fill="url(#vignette-homelander-security-audit-summary-and-outcomes)"/></svg></div>
+        <div class="blog-cover"><img src="../../assets/blog/homelander-security-audit-summary-and-outcomes/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
         <h3>Bailsec's First Homelander Audit</h3>
         <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities, and confirmed that a failed internal MEV path can never touch or alter the user's own swap outcome.</p>
         <div class="meta"><span class="meta-date">Jan 12, 2026</span><div class="meta-tags"><span>Security Audits</span></div></div>
@@ -325,6 +219,6 @@
   </div>
 </div>
 
-<script src="../../js/main.js?v=13"></script>
+<script src="../../js/main.js?v=39"></script>
 </body>
 </html>

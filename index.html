@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=38">
+  <link rel="stylesheet" href="css/style.css?v=39">
 
   <!-- Structured data: helps Google render a knowledge panel / rich result -->
   <script type="application/ld+json">
@@ -170,15 +170,17 @@
 <div id="scroll-progress"></div>
 <nav>
   <a href="/" class="wordmark"><img src="assets/img/mevx.svg" alt="MEV-X" class="logo-mark"></a>
-  <div class="navlinks">
+  <div class="navlinks" id="navlinks">
     <a href="https://homelander.mev-x.com" target="_blank" rel="noopener">Homelander app</a>
     <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Docs</a>
     <a href="#partners">Partners</a>
     <a href="#" class="rpc-trigger">RPC</a>
     <a href="#research">Research</a>
     <a href="blog/">Blog</a>
+    <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta-mobile">Talk to the team →</a>
   </div>
   <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta">Talk to the team →</a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
 </nav>
 
 <header class="hero">
@@ -659,7 +661,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=22"></script>
+<script src="js/main.js?v=39"></script>
 <script>
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

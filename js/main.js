@@ -179,3 +179,49 @@
   }, { passive: true });
   updateProgress();
 })();
+
+/* Mobile navigation.
+   Under 760px the link row is a dropdown panel instead of an inline row -- see
+   the .nav-toggle block in style.css. Everything here is a no-op on pages that
+   predate the burger, or on desktop where the panel is never displayed. */
+(function(){
+  var nav = document.querySelector('nav');
+  if(!nav) return;
+  var toggle = nav.querySelector('.nav-toggle');
+  var links = nav.querySelector('.navlinks');
+  if(!toggle || !links) return;
+
+  function setOpen(open){
+    nav.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    setOpen(!nav.classList.contains('nav-open'));
+  });
+
+  // Following a link, or jumping to an anchor on the same page, should not
+  // leave the panel covering what you navigated to.
+  links.addEventListener('click', function(e){
+    if(e.target.closest('a')) setOpen(false);
+  });
+
+  document.addEventListener('click', function(e){
+    if(nav.classList.contains('nav-open') && !nav.contains(e.target)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('nav-open')){
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  // Rotating a phone past the breakpoint would otherwise leave nav-open set,
+  // which does nothing visible on desktop but leaves the burger mis-labelled.
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 760 && nav.classList.contains('nav-open')) setOpen(false);
+  });
+})();

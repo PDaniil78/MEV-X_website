@@ -51,6 +51,27 @@
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
+  @media (max-width:900px){
+    /* background-attachment:fixed makes the browser repaint the full viewport on
+       every scroll frame, which is most of why long pages stuttered on a phone.
+       Same three blooms, same viewport pinning, but as one composited fixed
+       layer that scrolling never repaints. The base gradient stays on BODY so a
+       page taller than the viewport still never falls through to white, and
+       z-index:-1 keeps the layer behind all in-flow content -- body creates no
+       stacking context, so nothing can end up painted over. */
+    body{
+      background: linear-gradient(150deg,#221f28 0%,#17151b 52%,#0b0a0e 100%);
+      background-attachment: scroll;
+    }
+    body::before{
+      content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(1500px 760px at 104% -10%, var(--blue-bloom), transparent 52%),
+        radial-gradient(1300px 820px at -6% 106%, var(--purple-bloom), transparent 55%),
+        radial-gradient(1100px 560px at 6% -16%, rgba(206,212,228,.08), transparent 58%);
+      background-repeat: no-repeat;
+    }
+  }
   a{ color:inherit; text-decoration:none; }
   ::selection{ background: rgba(255,255,255,.25); }
   /* Kept as the class name for markup compatibility; renders as the brand
@@ -171,7 +192,46 @@
     border:1.5px solid var(--chip-border); background:var(--chip-bg); color:var(--ink);
   }
   .navcta:hover{ border-color: rgba(255,255,255,.35); }
-  @media (max-width:760px){ .navlinks{display:none;} }
+  /* Burger, mobile only. Below 760px the link row used to be display:none
+     with nothing in its place, which left phones with no navigation at all. */
+  /* Both of these exist only for the mobile panel; the burger reveals them.
+     Without the default hide, the duplicated CTA renders inline on desktop. */
+  .nav-toggle, .navlinks .navcta-mobile{ display:none; }
+  .nav-toggle{
+    width:40px; height:40px; padding:0; margin-left:0.6rem;
+    align-items:center; justify-content:center; flex-direction:column; gap:5px;
+    border:1.5px solid var(--chip-border); border-radius:10px;
+    background:var(--chip-bg); cursor:pointer; flex-shrink:0;
+  }
+  .nav-toggle span{
+    display:block; width:16px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition: transform .22s ease, opacity .18s ease;
+  }
+  nav.nav-open .nav-toggle span:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+  nav.nav-open .nav-toggle span:nth-child(2){ opacity:0; }
+  nav.nav-open .nav-toggle span:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+
+  @media (max-width:760px){
+    .nav-toggle{ display:flex; }
+    .navcta{ display:none; }
+    .navlinks{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0; padding:0.4rem 1.5rem 1rem;
+      font-size:0.78rem;
+      background: rgba(11,10,14,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--hairline);
+    }
+    nav.nav-open .navlinks{ display:flex; }
+    .navlinks a{ padding:0.85rem 0; border-bottom:1px solid var(--hairline); }
+    .navlinks a:last-child{ border-bottom:0; }
+    /* The desktop CTA is hidden above; keep it reachable from inside the menu. */
+    .navlinks .navcta-mobile{
+      display:block; margin-top:0.9rem; padding:0.75rem 1.05rem; border:1.5px solid var(--chip-border);
+      border-radius:999px; background:var(--chip-bg); color:var(--ink);
+      text-align:center; letter-spacing:0.01em; text-transform:none; font-size:0.85rem;
+    }
+  }
 
   /* HERO */
   .hero{ padding: 3rem 1.5rem 3rem; border-bottom:1px solid var(--hairline); }
@@ -409,7 +469,10 @@
   .section-head{ max-width:1120px; margin:0 auto 2.6rem; }
   .section-head h2{ font-size:2.4rem; }
   .section-head p{ font-family:var(--font-body); font-weight:400; color:var(--ink-muted); font-size:1.05rem; margin-top:0.6em; max-width:56ch; }
-  .partners .section-head p{ max-width:none; white-space:nowrap; }
+  .partners .section-head p{ max-width:none; }
+  /* Single line only where there is room for one -- nowrap at every width
+     pushed this paragraph past the right edge on every phone. */
+  @media (min-width:761px){ .partners .section-head p{ white-space:nowrap; } }
   /* Homelander feature -- flagship product showcase (replaces the old
      equal-weight four-product grid; Starlight/Butcher/RPC now live in the
      "Also from MEV-X" strip below it). The kicker (product name) leads,
@@ -621,7 +684,10 @@
   }
   .blog-card:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
   .blog-cover{ height:132px; margin:0 -1.5rem 0.9rem; position:relative; overflow:hidden; }
-  .blog-cover svg{ display:block; width:100%; height:100%; }
+  /* Covers are pre-rendered images now, not live SVG. Ten cards each running
+     an feTurbulence grain plus four gaussian blurs made the blog index
+     unscrollable on phones. */
+  .blog-cover img{ display:block; width:100%; height:100%; object-fit:cover; }
   .blog-card h3{
     font-size:1.5rem; line-height:1.15; margin:0;
     display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
