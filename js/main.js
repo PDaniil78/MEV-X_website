@@ -101,9 +101,14 @@
 
     var dragging = false, startX = 0, startScroll = 0, moved = false;
     grid.addEventListener('pointerdown', function(e){
+      // Touch/pen already get native scrolling on this overflow-x:auto row --
+      // the click-drag affordance below is a mouse-only nicety. Engaging it
+      // for touch fights the browser's own scroll+tap handling and is what
+      // made partner logos feel unclickable on phones/tablets.
+      if(e.pointerType !== 'mouse') return;
       // Starting the drag gesture from a logo link steals its click via
-      // pointer capture on some browsers (Safari/touch); let those clicks
-      // through untouched instead of tracking a drag.
+      // pointer capture on some browsers; let those clicks through
+      // untouched instead of tracking a drag.
       if(e.target.closest('a')) return;
       dragging = true; moved = false;
       startX = e.clientX; startScroll = grid.scrollLeft;

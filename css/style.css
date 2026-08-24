@@ -93,9 +93,10 @@
     .btn.ghost:hover, .navcta:hover{ transform: translateY(-2px); }
     .btn:active, .navcta:active{ transform: translateY(0); }
     .prod:hover h3::before{ box-shadow: 0 0 7px 0 rgba(139,92,246,.55); }
-    .partner-tile:hover{ border-color: rgba(255,255,255,.32); box-shadow: 0 0 10px rgba(139,92,246,.4); }
+    .partner-tile:hover{ border-color: rgba(255,255,255,.32); box-shadow: 0 0 10px rgba(139,92,246,.4); transform: translateY(-2px); }
     .partner-tile:hover .partner-logo{ opacity: 1; }
-    .partner-tile.placeholder:hover{ color: var(--ink-muted); border-color: rgba(255,255,255,.28); }
+    .partner-tile:active{ transform: translateY(0); }
+    .partner-tile.placeholder:hover{ color: var(--ink-muted); border-color: rgba(255,255,255,.28); transform:none; }
 
     /* MINI CHART -- the sparkline draws itself in once the stats row reveals,
        then gives a subtle, staggered brighten-and-lift on hover (reusing each
