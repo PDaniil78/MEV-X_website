@@ -15,6 +15,7 @@ rsync -avz --delete \
   --exclude 'assets/partners-raw/' \
   --exclude '_variants.html' \
   --exclude 'README.md' \
+  --exclude 'design/' \
   --exclude 'Dockerfile' \
   "$LOCAL_ROOT"/ "$TARGET:$REMOTE_ROOT/"
 
