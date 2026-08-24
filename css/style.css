@@ -414,9 +414,12 @@
      equal-weight four-product grid; Starlight/Butcher/RPC now live in the
      "Also from MEV-X" strip below it). The kicker (product name) leads,
      the subhead is the secondary line underneath it. */
-  .live-cap{ font-size:0.66rem; font-weight:700; text-transform:uppercase; letter-spacing:0.16em; color:var(--ink-dim); margin-bottom:0.9rem; }
+  /* Card title for the flow diagram -- sized as a real heading rather than a
+     micro-label, so it doesn't leave a dead gap above the diagram's own
+     "One atomic transaction" frame label. */
+  .live-cap{ font-size:0.95rem; font-weight:700; text-transform:uppercase; letter-spacing:0.11em; color:var(--ink-muted); margin-bottom:0; }
 
-  .v1-feature{ display:grid; grid-template-columns:1fr 1.32fr; gap:3rem; align-items:center; padding-bottom:3rem; margin-bottom:3rem; border-bottom:1px solid var(--hairline); }
+  .v1-feature{ display:grid; grid-template-columns:1fr 1.32fr; gap:3rem; align-items:center; }
   .v1-copy{ text-align:right; }
   .v1-kicker{ font-family:var(--font-display); font-weight:400; font-size:2.6rem; letter-spacing:.02em; text-transform:uppercase; color:var(--ink); margin:0 0 .3rem; }
   .v1-feature .v1-subhead{ font-size:1.3rem; font-weight:400; color:var(--ink-muted); margin-bottom:1rem; }
@@ -432,13 +435,17 @@
   .diagram{ border:1px solid var(--chip-border); border-radius:16px; background:var(--chip-bg); padding:1.6rem;
     transition: border-color .3s ease, box-shadow .3s ease; }
   .diagram:hover{ border-color: rgba(255,255,255,.24); box-shadow: 0 0 26px -4px rgba(139,92,246,.28), 0 0 0 1px rgba(255,255,255,.03) inset; }
-  .diagram .live-block{ padding-bottom:1.3rem; margin-bottom:1.3rem; border-bottom:1px solid var(--hairline); }
+  .diagram .live-block{ padding-bottom:0.85rem; margin-bottom:0.9rem; border-bottom:1px solid var(--hairline); }
   .diagram svg{ width:100%; height:auto; display:block; }
 
-  /* "Live on" band at the bottom of #products -- reuses the Partners section's
-     tile styling so the same protocols read as one consistent visual language
-     site-wide, just introduced here in context instead of buried in a stat card. */
-  .live-band{ margin-top:3rem; }
+  /* "Live on" reuses the Partners section's tile styling so the same protocols
+     read as one consistent visual language site-wide. These are the DEXes
+     Homelander itself runs on, so the band sits directly under the Homelander
+     feature with no divider between them; the rule below closes out the whole
+     Homelander group before the unrelated "Also from MEV-X" strip.
+     Doubled-up selector so it beats .partner-cat's own border-top, which is
+     defined later in this file. */
+  .partner-cat.live-band{ border-top:none; padding:2.2rem 0 3rem; margin:0 0 3rem; }
   .diagram-node{ fill:rgba(255,255,255,.04); stroke:var(--chip-border); stroke-width:1; }
   .diagram-node.hook{ fill:rgba(139,92,246,.14); stroke:var(--violet); }
   .diagram-text{ font-family:var(--font-body); font-weight:600; font-size:12px; fill:var(--ink); }
