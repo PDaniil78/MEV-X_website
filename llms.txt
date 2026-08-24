@@ -33,6 +33,6 @@ MEV-X's core product, Homelander, captures post-swap arbitrage atomically — in
 
 ## Contact
 
-- Docs: https://docs.mev-x.com
+- Docs: https://mev-x-project.github.io/Homelander-docs/
 - Partners: https://partner.portal.mev-x.com/
-- Contact: contact@mev-x.com
+- Contact: info@mev-x.com

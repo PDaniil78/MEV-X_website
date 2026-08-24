@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /assets/partners-raw/
+Disallow: /_variants.html
 
 Sitemap: https://mev-x.com/sitemap.xml
