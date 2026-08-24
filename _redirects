@@ -1,0 +1,5 @@
+# www -> apex. The canonical tag on every page is https://mev-x.com/, so www
+# must not serve a second copy of the site.
+# If this does not take effect, do it as a Redirect Rule in the Cloudflare
+# dashboard instead (Rules -> Redirect Rules) — that path is guaranteed.
+https://www.mev-x.com/* https://mev-x.com/:splat 301

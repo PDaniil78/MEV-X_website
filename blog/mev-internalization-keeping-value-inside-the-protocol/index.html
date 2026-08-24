@@ -18,7 +18,7 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="MEV Internalization: Keeping Value Inside the Protocol">
   <meta property="og:description" content="A protocol has three options for the MEV its own activity creates: ignore it, capture it natively, or route it to a partner. MEV leakage isn't actually unavoidable.">
-  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png?v=2">
+  <meta property="og:image" content="https://mev-x.com/assets/blog/mev-internalization-keeping-value-inside-the-protocol/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="MEV Internalization: Keeping Value Inside the Protocol">
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MEV Internalization: Keeping Value Inside the Protocol">
   <meta name="twitter:description" content="Three ways a protocol can handle post-swap MEV, and why leakage isn't actually unavoidable.">
-  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png?v=2">
+  <meta name="twitter:image" content="https://mev-x.com/assets/blog/mev-internalization-keeping-value-inside-the-protocol/og.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,7 +118,7 @@
 <article class="article-body">
   <p><em>This material was created by the MEV-X team for educational purposes. MEV-X is a research and commercial project created for the extraction of MEV, which aims to form a reliable scientific community and promote the fair distribution of the extracted MEV.</em></p>
 
-  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/01.png" alt="" loading="lazy"></figure>
+  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/01.webp" alt="" loading="lazy"></figure>
 
   <p>Decentralized exchanges create value every time they execute a user transaction. However, a significant portion of this value does not remain within the protocol. Instead, it is systematically extracted by external actors who observe and react to state changes after execution. This dynamic has become so normalized that it is often treated as an unavoidable property of on-chain markets.</p>
 
@@ -176,7 +176,7 @@
 
   <p>This is the central model we focus on in the rest of the article: it targets the main inefficiency of MEV leakage, while avoiding the operational and safety burden of running protocol-native arbitrage.</p>
 
-  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/02.png" alt="" loading="lazy">
+  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/02.webp" alt="" loading="lazy">
     <figcaption>Comparison of architectural approaches to MEV handling in DEX execution</figcaption></figure>
 
   <p>The table above summarizes the three approaches discussed in this section and highlights their key architectural differences. While all three interact with the same execution-level phenomenon, they differ in where MEV is captured, when capture occurs relative to execution, and how much complexity and risk the protocol assumes as a result.</p>

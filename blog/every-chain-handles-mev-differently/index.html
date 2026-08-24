@@ -18,7 +18,7 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Every Chain Handles MEV Differently — One Decided to Keep It Inside">
   <meta property="og:description" content="Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each treat MEV differently. A comparison of chain-level MEV protection models.">
-  <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png?v=2">
+  <meta property="og:image" content="https://mev-x.com/assets/blog/every-chain-handles-mev-differently/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Every Chain Handles MEV Differently — One Decided to Keep It Inside">
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Every Chain Handles MEV Differently — One Decided to Keep It Inside">
   <meta name="twitter:description" content="A comparison of chain-level MEV protection models across Ethereum, Solana, Sui, and Flare.">
-  <meta name="twitter:image" content="https://mev-x.com/assets/img/og-image.png?v=2">
+  <meta name="twitter:image" content="https://mev-x.com/assets/blog/every-chain-handles-mev-differently/og.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,7 +122,7 @@
 
   <p>Today we want to break down one of the most architecturally interesting proposals we’ve seen in the space that challenges that assumption at the architecture level: <a href="https://proposals.flare.network/FIP/FIP_16.html" target="_blank" rel="noopener"><strong>Flare’s FIP.16</strong></a>, passed in April 2026 with 98% validator approval.</p>
 
-  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/01.png" alt="" loading="lazy"></figure>
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/01.webp" alt="" loading="lazy"></figure>
 
   <h2>MEV Architecture Landscape</h2>
 
@@ -136,7 +136,7 @@
 
   <p>The full flow: searchers identify MEV opportunities and submit bundles (atomic sets of ordered transactions) to builders. Builders incorporate bundles into blocks alongside regular mempool transactions, ordering everything to maximize total value. They then submit their blocks to one or more relays, which verify block validity and pass headers to validators. Validators running MEV-Boost select the highest-value header via a blind auction and propose the corresponding block.</p>
 
-  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/02.png" alt="" loading="lazy"></figure>
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/02.webp" alt="" loading="lazy"></figure>
 
   <p>This mechanism transforms MEV from a chaotic, validator-level activity into a structured market with defined participant roles: searchers, builders, relays, and validators. Over 90% of Ethereum validators currently run MEV-Boost, making it the de facto standard for block production on the network.</p>
 
@@ -168,7 +168,7 @@
 
   <p><a href="https://proposals.flare.network/FIP/FIP_16.html" target="_blank" rel="noopener">FIP.16</a> makes the <a href="https://flare.network/" target="_blank" rel="noopener">Flare Foundation</a> a designated block builder. Validators fetch pre-built blocks, validate, and finalize, but transaction ordering and the surplus it generates stay inside the protocol.</p>
 
-  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/03.png" alt="" loading="lazy">
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/03.webp" alt="" loading="lazy">
     <figcaption>A comparison of MEV handling across four major blockchain architectures: Ethereum (PBS), Solana (JITO), Sui, and Flare Network.</figcaption></figure>
 
   <p>The captured value flows to FIRE (Flare Income Reinvestment Entity), which also collects FDC attestation fees, FAsset and Smart Account protocol fees, and Flare Confidential Compute charges. FIRE’s mandate is open-market FLR buybacks and burns. The gas base fee increases from 25 to 500 gwei (even at 1200 gwei, standard transactions on Flare remain well under $0.01 at current FLR prices, so the UX impact is immaterial), compressing margins on external extraction strategies.</p>
@@ -177,7 +177,7 @@
 
   <p>The reason is obvious: enforcement requires a trusted builder. A permissionless system cannot make this guarantee. FIP.16 solves the enforcement problem by accepting a centralization tradeoff, one builder, initially the Foundation. But it enables something genuinely novel: a protocol that treats MEV not as a market to organize or a problem to suppress, but as a network resource to curate. Liquidations keep lending protocols solvent. Arbitrage keeps prices accurate. JIT provisioning improves execution quality for large orders. The forms of MEV on the permitted list happen to be the ones that, as a side effect, make the network work better.</p>
 
-  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/04.png" alt="" loading="lazy">
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/04.webp" alt="" loading="lazy">
     <figcaption>FIP.16 block production flow under Flare Network: a designated builder-proposer builds and proposes blocks while extracting network MEV; validators verify only, with no block production role; extracted revenue cycles through the FIRE Entity into open-market FLR buybacks and burns.</figcaption></figure>
 
   <p>The result is a closed loop with a normative layer built in: the protocol captures the value, decides what counts as legitimate capture, and returns the proceeds to the ecosystem. Whether the centralization cost is worth it is a reasonable question. But the intellectual move of a protocol having a position on MEV rather than just a mechanism for it is the thing worth paying attention to.</p>
