@@ -101,6 +101,10 @@
 
     var dragging = false, startX = 0, startScroll = 0, moved = false;
     grid.addEventListener('pointerdown', function(e){
+      // Starting the drag gesture from a logo link steals its click via
+      // pointer capture on some browsers (Safari/touch); let those clicks
+      // through untouched instead of tracking a drag.
+      if(e.target.closest('a')) return;
       dragging = true; moved = false;
       startX = e.clientX; startScroll = grid.scrollLeft;
       grid.classList.add('dragging');

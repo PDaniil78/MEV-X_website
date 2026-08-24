@@ -424,7 +424,8 @@
   .live-row{ display:flex; align-items:center; flex-wrap:nowrap; gap:1.1rem; }
   @media (max-width:520px){ .live-row{ flex-wrap:wrap; row-gap:0.7rem; } }
   .live-logo{ height:17px; width:auto; object-fit:contain; filter:brightness(0) invert(1); opacity:.62; transition:opacity .25s ease; display:block; flex-shrink:0; }
-  .live-logo:hover{ opacity:1; }
+  .live-logo-link{ display:block; flex-shrink:0; cursor:pointer; }
+  .live-logo-link:hover .live-logo, .live-logo:hover{ opacity:1; }
 
   .v1-feature{ display:grid; grid-template-columns:1fr 1.32fr; gap:3rem; align-items:center; padding-bottom:3rem; margin-bottom:3rem; border-bottom:1px solid var(--hairline); }
   .v1-copy{ text-align:right; }
@@ -509,7 +510,7 @@
     display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
     width:158px; height:76px; padding:1rem 1.1rem;
     background:var(--chip-bg); border:1px solid var(--chip-border);
-    border-radius:12px;
+    border-radius:12px; cursor:pointer;
   }
   .partner-logo{
     max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block;
