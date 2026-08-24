@@ -3,6 +3,32 @@
 Handoff for whoever has SSH on the box. Everything below was established by
 probing the server from outside; confirm each assumption once you are on it.
 
+## The code
+
+```
+git clone https://github.com/PDaniil78/MEV-X_website.git   # branch: master
+```
+
+`master` is current — the site content is final and verified, and nothing in it
+is waiting on a decision. Do not deploy from any other branch or remote in this
+repo's history; several exist and they are behind.
+
+Never copy the working tree to a server or into an image directly. `build.sh`
+assembles `dist/`, which is the only thing that should ever be published — the
+repo root also holds raw logo sources, design files, this deploy directory and
+scratch files, none of which belong in a public root.
+
+## What only a human can do
+
+These block progress and cannot be done from a shell session, so raise them
+early rather than discovering them mid-run:
+
+- **Path A** — `cloudflared tunnel login` opens a browser authorisation flow.
+- **Path C** — cluster access has to be granted by whoever holds it.
+- **Cloudflare DNS** — the cutover record, on the account that owns the zone.
+- **Webflow** — detaching the custom domain, in the Webflow project settings.
+- **Search Console** — verifying the domain and submitting the sitemap.
+
 ## What is already running
 
 | port | listener | notes |
@@ -190,12 +216,11 @@ whatever currently serves :8093 and adds the caching, security headers, the
 branded 404 and the blocks on `/assets/partners-raw/` and friends. Its default
 `listen 8093` is what Path A wants; Path B swaps in the commented ssl block.
 
-One thing to know before you install it: it sends
-`Strict-Transport-Security: max-age=31536000; includeSubDomains`. Both live
-subdomains (`homelander`, `partner.portal`) already serve valid HTTPS, so this
-is safe today — but any *future* HTTP-only subdomain will be unreachable in
-browsers that have seen the header. Drop `includeSubDomains` if that is a
-concern.
+HSTS is deliberately scoped to the apex — `max-age=31536000`, without
+`includeSubDomains`, so a future HTTP-only subdomain cannot be locked out by a
+header served from `mev-x.com`. If the ingress or Cloudflare adds its own HSTS
+with a different max-age, let that one win and drop this line rather than
+serving two.
 
 ## Verifying the cutover
 

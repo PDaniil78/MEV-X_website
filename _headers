@@ -5,7 +5,8 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # Apex only -- see the note in deploy/nginx.mev-x.com.conf
+  Strict-Transport-Security: max-age=31536000
   X-Frame-Options: SAMEORIGIN
   # HTML (including / and /blog/ directory indexes) must always revalidate,
   # so a content edit is live immediately instead of sitting in a CDN cache.
