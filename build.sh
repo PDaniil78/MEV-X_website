@@ -26,5 +26,20 @@ tar -cf - \
   --exclude='./build.sh' \
   . | tar -xf - -C dist
 
+# Stamp the ?v= cache-buster from the content of the assets themselves.
+#
+# css/js are served `immutable` for a year, so a stale ?v= does not merely
+# delay an update -- it pins every browser that already fetched that URL to the
+# old file permanently. Editing the CSS and forgetting to bump the number by
+# hand has burned this project twice. Deriving it from a content hash means the
+# URL cannot disagree with what it points at.
+css_v=$(sha256sum css/style.css | cut -c1-10)
+js_v=$(sha256sum js/main.js     | cut -c1-10)
+
+find dist -name '*.html' -print0 | xargs -0 sed -i \
+  -e "s|style\.css?v=[A-Za-z0-9]*|style.css?v=$css_v|g" \
+  -e "s|main\.js?v=[A-Za-z0-9]*|main.js?v=$js_v|g"
+
 echo "dist/ built:"
 echo "  $(find dist -type f | wc -l) files, $(du -sh dist | cut -f1)"
+echo "  style.css?v=$css_v   main.js?v=$js_v"
