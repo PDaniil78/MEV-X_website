@@ -103,6 +103,67 @@ production app, so it is the riskier option the day before a send.
 
 ---
 
+## Path C — the k8s cluster
+
+Confirmed from outside, so the premise is sound: `homelander.mev-x.com` and
+`partner.portal.mev-x.com` both resolve to the same eight Hetzner addresses,
+every one of which answers an unknown `Host` with an nginx default-backend 404
+— a host-routed ingress. The certificate on `homelander.mev-x.com` is a Let's
+Encrypt one scoped to exactly that single SAN, which is what automated
+per-host issuance (cert-manager or equivalent) produces.
+
+This is where the site should live long term. It is not, however, a good thing
+to gate a launch on, because step one is obtaining cluster access from another
+human and everything after it is discovery work of unknown duration. Path A
+puts the site on the domain tonight and Path C can replace it later — the DNS
+TTL is 30s, so swapping the record is instant and reversible either way.
+
+The image is ready: `Dockerfile` builds `dist/` in an alpine stage and serves
+it from `nginx:alpine` using the same vhost as Path A and Path B, with only the
+listen port and document root rewritten. It runs `nginx -t` during the build,
+so a broken config fails the image rather than the rollout. **It has not been
+built here — this environment has no container runtime.** Build it once before
+trusting it.
+
+Do not write the manifests from scratch. Read the existing Homelander
+Deployment/Service/Ingress in the namespace and copy their conventions — the
+`ingressClassName`, the cert-manager issuer name and annotations, resource
+limits, and whatever the cluster uses for image pull. The skeleton below marks
+what must come from there:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mev-x-website
+  annotations:
+    cert-manager.io/cluster-issuer: <COPY FROM THE HOMELANDER INGRESS>
+spec:
+  ingressClassName: <COPY FROM THE HOMELANDER INGRESS>
+  tls:
+    - hosts: [mev-x.com, www.mev-x.com]
+      secretName: mev-x-website-tls
+  rules:
+    - host: mev-x.com
+      http: { paths: [{ path: /, pathType: Prefix,
+              backend: { service: { name: mev-x-website, port: { number: 80 } } } }] }
+    - host: www.mev-x.com          # the container redirects www -> apex itself
+      http: { paths: [{ path: /, pathType: Prefix,
+              backend: { service: { name: mev-x-website, port: { number: 80 } } } }] }
+```
+
+Two things to check once it is up, before touching DNS:
+
+- The ingress controller may add its own `Strict-Transport-Security`. Two
+  identical headers are harmless, but if the ingress adds a *different* max-age
+  drop the one in `deploy/nginx.mev-x.com.conf` and let the cluster own it.
+- Reach the pod by `Host` header before the DNS change
+  (`curl -H 'Host: mev-x.com' http://<ingress-ip>/`) and run the whole
+  verification checklist below against it. Nothing about the cutover should be
+  the first time the container serves a request.
+
+---
+
 ## Deploying the site itself
 
 Independent of path, and safe to do right now — it only updates what :8093
