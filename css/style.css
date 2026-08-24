@@ -639,7 +639,9 @@
   footer{ border-top:1px solid var(--hairline); padding:2.2rem 1.5rem; }
   .foot-in{ max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
   .foot-in .mono{ font-weight:500; font-size:0.75rem; color:var(--ink-dim); letter-spacing:0.04em; }
-  .foot-links{ display:flex; gap:1.4rem; font-family:var(--font-body); font-size:0.78rem; color:var(--ink-muted); }
+  /* wrap: seven links in a row that never wrapped ran past the right edge
+     on phones -- "Dune", the last one, was the part sticking out. */
+  .foot-links{ display:flex; flex-wrap:wrap; gap:0.9rem 1.4rem; font-family:var(--font-body); font-size:0.78rem; color:var(--ink-muted); }
   .foot-links a:hover{ color:var(--ink); }
 
   @media (max-width:900px){ .hero-in{ grid-template-columns:1fr; } .proof-grid{grid-template-columns:1fr 1fr;} }

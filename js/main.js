@@ -161,8 +161,10 @@
     });
   }
 
-  // Sticky scroll-progress bar.
+  // Sticky scroll-progress bar. Pages without the element (the 404, say) must
+  // fall through -- an uncaught throw here aborts every later block in the file.
   var progressBar = document.getElementById('scroll-progress');
+  if(!progressBar) return;
   var progressTicking = false;
   function updateProgress(){
     var doc = document.documentElement, body = document.body;
