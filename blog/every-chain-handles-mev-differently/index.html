@@ -15,10 +15,15 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://mev-x.com/blog/every-chain-handles-mev-differently/">
   <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Every Chain Handles MEV Differently — One Decided to Keep It Inside">
   <meta property="og:description" content="Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each treat MEV differently. A comparison of chain-level MEV protection models.">
   <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
-  <meta property="article:published_time" content="2026-06-16">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Every Chain Handles MEV Differently — One Decided to Keep It Inside">
+  <meta property="article:published_time" content="2026-06-16"
+  <meta property="article:modified_time" content="2026-06-16">>
   <meta property="article:section" content="MEV Protection">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -29,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=19">
+  <link rel="stylesheet" href="../../css/style.css?v=35">
 
   <script type="application/ld+json">
   {
@@ -53,29 +58,6 @@
       { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
       { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
       { "@type": "ListItem", "position": 3, "name": "Every Chain Handles MEV Differently", "item": "https://mev-x.com/blog/every-chain-handles-mev-differently/" }
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is proposer-builder separation (PBS)?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Proposer-builder separation is Ethereum's model for managing MEV, in which specialized builders compete to construct the most valuable block and validators (proposers) simply select the winning block, without needing to capture MEV themselves." }
-      },
-      {
-        "@type": "Question",
-        "name": "How does Solana's Jito marketplace handle MEV?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Jito operates a bundle marketplace on Solana where searchers submit atomic bundles of transactions with a tip to validators, competing for inclusion. It's an auction-based model similar in spirit to Ethereum's builder market, adapted to Solana's execution environment." }
-      },
-      {
-        "@type": "Question",
-        "name": "What makes MEV internalization different from these chain-level models?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Chain-level models like PBS and Jito organize competition for MEV among external parties — they decide how the auction works, not who ultimately keeps the value. MEV internalization instead lets the protocol whose activity creates the opportunity capture it directly, keeping the value inside the protocol rather than routing it through an external auction at all." }
-      }
     ]
   }
   </script>
@@ -129,45 +111,88 @@
   <div class="article-meta">
     <span>MEV-X Team</span>
     <span>Jun 16, 2026</span>
-    <span>6 min read</span>
+    <span>9 min read</span>
   </div>
 </header>
 
 <article class="article-body">
-  <div class="tldr reveal">
-    <div class="k">Answer first</div>
-    <p>Ethereum manages MEV through proposer-builder separation, Solana through Jito's bundle marketplace, and Sui through its object-centric execution model — all chain-level approaches to organizing who gets to compete for MEV and how. None of them decide who ultimately keeps the value a specific protocol's own activity creates. That's the layer MEV internalization operates on instead.</p>
-  </div>
+  <p>MEV (Maximal Extractable Value) has been blockchain’s defining unsolved problem since Paradigm published their “<a href="https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest" target="_blank" rel="noopener">dark forest</a>” paper in 2020. The concept has reframed how the industry thinks about block production, transaction ordering, and who actually profits from on-chain activity.</p>
 
-  <h2>Ethereum: proposer-builder separation</h2>
-  <p>Ethereum's answer to MEV is proposer-builder separation (PBS). Specialized builders compete to assemble the most valuable possible block — ordering transactions, including profitable bundles, extracting what MEV they can — and validators (proposers) simply pick the most valuable block offered to them, without needing to understand or extract MEV themselves. PBS was designed to stop validators from having to run sophisticated MEV extraction infrastructure just to stay competitive, by separating "who builds the block" from "who proposes it." It organizes the competition for MEV; it doesn't eliminate the competition or decide where the captured value ultimately lands beyond the builder and proposer.</p>
+  <p>Six years later, every major chain has built an answer to this. The approaches are genuinely different: organized auctions, bundle marketplaces, architectural countermeasures baked into the execution model. But most of those answers share a common assumption: <strong>MEV extraction is inevitable, so the question is just who captures it.</strong></p>
 
-  <h2>Solana: the Jito marketplace</h2>
-  <p>Solana's dominant MEV infrastructure runs through Jito, which operates a bundle marketplace: searchers submit atomic bundles of transactions along with a tip, and validators running Jito's client include the bundles that pay the most. It's structurally similar to Ethereum's builder market in spirit — an auction that organizes external competition for block space and ordering — adapted to Solana's much faster block times and different execution model.</p>
+  <p>Today we want to break down one of the most architecturally interesting proposals we’ve seen in the space that challenges that assumption at the architecture level: <a href="https://proposals.flare.network/FIP/FIP_16.html" target="_blank" rel="noopener"><strong>Flare’s FIP.16</strong></a>, passed in April 2026 with 98% validator approval.</p>
 
-  <h2>Sui: MEV inside an object-centric model</h2>
-  <p>Sui's object-centric execution model changes the shape of the problem rather than adding a marketplace on top of it. Because Sui tracks ownership and access at the object level rather than treating the whole chain state as one shared resource, many transactions that would create ordering-dependent MEV opportunities on an account-based chain can execute independently and in parallel instead. That doesn't eliminate MEV — opportunities that genuinely depend on shared state, like AMM pools, still exist — but it narrows where ordering-based extraction is even possible in the first place.</p>
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/01.png" alt="" loading="lazy"></figure>
 
-  <h2>What all three have in common</h2>
-  <p>PBS, Jito, and Sui's execution model all operate at the chain or infrastructure layer. They decide how competition for MEV is organized, who's allowed to participate in extracting it, and in some cases how much of the opportunity even exists to be extracted. What none of them decide is what happens to the value once a specific protocol's own trading activity is the thing that created it. A validator running PBS or a Jito-enabled client gets paid regardless of which AMM's swap generated the arbitrage opportunity that produced the winning bundle.</p>
+  <h2>MEV Architecture Landscape</h2>
 
-  <h2>Where protocol-level internalization fits</h2>
-  <p>This is the layer MEV internalization targets instead: not the chain's rules for organizing competition, but whether a specific protocol captures the value its own activity creates before that value ever becomes a target for the chain-level auction at all. Homelander operates here — resolving a swap's post-trade arbitrage atomically, inside the protocol's own transaction, before it's visible to any builder, searcher, or validator-level marketplace. It's not a competing approach to PBS or Jito; it's a different layer of the same problem, and one none of the chain-level models were designed to reach.</p>
+  <p>Before getting to Flare, it’s worth mapping how the rest of the industry answered the MEV question. Each of the approaches below represents a distinct architectural response to the same underlying problem, drawing on different assumptions about consensus, execution, and incentive alignment. Yet for all their technical divergence, a closer reading of the economics reveals a logic that remains largely consistent across each.</p>
 
-  <div class="faq">
-    <div class="faq-item">
-      <h3>What is proposer-builder separation (PBS)?</h3>
-      <p>Proposer-builder separation is Ethereum's model for managing MEV, in which specialized builders compete to construct the most valuable block and validators (proposers) simply select the winning block, without needing to capture MEV themselves.</p>
-    </div>
-    <div class="faq-item">
-      <h3>How does Solana's Jito marketplace handle MEV?</h3>
-      <p>Jito operates a bundle marketplace on Solana where searchers submit atomic bundles of transactions with a tip to validators, competing for inclusion. It's an auction-based model similar in spirit to Ethereum's builder market, adapted to Solana's execution environment.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What makes MEV internalization different from these chain-level models?</h3>
-      <p>Chain-level models like PBS and Jito organize competition for MEV among external parties — they decide how the auction works, not who ultimately keeps the value. MEV internalization instead lets the protocol whose activity creates the opportunity capture it directly, keeping the value inside the protocol rather than routing it through an external auction at all.</p>
-    </div>
-  </div>
+  <h2>Ethereum: Proposer-Builder Separation</h2>
+
+  <p>Ethereum’s approach to MEV is formalized through Proposer-Builder Separation, implemented via MEV-Boost adopted at the time of The Merge in September 2022.</p>
+
+  <p>Under the standard validator model, validators both propose and build blocks, giving them direct visibility into the mempool and the ability to reorder, include, or exclude transactions for profit. PBS separates these two roles. <strong>Builders</strong> (specialized entities with access to private order flow and searcher bundles) construct full blocks optimized for maximum extractable value. <strong>Validators</strong> (proposers) no longer build blocks themselves, instead, they receive block headers from multiple builders via <strong>relays</strong> and select the one with the highest attached bid. The validator signs and proposes the winning block without seeing its full contents.</p>
+
+  <p>The full flow: searchers identify MEV opportunities and submit bundles (atomic sets of ordered transactions) to builders. Builders incorporate bundles into blocks alongside regular mempool transactions, ordering everything to maximize total value. They then submit their blocks to one or more relays, which verify block validity and pass headers to validators. Validators running MEV-Boost select the highest-value header via a blind auction and propose the corresponding block.</p>
+
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/02.png" alt="" loading="lazy"></figure>
+
+  <p>This mechanism transforms MEV from a chaotic, validator-level activity into a structured market with defined participant roles: searchers, builders, relays, and validators. Over 90% of Ethereum validators currently run MEV-Boost, making it the de facto standard for block production on the network.</p>
+
+  <h2>Solana: The Bundle Marketplace</h2>
+
+  <p>Unlike Ethereum, Solana has no traditional mempool. Transactions route directly to the current block producer through Gulf Stream, Solana’s forwarding protocol, and block slots rotate every ~400ms, each assigned to a designated leader validator. Without a mempool, the primary MEV vector shifted to transaction spam: bots submitting thousands of duplicate transactions to maximize the probability of inclusion ahead of competitors. This created severe network congestion and contributed to multiple network performance degradations in 2021-2022.</p>
+
+  <p>JITO addressed this by introducing a structured off-chain marketplace for transaction ordering. Validators running the modified Jito-Solana client connect to the <strong>JITO Block Engine</strong>, which operates outside the core protocol. Searchers submit bundles (groups of up to five transactions that execute sequentially and atomically) alongside a lamport-denominated tip. The Block Engine simulates incoming bundles, ranks them by tip-per-compute-unit within 50ms auction windows, and forwards the highest-paying combinations to the active slot leader for inclusion at the top of the block.</p>
+
+  <p>Tips flow through two on-chain programs: the Tip Payment program collects them at execution time, and the Tip Distribution program redistributes them to validators and their stakers proportionally at the end of each epoch. By 2025, JITO tips had grown to represent over 60% of Solana’s priority fee volume. As of 2026, approximately 95% of staked SOL runs the Jito validator client.</p>
+
+  <h2>Sui: The Object Model</h2>
+
+  <p>Sui’s approach to MEV is structural rather than market-based, rooted in its object-centric execution model. In Sui, every on-chain asset is an <strong>object</strong> with an explicit ownership type that determines how it can be accessed and processed.</p>
+
+  <p>Address-owned objects belong to a single address and can only be used by their designated owner. Transactions involving exclusively owned objects bypass consensus entirely through the <strong>Fastpath</strong> mechanism and since no two transactions can contend over the same owned object, no global ordering is required. These transactions are validated via Byzantine Consistent Broadcast and complete in ~400ms without entering the consensus pool. Transactions that touch shared objects must be sequenced through <strong>Mysticeti</strong>, Sui&#39;s DAG-based consensus protocol, which determines a global execution order across all validators. DEX liquidity pools, lending markets, and other multi-user DeFi primitives are implemented as shared objects: they require global ordering by design.</p>
+
+  <p>This distinction is where MEV dynamics concentrate. Within each Mysticeti consensus commit, transactions modifying the same shared object are ranked and executed sequentially. Validators run <strong>Priority Gas Auctions </strong>within commits: transactions compete on gas price for ordering priority. A 70-millisecond submission advantage translates directly into ordering priority within a commit window. Sandwich attacks, arbitrage capture, and latency-based extraction all remain viable on shared objects through this mechanism.</p>
+
+  <p>The object model therefore reduces MEV surface area rather than eliminating it. Transactions involving only owned objects have no ordering-dependent MEV exposure. Transactions touching shared objects, the majority of DeFi interactions, retain full MEV dynamics, compressed into the commit granularity of the consensus layer.</p>
+
+  <h2>Across the Landscape</h2>
+
+  <p>The architectures described above differ substantially in design, but share a structural outcome: MEV value exits the protocol layer. In each case, the protocol routes it to participants who operate adjacent to consensus.</p>
+
+  <p>The same pattern holds across the broader EVM and non-EVM landscape. The common thread is extraction without return: value generated by user activity is captured by external actors and leaves the ecosystem that produced it. It is a deliberate architectural assumption, either made explicitly (as in PBS, which was designed to professionalize block building outside the protocol) or inherited from prior designs.</p>
+
+  <h2>FIP.16: The Protocol Itself Becomes the Builder</h2>
+
+  <p><a href="https://proposals.flare.network/FIP/FIP_16.html" target="_blank" rel="noopener">FIP.16</a> makes the <a href="https://flare.network/" target="_blank" rel="noopener">Flare Foundation</a> a designated block builder. Validators fetch pre-built blocks, validate, and finalize, but transaction ordering and the surplus it generates stay inside the protocol.</p>
+
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/03.png" alt="" loading="lazy">
+    <figcaption>A comparison of MEV handling across four major blockchain architectures: Ethereum (PBS), Solana (JITO), Sui, and Flare Network.</figcaption></figure>
+
+  <p>The captured value flows to FIRE (Flare Income Reinvestment Entity), which also collects FDC attestation fees, FAsset and Smart Account protocol fees, and Flare Confidential Compute charges. FIRE’s mandate is open-market FLR buybacks and burns. The gas base fee increases from 25 to 500 gwei (even at 1200 gwei, standard transactions on Flare remain well under $0.01 at current FLR prices, so the UX impact is immaterial), compressing margins on external extraction strategies.</p>
+
+  <p>But the builder is not free to extract anything it can. The proposal defines a category called network positive MEV and restricts the builder to it exclusively: atomic DEX arbitrage and cross-chain CEX/DEX arbitrage; lending protocol liquidations; just-in-time liquidity provisioning for large trades; post-trade arbitrages on Flare DEXes. Sandwich attacks, frontrunning, and generalized extraction are excluded by design.</p>
+
+  <p>The reason is obvious: enforcement requires a trusted builder. A permissionless system cannot make this guarantee. FIP.16 solves the enforcement problem by accepting a centralization tradeoff, one builder, initially the Foundation. But it enables something genuinely novel: a protocol that treats MEV not as a market to organize or a problem to suppress, but as a network resource to curate. Liquidations keep lending protocols solvent. Arbitrage keeps prices accurate. JIT provisioning improves execution quality for large orders. The forms of MEV on the permitted list happen to be the ones that, as a side effect, make the network work better.</p>
+
+  <figure><img src="../../assets/blog/every-chain-handles-mev-differently/04.png" alt="" loading="lazy">
+    <figcaption>FIP.16 block production flow under Flare Network: a designated builder-proposer builds and proposes blocks while extracting network MEV; validators verify only, with no block production role; extracted revenue cycles through the FIRE Entity into open-market FLR buybacks and burns.</figcaption></figure>
+
+  <p>The result is a closed loop with a normative layer built in: the protocol captures the value, decides what counts as legitimate capture, and returns the proceeds to the ecosystem. Whether the centralization cost is worth it is a reasonable question. But the intellectual move of a protocol having a position on MEV rather than just a mechanism for it is the thing worth paying attention to.</p>
+
+  <h2>Beyond the Proposal</h2>
+
+  <p>FIP.16 describes a mechanism with real architectural novelty. What comes next is the empirical layer. How much MEV is FIRE actually capturing per block? What was the extraction baseline on Flare before Stage 1 went live: how much value was leaving the network to external searchers, and through which transaction types? What does the on-chain footprint of protocol-level liquidation or arbitrage look like compared to the equivalent activity on chains where searchers run it? These are answerable questions, and the data that follows will be worth examining.</p>
+
+  <p>We build MEV infrastructure. We’ve run extraction across EVM networks and tracked extraction patterns on-chain long enough to know that the gap between architectural claims and measurable outcomes is where the interesting work lives. A protocol can mandate that MEV stays inside the network. Whether it actually does is an empirical question that requires tooling most chains haven’t bothered to build. Flare is the first chain where that tooling has something uniquely consequential to measure, and where the numbers will matter to every participant in the network</p>
+
+  <p>FIP.16’s architecture is genuinely novel. The framing of network positive MEV, the normative layer, the closed loop back to token holders, these are ideas worth taking seriously. But the most interesting version of the FIP.16 story is not the proposal but the data that follows. How much value was being extracted before FIRE, and how much is being captured now? Is the surplus going to the protocol or are there still avenues where it isn’t? Those questions will have data and will be interesting regardless of which direction they<strong> </strong>goes.</p>
+
+  <p><em>We built Homelander: MEV internalization system. For a deeper look at it’s mechanics, check the </em><a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener"><em>documentation</em></a><em> and our earlier publications (</em><a href="https://medium.com/@MEV-X/introducing-homelander-atomic-mev-internalization-system-by-mev-x-eafa6f9f1bc9" target="_blank" rel="noopener"><em>I</em></a><em>/</em><a href="https://medium.com/@MEV-X/mev-resolution-in-amm-based-systems-bbd9d2af2fa1" target="_blank" rel="noopener"><em>II</em></a><em>/</em><a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener"><em>III</em></a><em>). If you’d like to explore an integration or partnership, you can reach us on </em><a href="https://t.me/ex_seoeva" target="_blank" rel="noopener"><em>Telegram</em></a><em>.</em></p>
+
+  <h2><a href="https://www.mev-x.com/" target="_blank" rel="noopener">Website</a> | <a href="https://x.com/MEV_X_project" target="_blank" rel="noopener">Twitter</a> | <a href="https://t.me/MEV_X_chat" target="_blank" rel="noopener">Telegram</a> | <a href="https://www.linkedin.com/company/mev-x/" target="_blank" rel="noopener">LinkedIn</a></h2>
 </article>
 
 <section class="related">
@@ -185,23 +210,28 @@
     <linearGradient id="gB-mev-internalization-keeping-value-inside-the-protocol" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-mev-internalization-keeping-value-inside-the-protocol" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-mev-internalization-keeping-value-inside-the-protocol" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-mev-internalization-keeping-value-inside-the-protocol" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-mev-internalization-keeping-value-inside-the-protocol" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="69" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="78" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-mev-internalization-keeping-value-inside-the-protocol" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-mev-internalization-keeping-value-inside-the-protocol" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-mev-internalization-keeping-value-inside-the-protocol)"/>
+    <circle cx="244.8" cy="91.1" r="8.30" fill="#4F86F5" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="255.1" cy="78.8" r="9.30" fill="#ffffff" opacity="0.10" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="226.3" cy="68.3" r="6.04" fill="#C7BEFF" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/>
     <g filter="url(#softBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/></g>
     <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/>
-    <g filter="url(#midBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.45"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <circle cx="200" cy="45" r="30" fill="url(#orbCore-mev-internalization-keeping-value-inside-the-protocol)" filter="url(#orbGlow-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.85"/>
-    <g transform="translate(200,45)"><circle r="20" fill="none" stroke="#4F86F5" stroke-width="1.3" opacity=".5"/><circle r="6.5" fill="#fff"/><circle r="6.5" fill="url(#orbCore-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-internalization-keeping-value-inside-the-protocol)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="none" stroke="url(#gA-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)"/></g>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.4"/>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="none" stroke="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.85"><circle cx="283.9" cy="48.4" r="0.76" fill="#C7BEFF" opacity="0.49"/><circle cx="100.8" cy="126.7" r="0.98" fill="#ffffff" opacity="0.36"/><circle cx="112.8" cy="40.8" r="0.92" fill="#ffffff" opacity="0.46"/><circle cx="125.9" cy="100.0" r="1.35" fill="#ffffff" opacity="0.36"/><circle cx="211.2" cy="-7.1" r="1.54" fill="#ffffff" opacity="0.37"/><circle cx="268.4" cy="94.4" r="2.13" fill="#ffffff" opacity="0.47"/><circle cx="13.1" cy="77.5" r="1.49" fill="#ffffff" opacity="0.40"/><circle cx="142.8" cy="71.0" r="1.40" fill="#C7BEFF" opacity="0.25"/><circle cx="148.6" cy="84.6" r="1.01" fill="#C7BEFF" opacity="0.38"/></g>
+    <rect width="300" height="132" filter="url(#grain-mev-internalization-keeping-value-inside-the-protocol)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-mev-internalization-keeping-value-inside-the-protocol)"/></svg></div>
         <h3>Keeping Value Inside the Protocol</h3>
         <p class="dek">A protocol facing post-swap MEV has three real options: do nothing, capture it natively, or route it to a partner. Leakage is a default choice, not a structural inevitability of on-chain markets.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
@@ -217,23 +247,28 @@
     <linearGradient id="gB-introducing-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-introducing-homelander" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-introducing-homelander" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="18" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="60" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-introducing-homelander" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-introducing-homelander" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-introducing-homelander)"/>
-    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/>
-    <g filter="url(#midBlur-introducing-homelander)" opacity="0.45"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-introducing-homelander)"/></g>
-    <circle cx="150" cy="66" r="30" fill="url(#orbCore-introducing-homelander)" filter="url(#orbGlow-introducing-homelander)" opacity="0.85"/>
-    <g transform="translate(150,66)"><circle r="9" fill="#fff"/><circle r="9" fill="url(#orbCore-introducing-homelander)"/></g>
-    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="156.4" cy="71.8" r="7.18" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="246.2" cy="111.0" r="6.81" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="191.9" cy="98.2" r="10.44" fill="#4F86F5" opacity="0.11" filter="url(#bokehBlur-introducing-homelander)"/>
+    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/></g>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gA-introducing-homelander)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-introducing-homelander)" opacity="0.5"><path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)"/></g>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)" opacity="0.5"/>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="none" stroke="url(#gB-introducing-homelander)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-introducing-homelander)" opacity="0.85"><circle cx="-4.1" cy="114.4" r="1.66" fill="#C7BEFF" opacity="0.31"/><circle cx="158.1" cy="82.9" r="1.51" fill="#ffffff" opacity="0.38"/><circle cx="85.3" cy="41.1" r="2.00" fill="#8B5CF6" opacity="0.48"/><circle cx="3.7" cy="81.2" r="0.81" fill="#ffffff" opacity="0.45"/><circle cx="124.8" cy="102.3" r="1.35" fill="#ffffff" opacity="0.45"/><circle cx="215.7" cy="93.7" r="1.46" fill="#ffffff" opacity="0.19"/><circle cx="62.5" cy="94.7" r="1.28" fill="#8B5CF6" opacity="0.29"/><circle cx="237.5" cy="30.4" r="1.72" fill="#ffffff" opacity="0.40"/><circle cx="85.9" cy="45.8" r="1.81" fill="#ffffff" opacity="0.24"/></g>
+    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-introducing-homelander)"/></svg></div>
         <h3>Introducing Homelander</h3>
         <p class="dek">Homelander captures the post-swap arbitrage opportunity atomically, in the same transaction as the swap that creates it, and returns the value as AMM yield instead of letting it leak to searchers.</p>
         <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
@@ -246,26 +281,31 @@
       <stop offset="100%" stop-color="#08060f"/>
     </radialGradient>
     <linearGradient id="gA-where-mev-actually-comes-from" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <linearGradient id="gB-where-mev-actually-comes-from" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
+    <linearGradient id="gB-where-mev-actually-comes-from" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-where-mev-actually-comes-from" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-where-mev-actually-comes-from" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-where-mev-actually-comes-from" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-where-mev-actually-comes-from" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="64" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="26" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-where-mev-actually-comes-from" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-where-mev-actually-comes-from" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-where-mev-actually-comes-from)"/>
+    <circle cx="68.2" cy="39.8" r="7.24" fill="#C7BEFF" opacity="0.16" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="231.0" cy="87.6" r="8.04" fill="#4F86F5" opacity="0.15" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="220.2" cy="81.8" r="6.91" fill="#4F86F5" opacity="0.21" filter="url(#bokehBlur-where-mev-actually-comes-from)"/>
     <g filter="url(#softBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/></g>
     <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/>
-    <g filter="url(#midBlur-where-mev-actually-comes-from)" opacity="0.45"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gB-where-mev-actually-comes-from)"/></g>
-    <circle cx="110" cy="60" r="30" fill="url(#orbCore-where-mev-actually-comes-from)" filter="url(#orbGlow-where-mev-actually-comes-from)" opacity="0.85"/>
-    <g transform="translate(110,60)"><path d="M-30,-16 Q0,0 0,0" stroke="#C7BEFF" stroke-width="1.2" fill="none" opacity=".55"/><path d="M-26,20 Q0,0 0,0" stroke="#4F86F5" stroke-width="1.2" fill="none" opacity=".55"/><path d="M28,-10 Q0,0 0,0" stroke="#8B5CF6" stroke-width="1.2" fill="none" opacity=".55"/><circle r="6" fill="#fff"/><circle r="6" fill="url(#orbCore-where-mev-actually-comes-from)"/></g>
-    <rect width="300" height="132" filter="url(#grain-where-mev-actually-comes-from)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="none" stroke="url(#gA-where-mev-actually-comes-from)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)"/></g>
+    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)" opacity="0.65"/>
+    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="none" stroke="url(#gB-where-mev-actually-comes-from)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-where-mev-actually-comes-from)" opacity="0.85"><circle cx="66.4" cy="34.6" r="1.47" fill="#ffffff" opacity="0.32"/><circle cx="271.3" cy="131.5" r="1.46" fill="#ffffff" opacity="0.39"/><circle cx="298.0" cy="129.9" r="1.45" fill="#ffffff" opacity="0.42"/><circle cx="142.1" cy="47.1" r="1.69" fill="#C7BEFF" opacity="0.19"/><circle cx="47.8" cy="47.4" r="1.92" fill="#4F86F5" opacity="0.18"/><circle cx="9.4" cy="137.9" r="1.04" fill="#4F86F5" opacity="0.36"/><circle cx="50.9" cy="50.6" r="1.52" fill="#ffffff" opacity="0.20"/><circle cx="206.7" cy="129.4" r="1.23" fill="#ffffff" opacity="0.47"/><circle cx="105.8" cy="21.7" r="1.77" fill="#ffffff" opacity="0.27"/></g>
+    <rect width="300" height="132" filter="url(#grain-where-mev-actually-comes-from)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-where-mev-actually-comes-from)"/></svg></div>
         <h3>Where MEV Actually Comes From</h3>
         <p class="dek">Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction, exactly the point that MEV protection needs to target directly.</p>
         <div class="meta"><span class="meta-date">Apr 9, 2026</span><div class="meta-tags"><span>Research</span></div></div>

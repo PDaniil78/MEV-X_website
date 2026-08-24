@@ -15,10 +15,15 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://mev-x.com/blog/homelander-audit-bailsec-algebra/">
   <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes">
   <meta property="og:description" content="A differential audit of Homelander's Algebra plugin update, and why extending an audited execution model is a different risk profile than shipping a new one.">
   <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
-  <meta property="article:published_time" content="2026-05-27">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Homelander Security Audit by Bailsec: Algebra Plugin — Summary and Outcomes">
+  <meta property="article:published_time" content="2026-05-27"
+  <meta property="article:modified_time" content="2026-05-27">>
   <meta property="article:section" content="Security Audits">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -29,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=19">
+  <link rel="stylesheet" href="../../css/style.css?v=35">
 
   <script type="application/ld+json">
   {
@@ -111,27 +116,52 @@
 </header>
 
 <article class="article-body">
-  <div class="tldr reveal">
-    <div class="k">Answer first</div>
-    <p>Bailsec completed a differential security audit of Homelander's Algebra plugin update, focused specifically on what changed rather than re-reviewing the whole system. The audit found the updated implementation extends the previously audited execution model without introducing new classes of exploitable risk, and identified no high-severity vulnerabilities.</p>
-  </div>
+  <p>We recently completed a second independent security audit of the <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Homelander Algebra plugin</a>, conducted by <a href="https://bailsec.io/" target="_blank" rel="noopener"><strong>Bailsec</strong></a>. This audit was structured as a differential review, covering the changes introduced in the updated contract relative to the previously audited version. This post summarizes the scope of the review, what the audit found, and what the results confirm about the updated implementation.</p>
 
-  <h2>Why a differential audit, specifically</h2>
-  <p>A full audit reviews a system as if seeing it for the first time. A differential audit takes the previously audited baseline as given and focuses the review on exactly what changed — in this case, an update to Homelander's Algebra plugin. That's not a lighter-weight substitute for a full audit; it's the more precise tool for the actual question at hand, which is whether a specific set of changes introduced new risk into a system whose baseline behavior is already understood.</p>
+  <figure><img src="../../assets/blog/homelander-audit-bailsec-algebra/01.png" alt="" loading="lazy">
+    <figcaption>Bailsec security audit of the Homelander plugin. No high severity vulnerabilities identified.</figcaption></figure>
 
-  <h2>What changed, and what the audit tested</h2>
-  <p>The update modified how Homelander's Algebra integration handles its internal MEV capture logic on Algebra-based pools. Bailsec's review centered on whether those changes preserved the execution guarantees established in the original audit — most importantly, that the internal capture path can't affect the outcome of the user's underlying swap, even when it fails.</p>
+  <h2>Audit Scope and Methodology</h2>
 
-  <h2>The finding</h2>
-  <p>Bailsec's conclusion was direct: the updated Algebra plugin implementation extends the previously audited execution model without introducing new classes of exploitable risk. No high-severity vulnerabilities were identified. In other words, the changes did what they were meant to do — extend functionality — without changing the risk profile of the system underneath them.</p>
+  <p>The differential audit covered the set of changes introduced since <a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener">the first Bailsec review of the Homelander Algebra plugin</a>. The scope was bounded to the diff between the two contract versions and did not re-examine logic that remained unchanged. The assessment was conducted through manual code review focused on the correctness and safety of the new and modified logic within the Algebra Integral execution environment.</p>
 
-  <ul class="key-facts">
-    <li>Audit firm: Bailsec, running a differential (change-focused) review rather than a full re-audit.</li>
-    <li>Scope: Homelander's updated Algebra plugin integration.</li>
-    <li>Result: no high-severity vulnerabilities; the update extends the audited baseline without new risk classes.</li>
-  </ul>
+  <p>The reviewed changes included the addition of a pre-swap hook responsible for dynamic fee configuration, gas-related safety measures, refactoring of the post-swap control flow, and a new endpoint handling Algebra’s batched plugin fee settlement.</p>
 
-  <p>Differential audits like this one are what makes it practical for MEV-X to keep extending Homelander to new AMM architectures and plugin updates without every change requiring a full ground-up re-review — while still giving integrators an independent answer every time the execution logic changes.</p>
+  <p>During the review, the auditors analyzed the full execution paths introduced by these changes: how the pre-swap hook determines and returns fee values to Algebra depending on caller identity and MEV protection configuration, how the refactored post-swap logic routes into the arbitrage execution path, and how the fee settlement endpoint receives and forwards Algebra’s delayed fee transfers to the profit distributor.</p>
+
+  <p>The review also examined privilege boundaries across the owner-controlled configuration functions, the core invariants governing fee behavior across the defined caller categories, and failure and revert conditions across all modified control flows.</p>
+
+  <h2>High-Level Audit Results</h2>
+
+  <p>The audit did not identify any high severity vulnerabilities in the reviewed changes. Bailsec identified two medium severity issues, both of which were resolved before the final report was issued. The findings related to profit distribution semantics in multi-hop swap routing and a missing view function required by Algebra’s dynamic fee interface. None of the identified issues introduced exploitable paths affecting core protocol logic, user swap correctness, pool funds, or LP positions.</p>
+
+  <p>In particular, the audit confirms the following properties of the updated implementation:</p>
+
+  <ul>
+    <li>The beforeSwap hook supplies fee override and plugin fee values to Algebra within defined per-component bounds and does not introduce execution paths that would allow fee manipulation outside of configured parameters;</li>
+    <li>The afterSwap hook retains the isolation properties confirmed in the prior audit: failures in the external MEV execution stack are absorbed within the hook and do not propagate into the user’s transaction or alter the swap outcome;</li>
+    <li>The handlePluginFee endpoint correctly receives and forwards Algebra’s delayed plugin fee transfers to the profit distributor and operates within expected behavior under normal conditions;</li>
+    <li>Profit distribution does not depend on swap-level recipient data that is unreliable in multi-hop routing contexts.</li></ul>
+
+  <p>Taken together, these results indicate that the updated Algebra plugin implementation extends the previously audited execution model without introducing new classes of exploitable risk. The resolved medium severity findings address interface correctness and distribution semantics, and their resolution was confirmed through re-review prior to the final report.</p>
+
+  <h2>Execution-Level Safety Properties</h2>
+
+  <p>The updated implementation extends the plugin’s execution surface relative to the first audited version, adding a pre-swap phase and a fee settlement endpoint alongside the post-swap MEV capture logic reviewed previously. Neither addition changes the fundamental isolation properties of the execution model.</p>
+
+  <p>The pre-swap phase is limited to fee configuration. The plugin evaluates caller identity and the current MEV protection state, returns the appropriate fee values to Algebra, and exits. It does not hold funds, does not modify pool state, and has no influence over swap execution beyond the fee parameters it supplies. Swap accounting and all asset transfers remain entirely governed by the AMM.</p>
+
+  <p>The fee settlement endpoint handles amounts that Algebra has already accrued and transferred through its own internal mechanism. The plugin does not initiate these transfers and does not control their timing or magnitude. Its role at settlement is to receive and forward, with distribution logic invoked after the transfer is complete.</p>
+
+  <p>The post-swap MEV execution model is unchanged from the prior implementation. Arbitrage logic runs after the AMM has finalized its state transition, within the same transaction boundary, and does not affect swap correctness or pool balances regardless of whether MEV capture completes. Failures in the external execution stack remain absorbed within the hook and do not reach the user’s transaction.</p>
+
+  <p>Taken together, the reviewed changes extend the plugin’s configuration and settlement capabilities without expanding the attack surface of its core execution model. The boundaries between fee configuration, MEV capture, and AMM swap execution remain clearly defined and independently enforced.</p>
+
+  <p>For this review we worked with the <a href="https://bailsec.io/" target="_blank" rel="noopener">Bailsec team</a>, whose familiarity with the codebase from the first engagement allowed for a focused and substantive differential review. The process was thorough and iterative, with resolved findings re-examined before the final report was issued. This is our second audit with them, and we appreciate the continued collaboration! The full audit report is available <a href="https://github.com/bailsec/BailSec/blob/main/Bailsec%20-%20MEV-X%20-%20Differential%20-%20Final%20Report.pdf" target="_blank" rel="noopener">here</a>.</p>
+
+  <p><em>For a deeper look at Homelander’s mechanics, check the </em><a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener"><em>documentation</em></a><em> and our earlier publications (</em><a href="https://medium.com/@MEV-X/introducing-homelander-atomic-mev-internalization-system-by-mev-x-eafa6f9f1bc9" target="_blank" rel="noopener"><em>I</em></a><em>/</em><a href="https://medium.com/@MEV-X/mev-resolution-in-amm-based-systems-bbd9d2af2fa1" target="_blank" rel="noopener"><em>II</em></a><em>/</em><a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener"><em>III</em></a><em>). If you’d like to explore an integration or partnership, you can reach us on </em><a href="https://t.me/ex_seoeva" target="_blank" rel="noopener"><em>Telegram</em></a><em>.</em></p>
+
+  <h2><a href="https://www.mev-x.com/" target="_blank" rel="noopener">Website</a> | <a href="https://x.com/MEV_X_project" target="_blank" rel="noopener">Twitter</a> | <a href="https://t.me/MEV_X_chat" target="_blank" rel="noopener">Telegram</a> | <a href="https://www.linkedin.com/company/mev-x/" target="_blank" rel="noopener">LinkedIn</a></h2>
 </article>
 
 <section class="related">
@@ -149,23 +179,28 @@
     <linearGradient id="gB-homelander-audit-uniswap-v4" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-homelander-audit-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-audit-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-audit-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-audit-uniswap-v4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-audit-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-audit-uniswap-v4" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="41" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="67" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-audit-uniswap-v4" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-audit-uniswap-v4" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-audit-uniswap-v4)"/>
-    <g filter="url(#softBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/>
-    <g filter="url(#midBlur-homelander-audit-uniswap-v4)" opacity="0.45"><path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gB-homelander-audit-uniswap-v4)"/></g>
-    <circle cx="90" cy="90" r="30" fill="url(#orbCore-homelander-audit-uniswap-v4)" filter="url(#orbGlow-homelander-audit-uniswap-v4)" opacity="0.85"/>
-    <g transform="translate(90,90)"><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/><path d="M-5,0 L-1,4.5 L6,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-audit-uniswap-v4)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="48.3" cy="86.3" r="7.09" fill="#C7BEFF" opacity="0.12" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/><circle cx="109.1" cy="55.0" r="6.51" fill="#C7BEFF" opacity="0.16" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/><circle cx="215.8" cy="86.6" r="7.07" fill="#C7BEFF" opacity="0.14" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/>
+    <g filter="url(#softBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/></g>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="none" stroke="url(#gA-homelander-audit-uniswap-v4)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-audit-uniswap-v4)"/></g>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-audit-uniswap-v4)" opacity="0.55"/>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="none" stroke="url(#gB-homelander-audit-uniswap-v4)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-audit-uniswap-v4)" opacity="0.85"><circle cx="73.3" cy="88.1" r="1.50" fill="#ffffff" opacity="0.18"/><circle cx="264.6" cy="74.3" r="1.28" fill="#ffffff" opacity="0.26"/><circle cx="50.3" cy="34.6" r="1.54" fill="#4F86F5" opacity="0.26"/><circle cx="71.7" cy="114.5" r="0.90" fill="#ffffff" opacity="0.35"/><circle cx="82.6" cy="34.6" r="1.64" fill="#ffffff" opacity="0.39"/><circle cx="103.2" cy="52.4" r="1.85" fill="#ffffff" opacity="0.31"/><circle cx="80.6" cy="10.1" r="0.97" fill="#ffffff" opacity="0.18"/><circle cx="265.4" cy="104.8" r="2.19" fill="#C7BEFF" opacity="0.28"/><circle cx="202.6" cy="43.0" r="2.03" fill="#8B5CF6" opacity="0.36"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-audit-uniswap-v4)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-audit-uniswap-v4)"/></svg></div>
         <h3>MixBytes Audits the Uniswap v4 Hook</h3>
         <p class="dek">MixBytes’ audit of the Uniswap v4 hook implementation found no critical or high-severity vulnerabilities, and confirmed that external-execution failures stay contained inside the hook itself.</p>
         <div class="meta"><span class="meta-date">May 6, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
@@ -181,23 +216,28 @@
     <linearGradient id="gB-homelander-security-audit-summary-and-outcomes" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-security-audit-summary-and-outcomes" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-security-audit-summary-and-outcomes" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-security-audit-summary-and-outcomes" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-security-audit-summary-and-outcomes" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="78" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="25" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-security-audit-summary-and-outcomes" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-security-audit-summary-and-outcomes" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-security-audit-summary-and-outcomes)"/>
-    <g filter="url(#softBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/></g>
-    <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/>
-    <g filter="url(#midBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.45"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)"/></g>
-    <circle cx="95" cy="95" r="30" fill="url(#orbCore-homelander-security-audit-summary-and-outcomes)" filter="url(#orbGlow-homelander-security-audit-summary-and-outcomes)" opacity="0.85"/>
-    <g transform="translate(95,95)"><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/><path d="M-5,0 L-1,4.5 L6,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-security-audit-summary-and-outcomes)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="70.9" cy="109.4" r="5.38" fill="#C7BEFF" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="163.7" cy="53.8" r="9.88" fill="#ffffff" opacity="0.13" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="227.3" cy="83.4" r="8.47" fill="#ffffff" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/>
+    <g filter="url(#softBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/></g>
+    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/>
+    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="none" stroke="url(#gA-homelander-security-audit-summary-and-outcomes)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)"/></g>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)" opacity="0.5"/>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gB-homelander-security-audit-summary-and-outcomes)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.85"><circle cx="222.8" cy="59.4" r="1.93" fill="#C7BEFF" opacity="0.28"/><circle cx="289.8" cy="29.9" r="1.11" fill="#ffffff" opacity="0.47"/><circle cx="68.9" cy="81.7" r="2.07" fill="#C7BEFF" opacity="0.30"/><circle cx="247.0" cy="42.8" r="1.40" fill="#4F86F5" opacity="0.44"/><circle cx="291.0" cy="99.7" r="1.21" fill="#8B5CF6" opacity="0.30"/><circle cx="139.5" cy="69.9" r="0.97" fill="#ffffff" opacity="0.39"/><circle cx="8.3" cy="104.0" r="1.55" fill="#4F86F5" opacity="0.27"/><circle cx="176.9" cy="76.0" r="1.91" fill="#C7BEFF" opacity="0.49"/><circle cx="245.7" cy="101.7" r="1.96" fill="#8B5CF6" opacity="0.45"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-security-audit-summary-and-outcomes)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-security-audit-summary-and-outcomes)"/></svg></div>
         <h3>Bailsec's First Homelander Audit</h3>
         <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities, and confirmed that a failed internal MEV path can never touch or alter the user's own swap outcome.</p>
         <div class="meta"><span class="meta-date">Jan 12, 2026</span><div class="meta-tags"><span>Security Audits</span></div></div>
@@ -210,26 +250,31 @@
       <stop offset="100%" stop-color="#08050f"/>
     </radialGradient>
     <linearGradient id="gA-quickswap-integrates-homelander" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <linearGradient id="gB-quickswap-integrates-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
+    <linearGradient id="gB-quickswap-integrates-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-quickswap-integrates-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-quickswap-integrates-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-quickswap-integrates-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-quickswap-integrates-homelander" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-quickswap-integrates-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-quickswap-integrates-homelander" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="82" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="38" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-quickswap-integrates-homelander" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-quickswap-integrates-homelander" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-quickswap-integrates-homelander)"/>
+    <circle cx="187.0" cy="35.4" r="6.96" fill="#C7BEFF" opacity="0.11" filter="url(#bokehBlur-quickswap-integrates-homelander)"/><circle cx="222.9" cy="30.4" r="8.30" fill="#C7BEFF" opacity="0.13" filter="url(#bokehBlur-quickswap-integrates-homelander)"/><circle cx="267.2" cy="65.7" r="5.68" fill="#4F86F5" opacity="0.12" filter="url(#bokehBlur-quickswap-integrates-homelander)"/>
     <g filter="url(#softBlur-quickswap-integrates-homelander)" opacity="0.5"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-quickswap-integrates-homelander)"/></g>
     <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-quickswap-integrates-homelander)"/>
-    <g filter="url(#midBlur-quickswap-integrates-homelander)" opacity="0.45"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-quickswap-integrates-homelander)"/></g>
-    <circle cx="95" cy="45" r="30" fill="url(#orbCore-quickswap-integrates-homelander)" filter="url(#orbGlow-quickswap-integrates-homelander)" opacity="0.85"/>
-    <g transform="translate(95,45)"><circle cx="-8" cy="0" r="15" fill="none" stroke="#4F86F5" stroke-width="1.6" opacity=".8"/><circle cx="8" cy="0" r="15" fill="none" stroke="#C7BEFF" stroke-width="1.6" opacity=".8"/></g>
-    <rect width="300" height="132" filter="url(#grain-quickswap-integrates-homelander)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="none" stroke="url(#gA-quickswap-integrates-homelander)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-quickswap-integrates-homelander)" opacity="0.5"><path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-quickswap-integrates-homelander)"/></g>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-quickswap-integrates-homelander)" opacity="0.5"/>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="none" stroke="url(#gB-quickswap-integrates-homelander)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-quickswap-integrates-homelander)" opacity="0.85"><circle cx="132.4" cy="56.0" r="1.93" fill="#ffffff" opacity="0.41"/><circle cx="2.5" cy="6.3" r="1.35" fill="#8B5CF6" opacity="0.49"/><circle cx="181.4" cy="47.0" r="1.17" fill="#C7BEFF" opacity="0.39"/><circle cx="139.8" cy="27.6" r="1.24" fill="#ffffff" opacity="0.20"/><circle cx="100.4" cy="4.8" r="1.18" fill="#C7BEFF" opacity="0.45"/><circle cx="200.8" cy="78.0" r="1.33" fill="#ffffff" opacity="0.34"/><circle cx="54.6" cy="104.9" r="0.77" fill="#ffffff" opacity="0.44"/><circle cx="125.5" cy="80.7" r="1.56" fill="#ffffff" opacity="0.45"/><circle cx="139.7" cy="115.0" r="0.82" fill="#C7BEFF" opacity="0.47"/></g>
+    <rect width="300" height="132" filter="url(#grain-quickswap-integrates-homelander)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-quickswap-integrates-homelander)"/></svg></div>
         <h3>QuickSwap Integrates Homelander</h3>
         <p class="dek">QuickSwap’s governance vote to integrate Homelander passed with 3.2 million QUICK in favor and zero opposed, a signal that MEV internalization is becoming infrastructure DEXes expect by default.</p>
         <div class="meta"><span class="meta-date">May 18, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>

@@ -15,10 +15,15 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/">
   <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
   <meta property="og:title" content="MEV Internalization: Keeping Value Inside the Protocol">
   <meta property="og:description" content="A protocol has three options for the MEV its own activity creates: ignore it, capture it natively, or route it to a partner. MEV leakage isn't actually unavoidable.">
   <meta property="og:image" content="https://mev-x.com/assets/img/og-image.png">
-  <meta property="article:published_time" content="2026-01-28">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MEV Internalization: Keeping Value Inside the Protocol">
+  <meta property="article:published_time" content="2026-01-28"
+  <meta property="article:modified_time" content="2026-01-28">>
   <meta property="article:section" content="MEV Internalization">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -29,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css?v=19">
+  <link rel="stylesheet" href="../../css/style.css?v=35">
 
   <script type="application/ld+json">
   {
@@ -53,19 +58,6 @@
       { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
       { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
       { "@type": "ListItem", "position": 3, "name": "MEV Internalization: Keeping Value Inside the Protocol", "item": "https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/" }
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is MEV leakage unavoidable for AMM protocols?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. Leakage is the default outcome only when a protocol takes no position on the MEV its own trading activity creates. Protocols that internalize that MEV, or route it through a partner under their control, keep some or all of the value that would otherwise go to external searchers." }
-      }
     ]
   }
   </script>
@@ -119,39 +111,103 @@
   <div class="article-meta">
     <span>MEV-X Team</span>
     <span>Jan 28, 2026</span>
-    <span>5 min read</span>
+    <span>8 min read</span>
   </div>
 </header>
 
 <article class="article-body">
-  <div class="tldr reveal">
-    <div class="k">Answer first</div>
-    <p>A protocol facing post-swap MEV has three architectural options: do nothing and let it leak to external searchers, capture it natively through protocol-level logic, or route it to an external partner under negotiated terms. MEV leakage is a choice made by default, not a structural inevitability of on-chain markets.</p>
-  </div>
+  <p><em>This material was created by the MEV-X team for educational purposes. MEV-X is a research and commercial project created for the extraction of MEV, which aims to form a reliable scientific community and promote the fair distribution of the extracted MEV.</em></p>
 
-  <h2>Option one: do nothing</h2>
-  <p>This is the default state of most AMMs, and it's a choice even when nobody explicitly makes it. Every swap that shifts a pool's price creates an arbitrage opportunity; if the protocol has no mechanism for capturing it, an external searcher will, almost immediately. The protocol's own trading volume becomes the raw material for a market it has no participation in. This is what "MEV leakage" means in practice — value the protocol generated, captured entirely outside it.</p>
+  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/01.png" alt="" loading="lazy"></figure>
 
-  <h2>Option two: protocol-native capture</h2>
-  <p>The second option is to build the capture mechanism directly into the protocol — internalization. Instead of leaving the post-swap imbalance for an external auction to resolve, the protocol resolves it itself, atomically, as part of its own execution logic. This is the approach behind Homelander: the arbitrage opportunity never becomes visible to outside searchers in the first place, because it's closed within the same transaction that created it. The captured value returns to the protocol as yield rather than leaving as priority fees to validators and builders.</p>
+  <p>Decentralized exchanges create value every time they execute a user transaction. However, a significant portion of this value does not remain within the protocol. Instead, it is systematically extracted by external actors who observe and react to state changes after execution. This dynamic has become so normalized that it is often treated as an unavoidable property of on-chain markets.</p>
 
-  <h2>Option three: partnered external execution</h2>
-  <p>The third option sits between the other two. A protocol can route its MEV to a specific external partner — under a negotiated arrangement, such as a private order-flow agreement or a rebate structure — rather than leaving it open to whichever searcher wins the public auction. This captures some of the value that pure leakage would lose entirely, without requiring the protocol to build and maintain internalization logic itself. It's a reasonable middle ground, though it still depends on trusting a counterparty's execution and terms rather than having a deterministic, on-chain guarantee.</p>
+  <p>This article argues that it is not.</p>
 
-  <ul class="key-facts">
-    <li><strong>Do nothing:</strong> simplest to ship, and the value goes entirely to external searchers and block builders.</li>
-    <li><strong>Native capture:</strong> highest value retention, requires building internalization logic into the protocol's own execution path.</li>
-    <li><strong>Partnered execution:</strong> partial value retention through negotiated terms with an external actor, without in-house internalization engineering.</li>
-  </ul>
+  <p>MEV leakage is not an inherent requirement of decentralized execution, but a design choice. Under the right execution model, the value created during state transitions can be internalized by the protocol itself, without altering user experience or execution guarantees.</p>
 
-  <p>The choice isn't really about whether MEV exists — a protocol's own activity will keep creating arbitrage opportunities regardless of what it decides. The choice is about who's positioned to capture that value once it exists, and that's an architectural decision a protocol can make deliberately instead of by default.</p>
+  <h2>MEV As a Structural Property of On-Chain Execution</h2>
 
-  <div class="faq">
-    <div class="faq-item">
-      <h3>Is MEV leakage unavoidable for AMM protocols?</h3>
-      <p>No. Leakage is the default outcome only when a protocol takes no position on the MEV its own trading activity creates. Protocols that internalize that MEV, or route it through a partner under their control, keep some or all of the value that would otherwise go to external searchers.</p>
-    </div>
-  </div>
+  <p>Maximal Extractable Value is a structural property of on-chain execution, arising whenever a user transaction changes shared state. Any transaction that moves prices, rebalances pools, or updates reserves creates a temporary imbalance between the pre-state and post-state of the system. That imbalance represents economic value. MEV is simply the ability to capture it.</p>
+
+  <p>MEV is created inside the execution flow of the protocol, at the exact moment when a user transaction is executed and the state transition occurs (at this point: the new state is already determined, the price impact is known, but the updated state is not yet public).</p>
+
+  <p>This moment is often overlooked. While external searchers only observe MEV after state becomes public, the protocol itself necessarily sees the transition from the inside, as part of its normal execution logic. The remaining question is how protocols choose to handle the MEV created within their own execution flows.</p>
+
+  <h2>Three Ways Protocols Can Deal with MEV</h2>
+
+  <p>Once MEV is understood as an execution-level phenomenon, a protocol has only a limited set of architectural choices. These choices determine where the economic value created during execution ultimately accrues.</p>
+
+  <p>In practice, protocols converge to one of three approaches:</p>
+
+  <h3>1. Do Nothing</h3>
+
+  <p>The most common approach is to do nothing.</p>
+
+  <p>Under this model, the protocol executes user transactions without attempting to detect or react to the MEV created by state transitions. Any resulting arbitrage opportunities are left to be discovered and exploited by external participants.</p>
+
+  <p>As a result MEV is captured by arbitrageurs, searchers, and builders, users pay indirectly through worse execution and increased competition for block space, the protocol forfeits value created by its own execution flow.</p>
+
+  <p>This approach is simple and requires no additional infrastructure. The economic value created during execution is consistently realized outside the protocol.</p>
+
+  <h3>2. Internal Arbitrage By The Protocol</h3>
+
+  <p>A second approach is for the protocol to internalize MEV by directly performing arbitrage as part of its execution logic.</p>
+
+  <p>Under this model, the protocol actively detects price imbalances created by user transactions and executes compensating trades to capture the associated MEV internally. The protocol itself becomes responsible for identifying, executing, and settling arbitrage opportunities.</p>
+
+  <p>Doing this effectively embeds an “arbitrage engine” into the DEX execution path, turning a simple swap into a pipeline that must also identify, price, and execute follow-on trades safely and deterministically. The protocol must discover and maintain viable routes, search for an optimal trade size under bounded computation, and enforce strict guardrails so the additional work does not degrade block execution or introduce new failure modes.</p>
+
+  <p>This is a high bar for a DEX. It adds code complexity, increases the surface area for edge cases and security issues, and creates ongoing operational burden (route maintenance, parameter tuning, and performance monitoring). Even if the logic is correct, it must remain predictable under volatile market conditions and must never worsen user execution. These constraints are a major reason why fully in-protocol arbitrage remains uncommon in practice.</p>
+
+  <p>There is an <a href="https://docs.osmosis.zone/overview/features/protorev/" target="_blank" rel="noopener">implementation of this idea in Osmosis</a>. It is described as a protocol module that backruns swaps and captures cyclic arbitrage as protocol revenue. However, we do not have sufficient public data here to confirm its current operational status or to evaluate its real-world effectiveness over time.</p>
+
+  <p>At the time of writing, we did not find publicly documented, production-grade examples of major DEXs on widely used networks running a full in-protocol arbitrage engine as part of swap execution. In mainstream AMMs, arbitrage remains an external layer: the protocol executes the trade, and third parties capture the resulting opportunities.</p>
+
+  <h3>3. MEV Internalization via an External Execution Partner</h3>
+
+  <p>A third approach is to internalize MEV without turning the DEX itself into an arbitrageur.</p>
+
+  <p>The core idea is that the protocol exposes a narrow, controlled execution surface (typically a post-swap callback or hook) so that an external execution partner can inspect the finalized post-swap state inside the same execution flow. If the state transition creates a profitable opportunity (e.g., a backrun arbitrage), that opportunity is executed atomically, and the resulting surplus is routed back to the protocol’s economic domain, where it can be distributed according to protocol policy (LPs, treasury, user rebates).</p>
+
+  <p>Conceptually, this model separates concerns. The DEX stays focused on executing user intent and maintaining the market, while MEV capture is implemented as an attached execution path that is triggered only when relevant. This keeps user experience unchanged in the common case, and it allows protocols to reclaim execution-level value without embedding a full arbitrage engine into the core swap logic.</p>
+
+  <p>At the same time, this approach shifts the design problem from “can the protocol do arbitrage” to “can the protocol safely and credibly internalize it.” The integration must ensure atomicity (no external race after state becomes public), strict boundaries on what the external component can do, and a transparent policy for where captured value goes. In practice, this is where modern hook-based AMM designs matter: they provide a standardized point in the execution lifecycle where such logic can run.</p>
+
+  <p>This is the central model we focus on in the rest of the article: it targets the main inefficiency of MEV leakage, while avoiding the operational and safety burden of running protocol-native arbitrage.</p>
+
+  <figure><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/02.png" alt="" loading="lazy">
+    <figcaption>Comparison of architectural approaches to MEV handling in DEX execution</figcaption></figure>
+
+  <p>The table above summarizes the three approaches discussed in this section and highlights their key architectural differences. While all three interact with the same execution-level phenomenon, they differ in where MEV is captured, when capture occurs relative to execution, and how much complexity and risk the protocol assumes as a result.</p>
+
+  <h2>Design Properties of MEV Internalization</h2>
+
+  <p>For MEV internalization to be meaningful, it must satisfy a small set of design properties. These properties define what separates internalization from simply relocating MEV capture to a different actor.</p>
+
+  <p><strong>Atomicity.</strong> The capture path must execute within the same on-chain execution flow as the user transaction. If MEV capture is delayed until after state becomes public, it reintroduces the same external race that defines traditional MEV extraction.</p>
+
+  <p><strong>Non-Interference With User Execution.</strong> Internalization must not worsen the user’s outcome or change the user’s interaction model. The user swap should remain the primary action, with any MEV-capture logic strictly secondary and never allowed to reduce execution quality, increase revert risk, or introduce visible latency in the common case.</p>
+
+  <p><strong>Strict Execution Boundaries.</strong> The external component must operate under explicit constraints. The integration surface should be narrow and well-defined, limiting what can be executed, under what conditions, and with what resource bounds. Without these guardrails, the system simply shifts risk from external searchers into protocol-adjacent execution.</p>
+
+  <p><strong>Transparent Value Routing.</strong> Captured value must remain within the protocol’s economic domain under an explicit policy. Whether it is distributed to LPs, retained as protocol revenue, or partially rebated to users, the routing rules should be clear and enforceable at the protocol level.</p>
+
+  <p>With these requirements in place, the discussion shifts from principles to mechanism. The next section presents a concrete architecture that operationalizes internalization as an on-chain, bounded, and policy-driven component.</p>
+
+  <h2>Homelander: The Leading MEV Internalization System</h2>
+
+  <p>Homelander is an implementation of MEV internalization built around the third model described above: capturing post-swap MEV inside the execution flow and routing the resulting surplus back to the protocol. The plugin is already live in production, actively protecting trades and generating on-chain revenue.</p>
+
+  <p>The system focuses on a narrow class of opportunities that are created deterministically by a user swap: post-swap arbitrage. The core mechanism is to evaluate the finalized post-swap state from within the same execution context and, when profitable, execute a backrun atomically. This preserves the key internalization property: the opportunity is acted on before it becomes a public signal that external searchers can race on.</p>
+
+  <p>Architecturally, Homelander is designed to avoid the two failure modes discussed earlier. It does not leave MEV capture to off-protocol competition (which recreates the external race), and it does not require the DEX to embed a full arbitrage engine into its core swap logic (which pushes complexity and operational risk into the protocol). Instead, MEV capture is implemented as a constrained post-swap component with explicit trigger conditions and explicit value routing.</p>
+
+  <p>MEV leakage is not an unavoidable feature of on-chain markets. It is a consequence of how execution is structured and where protocols draw the boundary between user intent and value created during state transitions. Internalization reframes MEV from an external race into a protocol-level mechanism: one that can be constrained, policy-routed, and aligned with users and liquidity.</p>
+
+  <p><em>For a deeper look at Homelander’s mechanics, check the </em><a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener"><em>documentation</em></a><em> and our earlier publications (</em><a href="https://medium.com/@MEV-X/introducing-homelander-atomic-mev-internalization-system-by-mev-x-eafa6f9f1bc9" target="_blank" rel="noopener"><em>I</em></a><em>/</em><a href="https://medium.com/@MEV-X/mev-resolution-in-amm-based-systems-bbd9d2af2fa1" target="_blank" rel="noopener"><em>II</em></a><em>/</em><a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener"><em>III</em></a><em>). If you’d like to explore an integration or partnership, you can reach us on </em><a href="https://t.me/ex_seoeva" target="_blank" rel="noopener"><em>Telegram</em></a><em>.</em></p>
+
+  <h2><a href="https://www.mev-x.com/" target="_blank" rel="noopener">Website</a> | <a href="https://x.com/MEV_X_project" target="_blank" rel="noopener">Twitter</a> | <a href="https://t.me/MEV_X_chat" target="_blank" rel="noopener">Telegram</a> | <a href="https://www.linkedin.com/company/mev-x/" target="_blank" rel="noopener">LinkedIn</a></h2>
 </article>
 
 <section class="related">
@@ -169,23 +225,28 @@
     <linearGradient id="gB-introducing-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-introducing-homelander" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-introducing-homelander" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="18" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="60" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-introducing-homelander" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-introducing-homelander" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-introducing-homelander)"/>
-    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/>
-    <g filter="url(#midBlur-introducing-homelander)" opacity="0.45"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-introducing-homelander)"/></g>
-    <circle cx="150" cy="66" r="30" fill="url(#orbCore-introducing-homelander)" filter="url(#orbGlow-introducing-homelander)" opacity="0.85"/>
-    <g transform="translate(150,66)"><circle r="9" fill="#fff"/><circle r="9" fill="url(#orbCore-introducing-homelander)"/></g>
-    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="156.4" cy="71.8" r="7.18" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="246.2" cy="111.0" r="6.81" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="191.9" cy="98.2" r="10.44" fill="#4F86F5" opacity="0.11" filter="url(#bokehBlur-introducing-homelander)"/>
+    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/></g>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gA-introducing-homelander)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-introducing-homelander)" opacity="0.5"><path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)"/></g>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)" opacity="0.5"/>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="none" stroke="url(#gB-introducing-homelander)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-introducing-homelander)" opacity="0.85"><circle cx="-4.1" cy="114.4" r="1.66" fill="#C7BEFF" opacity="0.31"/><circle cx="158.1" cy="82.9" r="1.51" fill="#ffffff" opacity="0.38"/><circle cx="85.3" cy="41.1" r="2.00" fill="#8B5CF6" opacity="0.48"/><circle cx="3.7" cy="81.2" r="0.81" fill="#ffffff" opacity="0.45"/><circle cx="124.8" cy="102.3" r="1.35" fill="#ffffff" opacity="0.45"/><circle cx="215.7" cy="93.7" r="1.46" fill="#ffffff" opacity="0.19"/><circle cx="62.5" cy="94.7" r="1.28" fill="#8B5CF6" opacity="0.29"/><circle cx="237.5" cy="30.4" r="1.72" fill="#ffffff" opacity="0.40"/><circle cx="85.9" cy="45.8" r="1.81" fill="#ffffff" opacity="0.24"/></g>
+    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-introducing-homelander)"/></svg></div>
         <h3>Introducing Homelander</h3>
         <p class="dek">Homelander captures the post-swap arbitrage opportunity atomically, in the same transaction as the swap that creates it, and returns the value as AMM yield instead of letting it leak to searchers.</p>
         <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
@@ -201,23 +262,28 @@
     <linearGradient id="gB-every-chain-handles-mev-differently" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-every-chain-handles-mev-differently" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-every-chain-handles-mev-differently" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-every-chain-handles-mev-differently" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-every-chain-handles-mev-differently" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-every-chain-handles-mev-differently" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-every-chain-handles-mev-differently" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="16" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="33" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-every-chain-handles-mev-differently" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-every-chain-handles-mev-differently" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-every-chain-handles-mev-differently)"/>
+    <circle cx="36.6" cy="15.8" r="5.42" fill="#C7BEFF" opacity="0.21" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/><circle cx="279.4" cy="71.8" r="6.35" fill="#4F86F5" opacity="0.19" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/><circle cx="141.8" cy="82.3" r="10.95" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/>
     <g filter="url(#softBlur-every-chain-handles-mev-differently)" opacity="0.5"><path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gA-every-chain-handles-mev-differently)"/></g>
     <path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gA-every-chain-handles-mev-differently)"/>
-    <g filter="url(#midBlur-every-chain-handles-mev-differently)" opacity="0.45"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)"/></g>
-    <circle cx="215" cy="95" r="30" fill="url(#orbCore-every-chain-handles-mev-differently)" filter="url(#orbGlow-every-chain-handles-mev-differently)" opacity="0.85"/>
-    <g transform="translate(215,95)"><circle cx="-8" cy="4" r="4.5" fill="#fff"/><circle cx="7" cy="-6" r="3" fill="#C7BEFF"/><circle cx="6" cy="9" r="2.4" fill="#4F86F5"/><path d="M-8,4 L7,-6 M-8,4 L6,9" stroke="#C7BEFF" stroke-width="1" opacity=".6"/></g>
-    <rect width="300" height="132" filter="url(#grain-every-chain-handles-mev-differently)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="none" stroke="url(#gA-every-chain-handles-mev-differently)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-every-chain-handles-mev-differently)" opacity="0.5"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)"/></g>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)" opacity="0.65"/>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="none" stroke="url(#gB-every-chain-handles-mev-differently)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-every-chain-handles-mev-differently)" opacity="0.85"><circle cx="218.0" cy="63.5" r="1.01" fill="#C7BEFF" opacity="0.24"/><circle cx="1.1" cy="114.3" r="2.16" fill="#ffffff" opacity="0.33"/><circle cx="143.9" cy="58.4" r="1.29" fill="#C7BEFF" opacity="0.50"/><circle cx="153.5" cy="63.1" r="1.43" fill="#ffffff" opacity="0.48"/><circle cx="173.7" cy="15.7" r="2.03" fill="#4F86F5" opacity="0.38"/><circle cx="252.3" cy="12.5" r="2.00" fill="#ffffff" opacity="0.42"/><circle cx="253.6" cy="100.0" r="1.68" fill="#C7BEFF" opacity="0.48"/><circle cx="182.0" cy="4.3" r="1.08" fill="#ffffff" opacity="0.27"/><circle cx="141.5" cy="17.2" r="1.47" fill="#ffffff" opacity="0.41"/></g>
+    <rect width="300" height="132" filter="url(#grain-every-chain-handles-mev-differently)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-every-chain-handles-mev-differently)"/></svg></div>
         <h3>Every Chain Handles MEV Differently</h3>
         <p class="dek">Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each organize MEV differently at the chain level, but none of them decide who keeps the value a specific protocol's own activity creates.</p>
         <div class="meta"><span class="meta-date">Jun 16, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>Research</span></div></div>
@@ -233,23 +299,28 @@
     <linearGradient id="gB-mev-resolution-in-amm-based-systems" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-mev-resolution-in-amm-based-systems" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-mev-resolution-in-amm-based-systems" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-mev-resolution-in-amm-based-systems" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-mev-resolution-in-amm-based-systems" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="74" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-mev-resolution-in-amm-based-systems" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-mev-resolution-in-amm-based-systems" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-mev-resolution-in-amm-based-systems)"/>
-    <g filter="url(#softBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/></g>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/>
-    <g filter="url(#midBlur-mev-resolution-in-amm-based-systems)" opacity="0.45"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)"/></g>
-    <circle cx="220" cy="60" r="30" fill="url(#orbCore-mev-resolution-in-amm-based-systems)" filter="url(#orbGlow-mev-resolution-in-amm-based-systems)" opacity="0.85"/>
-    <g transform="translate(220,60)"><circle cx="-8" cy="0" r="15" fill="none" stroke="#4F86F5" stroke-width="1.6" opacity=".8"/><circle cx="8" cy="0" r="15" fill="none" stroke="#C7BEFF" stroke-width="1.6" opacity=".8"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-resolution-in-amm-based-systems)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="169.5" cy="103.3" r="7.24" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="162.8" cy="11.5" r="7.43" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="180.5" cy="88.6" r="9.77" fill="#4F86F5" opacity="0.22" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/>
+    <g filter="url(#softBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/></g>
+    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/>
+    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="none" stroke="url(#gA-mev-resolution-in-amm-based-systems)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)"/></g>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)" opacity="0.55"/>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="none" stroke="url(#gB-mev-resolution-in-amm-based-systems)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-mev-resolution-in-amm-based-systems)" opacity="0.85"><circle cx="68.4" cy="-7.5" r="1.68" fill="#8B5CF6" opacity="0.22"/><circle cx="246.6" cy="14.7" r="1.14" fill="#C7BEFF" opacity="0.22"/><circle cx="157.2" cy="40.7" r="1.76" fill="#ffffff" opacity="0.35"/><circle cx="253.9" cy="24.4" r="0.75" fill="#ffffff" opacity="0.34"/><circle cx="110.6" cy="36.3" r="1.20" fill="#C7BEFF" opacity="0.34"/><circle cx="25.3" cy="113.4" r="1.85" fill="#ffffff" opacity="0.40"/><circle cx="104.9" cy="77.5" r="1.19" fill="#C7BEFF" opacity="0.45"/><circle cx="147.8" cy="122.7" r="1.72" fill="#4F86F5" opacity="0.37"/><circle cx="201.6" cy="12.7" r="1.03" fill="#C7BEFF" opacity="0.22"/></g>
+    <rect width="300" height="132" filter="url(#grain-mev-resolution-in-amm-based-systems)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-mev-resolution-in-amm-based-systems)"/></svg></div>
         <h3>External vs Internal MEV Resolution in AMMs</h3>
         <p class="dek">Post-swap price imbalances get resolved one of two ways: externally, through open searcher competition, or internally, by the protocol capturing the imbalance atomically inside its own transaction.</p>
         <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>

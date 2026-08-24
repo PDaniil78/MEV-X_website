@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=League+Gothic&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/style.css?v=19">
+  <link rel="stylesheet" href="../css/style.css?v=35">
 
   <script type="application/ld+json">
   {
@@ -122,23 +122,28 @@
     <linearGradient id="gB-every-chain-handles-mev-differently" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-every-chain-handles-mev-differently" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-every-chain-handles-mev-differently" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-every-chain-handles-mev-differently" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-every-chain-handles-mev-differently" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-every-chain-handles-mev-differently" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-every-chain-handles-mev-differently" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="16" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="33" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-every-chain-handles-mev-differently" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-every-chain-handles-mev-differently" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-every-chain-handles-mev-differently)"/>
+    <circle cx="36.6" cy="15.8" r="5.42" fill="#C7BEFF" opacity="0.21" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/><circle cx="279.4" cy="71.8" r="6.35" fill="#4F86F5" opacity="0.19" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/><circle cx="141.8" cy="82.3" r="10.95" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-every-chain-handles-mev-differently)"/>
     <g filter="url(#softBlur-every-chain-handles-mev-differently)" opacity="0.5"><path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gA-every-chain-handles-mev-differently)"/></g>
     <path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gA-every-chain-handles-mev-differently)"/>
-    <g filter="url(#midBlur-every-chain-handles-mev-differently)" opacity="0.45"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)"/></g>
-    <circle cx="215" cy="95" r="30" fill="url(#orbCore-every-chain-handles-mev-differently)" filter="url(#orbGlow-every-chain-handles-mev-differently)" opacity="0.85"/>
-    <g transform="translate(215,95)"><circle cx="-8" cy="4" r="4.5" fill="#fff"/><circle cx="7" cy="-6" r="3" fill="#C7BEFF"/><circle cx="6" cy="9" r="2.4" fill="#4F86F5"/><path d="M-8,4 L7,-6 M-8,4 L6,9" stroke="#C7BEFF" stroke-width="1" opacity=".6"/></g>
-    <rect width="300" height="132" filter="url(#grain-every-chain-handles-mev-differently)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="none" stroke="url(#gA-every-chain-handles-mev-differently)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-every-chain-handles-mev-differently)" opacity="0.5"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)"/></g>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-every-chain-handles-mev-differently)" opacity="0.65"/>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="none" stroke="url(#gB-every-chain-handles-mev-differently)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-every-chain-handles-mev-differently)" opacity="0.85"><circle cx="218.0" cy="63.5" r="1.01" fill="#C7BEFF" opacity="0.24"/><circle cx="1.1" cy="114.3" r="2.16" fill="#ffffff" opacity="0.33"/><circle cx="143.9" cy="58.4" r="1.29" fill="#C7BEFF" opacity="0.50"/><circle cx="153.5" cy="63.1" r="1.43" fill="#ffffff" opacity="0.48"/><circle cx="173.7" cy="15.7" r="2.03" fill="#4F86F5" opacity="0.38"/><circle cx="252.3" cy="12.5" r="2.00" fill="#ffffff" opacity="0.42"/><circle cx="253.6" cy="100.0" r="1.68" fill="#C7BEFF" opacity="0.48"/><circle cx="182.0" cy="4.3" r="1.08" fill="#ffffff" opacity="0.27"/><circle cx="141.5" cy="17.2" r="1.47" fill="#ffffff" opacity="0.41"/></g>
+    <rect width="300" height="132" filter="url(#grain-every-chain-handles-mev-differently)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-every-chain-handles-mev-differently)"/></svg></div>
         <h3>Every Chain Handles MEV Differently</h3>
         <p class="dek">How Ethereum's PBS, Solana's Jito marketplace, and Sui's object model each treat MEV — and what changes when a protocol captures it directly instead of auctioning it off.</p>
         <div class="meta"><span class="meta-date">Jun 16, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>Research</span></div></div>
@@ -152,26 +157,31 @@
       <stop offset="100%" stop-color="#08050f"/>
     </radialGradient>
     <linearGradient id="gA-quickswap-integrates-homelander" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <linearGradient id="gB-quickswap-integrates-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
+    <linearGradient id="gB-quickswap-integrates-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-quickswap-integrates-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-quickswap-integrates-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-quickswap-integrates-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-quickswap-integrates-homelander" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-quickswap-integrates-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-quickswap-integrates-homelander" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="82" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="38" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-quickswap-integrates-homelander" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-quickswap-integrates-homelander" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-quickswap-integrates-homelander)"/>
+    <circle cx="187.0" cy="35.4" r="6.96" fill="#C7BEFF" opacity="0.11" filter="url(#bokehBlur-quickswap-integrates-homelander)"/><circle cx="222.9" cy="30.4" r="8.30" fill="#C7BEFF" opacity="0.13" filter="url(#bokehBlur-quickswap-integrates-homelander)"/><circle cx="267.2" cy="65.7" r="5.68" fill="#4F86F5" opacity="0.12" filter="url(#bokehBlur-quickswap-integrates-homelander)"/>
     <g filter="url(#softBlur-quickswap-integrates-homelander)" opacity="0.5"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-quickswap-integrates-homelander)"/></g>
     <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-quickswap-integrates-homelander)"/>
-    <g filter="url(#midBlur-quickswap-integrates-homelander)" opacity="0.45"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-quickswap-integrates-homelander)"/></g>
-    <circle cx="95" cy="45" r="30" fill="url(#orbCore-quickswap-integrates-homelander)" filter="url(#orbGlow-quickswap-integrates-homelander)" opacity="0.85"/>
-    <g transform="translate(95,45)"><circle cx="-8" cy="0" r="15" fill="none" stroke="#4F86F5" stroke-width="1.6" opacity=".8"/><circle cx="8" cy="0" r="15" fill="none" stroke="#C7BEFF" stroke-width="1.6" opacity=".8"/></g>
-    <rect width="300" height="132" filter="url(#grain-quickswap-integrates-homelander)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="none" stroke="url(#gA-quickswap-integrates-homelander)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-quickswap-integrates-homelander)" opacity="0.5"><path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-quickswap-integrates-homelander)"/></g>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-quickswap-integrates-homelander)" opacity="0.5"/>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="none" stroke="url(#gB-quickswap-integrates-homelander)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-quickswap-integrates-homelander)" opacity="0.85"><circle cx="132.4" cy="56.0" r="1.93" fill="#ffffff" opacity="0.41"/><circle cx="2.5" cy="6.3" r="1.35" fill="#8B5CF6" opacity="0.49"/><circle cx="181.4" cy="47.0" r="1.17" fill="#C7BEFF" opacity="0.39"/><circle cx="139.8" cy="27.6" r="1.24" fill="#ffffff" opacity="0.20"/><circle cx="100.4" cy="4.8" r="1.18" fill="#C7BEFF" opacity="0.45"/><circle cx="200.8" cy="78.0" r="1.33" fill="#ffffff" opacity="0.34"/><circle cx="54.6" cy="104.9" r="0.77" fill="#ffffff" opacity="0.44"/><circle cx="125.5" cy="80.7" r="1.56" fill="#ffffff" opacity="0.45"/><circle cx="139.7" cy="115.0" r="0.82" fill="#C7BEFF" opacity="0.47"/></g>
+    <rect width="300" height="132" filter="url(#grain-quickswap-integrates-homelander)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-quickswap-integrates-homelander)"/></svg></div>
         <h3>QuickSwap Integrates Homelander</h3>
         <p class="dek">QuickSwap's governance vote passed 3.2M QUICK in favor, zero against. What that says about where DEX infrastructure is heading.</p>
         <div class="meta"><span class="meta-date">May 18, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
@@ -185,26 +195,31 @@
       <stop offset="100%" stop-color="#08060f"/>
     </radialGradient>
     <linearGradient id="gA-homelander-audit-bailsec-algebra" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
-    <linearGradient id="gB-homelander-audit-bailsec-algebra" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
+    <linearGradient id="gB-homelander-audit-bailsec-algebra" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-homelander-audit-bailsec-algebra" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-audit-bailsec-algebra" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-audit-bailsec-algebra" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-audit-bailsec-algebra" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-audit-bailsec-algebra" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-audit-bailsec-algebra" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="35" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="52" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-audit-bailsec-algebra" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-audit-bailsec-algebra" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-audit-bailsec-algebra)"/>
+    <circle cx="111.2" cy="76.5" r="8.85" fill="#C7BEFF" opacity="0.17" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/><circle cx="71.0" cy="32.0" r="7.73" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/><circle cx="279.1" cy="57.2" r="10.96" fill="#C7BEFF" opacity="0.18" filter="url(#bokehBlur-homelander-audit-bailsec-algebra)"/>
     <g filter="url(#softBlur-homelander-audit-bailsec-algebra)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-homelander-audit-bailsec-algebra)"/></g>
     <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-homelander-audit-bailsec-algebra)"/>
-    <g filter="url(#midBlur-homelander-audit-bailsec-algebra)" opacity="0.45"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gB-homelander-audit-bailsec-algebra)"/></g>
-    <circle cx="205" cy="55" r="30" fill="url(#orbCore-homelander-audit-bailsec-algebra)" filter="url(#orbGlow-homelander-audit-bailsec-algebra)" opacity="0.85"/>
-    <g transform="translate(205,55)"><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/><path d="M-5,0 L-1,4.5 L6,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-audit-bailsec-algebra)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="none" stroke="url(#gA-homelander-audit-bailsec-algebra)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-audit-bailsec-algebra)" opacity="0.5"><path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-homelander-audit-bailsec-algebra)"/></g>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-homelander-audit-bailsec-algebra)" opacity="0.4"/>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="none" stroke="url(#gB-homelander-audit-bailsec-algebra)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-audit-bailsec-algebra)" opacity="0.85"><circle cx="26.7" cy="73.7" r="1.62" fill="#ffffff" opacity="0.28"/><circle cx="20.6" cy="77.3" r="1.78" fill="#4F86F5" opacity="0.34"/><circle cx="300.1" cy="51.6" r="1.54" fill="#4F86F5" opacity="0.29"/><circle cx="131.7" cy="71.5" r="1.01" fill="#8B5CF6" opacity="0.38"/><circle cx="270.1" cy="9.2" r="1.03" fill="#ffffff" opacity="0.28"/><circle cx="12.5" cy="29.7" r="0.91" fill="#ffffff" opacity="0.50"/><circle cx="58.4" cy="8.1" r="0.85" fill="#ffffff" opacity="0.35"/><circle cx="169.4" cy="20.4" r="2.03" fill="#8B5CF6" opacity="0.43"/><circle cx="278.3" cy="-2.4" r="1.34" fill="#ffffff" opacity="0.23"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-audit-bailsec-algebra)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-audit-bailsec-algebra)"/></svg></div>
         <h3>Bailsec Audits the Algebra Plugin</h3>
         <p class="dek">A differential audit of Homelander's Algebra plugin update, and why extending an already-audited execution model is a different risk profile than shipping a new one.</p>
         <div class="meta"><span class="meta-date">May 27, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
@@ -221,23 +236,28 @@
     <linearGradient id="gB-homelander-audit-uniswap-v4" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-homelander-audit-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-audit-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-audit-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-audit-uniswap-v4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-audit-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-audit-uniswap-v4" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="41" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="67" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-audit-uniswap-v4" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-audit-uniswap-v4" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-audit-uniswap-v4)"/>
-    <g filter="url(#softBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/>
-    <g filter="url(#midBlur-homelander-audit-uniswap-v4)" opacity="0.45"><path d="M-30,110 C40,60 90,95 150,55 C210,15 250,35 330,-10 L330,20 C250,60 210,45 150,85 C90,120 40,95 -30,140 Z" fill="url(#gB-homelander-audit-uniswap-v4)"/></g>
-    <circle cx="90" cy="90" r="30" fill="url(#orbCore-homelander-audit-uniswap-v4)" filter="url(#orbGlow-homelander-audit-uniswap-v4)" opacity="0.85"/>
-    <g transform="translate(90,90)"><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/><path d="M-5,0 L-1,4.5 L6,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-audit-uniswap-v4)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="48.3" cy="86.3" r="7.09" fill="#C7BEFF" opacity="0.12" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/><circle cx="109.1" cy="55.0" r="6.51" fill="#C7BEFF" opacity="0.16" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/><circle cx="215.8" cy="86.6" r="7.07" fill="#C7BEFF" opacity="0.14" filter="url(#bokehBlur-homelander-audit-uniswap-v4)"/>
+    <g filter="url(#softBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/></g>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-homelander-audit-uniswap-v4)"/>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="none" stroke="url(#gA-homelander-audit-uniswap-v4)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-audit-uniswap-v4)" opacity="0.5"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-audit-uniswap-v4)"/></g>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-audit-uniswap-v4)" opacity="0.55"/>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="none" stroke="url(#gB-homelander-audit-uniswap-v4)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-audit-uniswap-v4)" opacity="0.85"><circle cx="73.3" cy="88.1" r="1.50" fill="#ffffff" opacity="0.18"/><circle cx="264.6" cy="74.3" r="1.28" fill="#ffffff" opacity="0.26"/><circle cx="50.3" cy="34.6" r="1.54" fill="#4F86F5" opacity="0.26"/><circle cx="71.7" cy="114.5" r="0.90" fill="#ffffff" opacity="0.35"/><circle cx="82.6" cy="34.6" r="1.64" fill="#ffffff" opacity="0.39"/><circle cx="103.2" cy="52.4" r="1.85" fill="#ffffff" opacity="0.31"/><circle cx="80.6" cy="10.1" r="0.97" fill="#ffffff" opacity="0.18"/><circle cx="265.4" cy="104.8" r="2.19" fill="#C7BEFF" opacity="0.28"/><circle cx="202.6" cy="43.0" r="2.03" fill="#8B5CF6" opacity="0.36"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-audit-uniswap-v4)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-audit-uniswap-v4)"/></svg></div>
         <h3>MixBytes Audits the Uniswap v4 Hook</h3>
         <p class="dek">MixBytes' audit of the Uniswap v4 hook implementation, and how the hook contains external-execution failures instead of letting them touch the user's swap.</p>
         <div class="meta"><span class="meta-date">May 6, 2026</span><div class="meta-tags"><span>Security Audits</span><span>News</span></div></div>
@@ -251,26 +271,31 @@
       <stop offset="100%" stop-color="#08050f"/>
     </radialGradient>
     <linearGradient id="gA-homelander-expanding-to-uniswap-v4" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
-    <linearGradient id="gB-homelander-expanding-to-uniswap-v4" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
+    <linearGradient id="gB-homelander-expanding-to-uniswap-v4" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-homelander-expanding-to-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-expanding-to-uniswap-v4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-expanding-to-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-expanding-to-uniswap-v4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-expanding-to-uniswap-v4" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-expanding-to-uniswap-v4" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="5" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-expanding-to-uniswap-v4" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-expanding-to-uniswap-v4" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-expanding-to-uniswap-v4)"/>
-    <g filter="url(#softBlur-homelander-expanding-to-uniswap-v4)" opacity="0.5"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/></g>
-    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/>
-    <g filter="url(#midBlur-homelander-expanding-to-uniswap-v4)" opacity="0.45"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gB-homelander-expanding-to-uniswap-v4)"/></g>
-    <circle cx="230" cy="90" r="30" fill="url(#orbCore-homelander-expanding-to-uniswap-v4)" filter="url(#orbGlow-homelander-expanding-to-uniswap-v4)" opacity="0.85"/>
-    <g transform="translate(230,90)"><circle r="7" fill="#fff"/><circle r="7" fill="url(#orbCore-homelander-expanding-to-uniswap-v4)"/><circle r="16" fill="none" stroke="#C7BEFF" stroke-width="1.1" opacity=".45"/><circle r="24" fill="none" stroke="#4F86F5" stroke-width="1" opacity=".25"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-expanding-to-uniswap-v4)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="261.6" cy="24.2" r="9.13" fill="#C7BEFF" opacity="0.17" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/><circle cx="190.5" cy="57.7" r="10.94" fill="#C7BEFF" opacity="0.22" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/><circle cx="69.1" cy="103.3" r="9.86" fill="#C7BEFF" opacity="0.11" filter="url(#bokehBlur-homelander-expanding-to-uniswap-v4)"/>
+    <g filter="url(#softBlur-homelander-expanding-to-uniswap-v4)" opacity="0.5"><path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/></g>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gA-homelander-expanding-to-uniswap-v4)"/>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="none" stroke="url(#gA-homelander-expanding-to-uniswap-v4)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-expanding-to-uniswap-v4)" opacity="0.5"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-expanding-to-uniswap-v4)"/></g>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-homelander-expanding-to-uniswap-v4)" opacity="0.5"/>
+    <path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="none" stroke="url(#gB-homelander-expanding-to-uniswap-v4)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-expanding-to-uniswap-v4)" opacity="0.85"><circle cx="21.1" cy="48.8" r="1.53" fill="#8B5CF6" opacity="0.35"/><circle cx="59.2" cy="98.0" r="0.94" fill="#C7BEFF" opacity="0.32"/><circle cx="75.3" cy="20.9" r="1.60" fill="#C7BEFF" opacity="0.36"/><circle cx="235.5" cy="45.1" r="0.91" fill="#ffffff" opacity="0.47"/><circle cx="286.6" cy="49.9" r="1.38" fill="#ffffff" opacity="0.25"/><circle cx="133.0" cy="34.5" r="1.37" fill="#8B5CF6" opacity="0.28"/><circle cx="197.6" cy="65.2" r="1.92" fill="#ffffff" opacity="0.25"/><circle cx="166.6" cy="78.4" r="1.79" fill="#C7BEFF" opacity="0.49"/><circle cx="152.8" cy="-4.6" r="1.00" fill="#ffffff" opacity="0.49"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-expanding-to-uniswap-v4)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-expanding-to-uniswap-v4)"/></svg></div>
         <h3>Homelander Is Expanding to Uniswap v4</h3>
         <p class="dek">With Uniswap Foundation grant support, Homelander moves onto v4's hook architecture — and the afterSwap hook becomes the atomic capture point.</p>
         <div class="meta"><span class="meta-date">Apr 22, 2026</span><div class="meta-tags"><span>News</span><span>AMM Yield</span></div></div>
@@ -284,26 +309,31 @@
       <stop offset="100%" stop-color="#08060f"/>
     </radialGradient>
     <linearGradient id="gA-where-mev-actually-comes-from" x1="-40" y1="150" x2="340" y2="-30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
-    <linearGradient id="gB-where-mev-actually-comes-from" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
+    <linearGradient id="gB-where-mev-actually-comes-from" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-where-mev-actually-comes-from" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-where-mev-actually-comes-from" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-where-mev-actually-comes-from" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-where-mev-actually-comes-from" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-where-mev-actually-comes-from" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="64" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="26" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-where-mev-actually-comes-from" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-where-mev-actually-comes-from" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-where-mev-actually-comes-from)"/>
+    <circle cx="68.2" cy="39.8" r="7.24" fill="#C7BEFF" opacity="0.16" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="231.0" cy="87.6" r="8.04" fill="#4F86F5" opacity="0.15" filter="url(#bokehBlur-where-mev-actually-comes-from)"/><circle cx="220.2" cy="81.8" r="6.91" fill="#4F86F5" opacity="0.21" filter="url(#bokehBlur-where-mev-actually-comes-from)"/>
     <g filter="url(#softBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/></g>
     <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gA-where-mev-actually-comes-from)"/>
-    <g filter="url(#midBlur-where-mev-actually-comes-from)" opacity="0.45"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gB-where-mev-actually-comes-from)"/></g>
-    <circle cx="110" cy="60" r="30" fill="url(#orbCore-where-mev-actually-comes-from)" filter="url(#orbGlow-where-mev-actually-comes-from)" opacity="0.85"/>
-    <g transform="translate(110,60)"><path d="M-30,-16 Q0,0 0,0" stroke="#C7BEFF" stroke-width="1.2" fill="none" opacity=".55"/><path d="M-26,20 Q0,0 0,0" stroke="#4F86F5" stroke-width="1.2" fill="none" opacity=".55"/><path d="M28,-10 Q0,0 0,0" stroke="#8B5CF6" stroke-width="1.2" fill="none" opacity=".55"/><circle r="6" fill="#fff"/><circle r="6" fill="url(#orbCore-where-mev-actually-comes-from)"/></g>
-    <rect width="300" height="132" filter="url(#grain-where-mev-actually-comes-from)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="none" stroke="url(#gA-where-mev-actually-comes-from)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-where-mev-actually-comes-from)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)"/></g>
+    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-where-mev-actually-comes-from)" opacity="0.65"/>
+    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="none" stroke="url(#gB-where-mev-actually-comes-from)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-where-mev-actually-comes-from)" opacity="0.85"><circle cx="66.4" cy="34.6" r="1.47" fill="#ffffff" opacity="0.32"/><circle cx="271.3" cy="131.5" r="1.46" fill="#ffffff" opacity="0.39"/><circle cx="298.0" cy="129.9" r="1.45" fill="#ffffff" opacity="0.42"/><circle cx="142.1" cy="47.1" r="1.69" fill="#C7BEFF" opacity="0.19"/><circle cx="47.8" cy="47.4" r="1.92" fill="#4F86F5" opacity="0.18"/><circle cx="9.4" cy="137.9" r="1.04" fill="#4F86F5" opacity="0.36"/><circle cx="50.9" cy="50.6" r="1.52" fill="#ffffff" opacity="0.20"/><circle cx="206.7" cy="129.4" r="1.23" fill="#ffffff" opacity="0.47"/><circle cx="105.8" cy="21.7" r="1.77" fill="#ffffff" opacity="0.27"/></g>
+    <rect width="300" height="132" filter="url(#grain-where-mev-actually-comes-from)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-where-mev-actually-comes-from)"/></svg></div>
         <h3>Where MEV Actually Comes From</h3>
         <p class="dek">Four independent attribution methods trace 96.7% of atomic arbitrage on Polygon back to a single source transaction. What that means for how MEV protection should be designed.</p>
         <div class="meta"><span class="meta-date">Apr 9, 2026</span><div class="meta-tags"><span>Research</span></div></div>
@@ -320,23 +350,28 @@
     <linearGradient id="gB-mev-internalization-keeping-value-inside-the-protocol" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="100%" stop-color="#4F86F5"/></linearGradient>
     <filter id="softBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-mev-internalization-keeping-value-inside-the-protocol" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-mev-internalization-keeping-value-inside-the-protocol" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-mev-internalization-keeping-value-inside-the-protocol" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-mev-internalization-keeping-value-inside-the-protocol" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-mev-internalization-keeping-value-inside-the-protocol" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="69" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="78" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-mev-internalization-keeping-value-inside-the-protocol" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-mev-internalization-keeping-value-inside-the-protocol" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-mev-internalization-keeping-value-inside-the-protocol)"/>
+    <circle cx="244.8" cy="91.1" r="8.30" fill="#4F86F5" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="255.1" cy="78.8" r="9.30" fill="#ffffff" opacity="0.10" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/><circle cx="226.3" cy="68.3" r="6.04" fill="#C7BEFF" opacity="0.12" filter="url(#bokehBlur-mev-internalization-keeping-value-inside-the-protocol)"/>
     <g filter="url(#softBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/></g>
     <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gA-mev-internalization-keeping-value-inside-the-protocol)"/>
-    <g filter="url(#midBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.45"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <circle cx="200" cy="45" r="30" fill="url(#orbCore-mev-internalization-keeping-value-inside-the-protocol)" filter="url(#orbGlow-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.85"/>
-    <g transform="translate(200,45)"><circle r="20" fill="none" stroke="#4F86F5" stroke-width="1.3" opacity=".5"/><circle r="6.5" fill="#fff"/><circle r="6.5" fill="url(#orbCore-mev-internalization-keeping-value-inside-the-protocol)"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-internalization-keeping-value-inside-the-protocol)" style="mix-blend-mode:overlay"/></svg></div>
+    <path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="none" stroke="url(#gA-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.5"><path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)"/></g>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.4"/>
+    <path d="M-30,120 C60,70 110,90 200,20 C250,-15 280,-5 330,-30 L330,-18 C280,7 250,-3 200,32 C110,102 60,82 -30,132 Z" fill="none" stroke="url(#gB-mev-internalization-keeping-value-inside-the-protocol)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-mev-internalization-keeping-value-inside-the-protocol)" opacity="0.85"><circle cx="283.9" cy="48.4" r="0.76" fill="#C7BEFF" opacity="0.49"/><circle cx="100.8" cy="126.7" r="0.98" fill="#ffffff" opacity="0.36"/><circle cx="112.8" cy="40.8" r="0.92" fill="#ffffff" opacity="0.46"/><circle cx="125.9" cy="100.0" r="1.35" fill="#ffffff" opacity="0.36"/><circle cx="211.2" cy="-7.1" r="1.54" fill="#ffffff" opacity="0.37"/><circle cx="268.4" cy="94.4" r="2.13" fill="#ffffff" opacity="0.47"/><circle cx="13.1" cy="77.5" r="1.49" fill="#ffffff" opacity="0.40"/><circle cx="142.8" cy="71.0" r="1.40" fill="#C7BEFF" opacity="0.25"/><circle cx="148.6" cy="84.6" r="1.01" fill="#C7BEFF" opacity="0.38"/></g>
+    <rect width="300" height="132" filter="url(#grain-mev-internalization-keeping-value-inside-the-protocol)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-mev-internalization-keeping-value-inside-the-protocol)"/></svg></div>
         <h3>Keeping Value Inside the Protocol</h3>
         <p class="dek">Three ways a protocol can handle post-swap MEV — ignore it, capture it natively, or route it to an external partner — and why leakage isn't actually unavoidable.</p>
         <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
@@ -353,23 +388,28 @@
     <linearGradient id="gB-homelander-security-audit-summary-and-outcomes" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-homelander-security-audit-summary-and-outcomes" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-homelander-security-audit-summary-and-outcomes" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-homelander-security-audit-summary-and-outcomes" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-homelander-security-audit-summary-and-outcomes" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-homelander-security-audit-summary-and-outcomes" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="78" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="25" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-homelander-security-audit-summary-and-outcomes" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-homelander-security-audit-summary-and-outcomes" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-homelander-security-audit-summary-and-outcomes)"/>
-    <g filter="url(#softBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/></g>
-    <path d="M-30,150 C60,80 70,40 160,10 C230,-15 260,5 340,-30 L340,40 C260,75 230,55 160,80 C70,110 60,150 -30,230 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/>
-    <g filter="url(#midBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.45"><path d="M-10,-30 C40,10 30,50 80,90 C130,130 150,120 190,160 L160,175 C120,140 105,150 55,110 C10,75 15,35 -35,0 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)"/></g>
-    <circle cx="95" cy="95" r="30" fill="url(#orbCore-homelander-security-audit-summary-and-outcomes)" filter="url(#orbGlow-homelander-security-audit-summary-and-outcomes)" opacity="0.85"/>
-    <g transform="translate(95,95)"><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/><path d="M-5,0 L-1,4.5 L6,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-    <rect width="300" height="132" filter="url(#grain-homelander-security-audit-summary-and-outcomes)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="70.9" cy="109.4" r="5.38" fill="#C7BEFF" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="163.7" cy="53.8" r="9.88" fill="#ffffff" opacity="0.13" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/><circle cx="227.3" cy="83.4" r="8.47" fill="#ffffff" opacity="0.20" filter="url(#bokehBlur-homelander-security-audit-summary-and-outcomes)"/>
+    <g filter="url(#softBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/></g>
+    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="url(#gA-homelander-security-audit-summary-and-outcomes)"/>
+    <path d="M310,-30 C260,10 270,50 220,90 C170,130 150,120 110,160 L140,175 C180,140 195,150 245,110 C290,75 285,35 335,0 Z" fill="none" stroke="url(#gA-homelander-security-audit-summary-and-outcomes)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)"/></g>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gB-homelander-security-audit-summary-and-outcomes)" opacity="0.5"/>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gB-homelander-security-audit-summary-and-outcomes)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-homelander-security-audit-summary-and-outcomes)" opacity="0.85"><circle cx="222.8" cy="59.4" r="1.93" fill="#C7BEFF" opacity="0.28"/><circle cx="289.8" cy="29.9" r="1.11" fill="#ffffff" opacity="0.47"/><circle cx="68.9" cy="81.7" r="2.07" fill="#C7BEFF" opacity="0.30"/><circle cx="247.0" cy="42.8" r="1.40" fill="#4F86F5" opacity="0.44"/><circle cx="291.0" cy="99.7" r="1.21" fill="#8B5CF6" opacity="0.30"/><circle cx="139.5" cy="69.9" r="0.97" fill="#ffffff" opacity="0.39"/><circle cx="8.3" cy="104.0" r="1.55" fill="#4F86F5" opacity="0.27"/><circle cx="176.9" cy="76.0" r="1.91" fill="#C7BEFF" opacity="0.49"/><circle cx="245.7" cy="101.7" r="1.96" fill="#8B5CF6" opacity="0.45"/></g>
+    <rect width="300" height="132" filter="url(#grain-homelander-security-audit-summary-and-outcomes)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-homelander-security-audit-summary-and-outcomes)"/></svg></div>
         <h3>Bailsec's First Homelander Audit</h3>
         <p class="dek">Bailsec's first audit of Homelander found no exploitable vulnerabilities — and confirmed that a failed internal MEV path can't touch the user's swap outcome.</p>
         <div class="meta"><span class="meta-date">Jan 12, 2026</span><div class="meta-tags"><span>Security Audits</span></div></div>
@@ -386,23 +426,28 @@
     <linearGradient id="gB-mev-resolution-in-amm-based-systems" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C7BEFF"/><stop offset="50%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#241a44"/></linearGradient>
     <filter id="softBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-mev-resolution-in-amm-based-systems" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-mev-resolution-in-amm-based-systems" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-mev-resolution-in-amm-based-systems" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-mev-resolution-in-amm-based-systems" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-mev-resolution-in-amm-based-systems" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="74" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-mev-resolution-in-amm-based-systems" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-mev-resolution-in-amm-based-systems" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-mev-resolution-in-amm-based-systems)"/>
-    <g filter="url(#softBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/></g>
-    <path d="M340,-30 C260,20 240,-10 180,40 C130,80 130,110 60,140 C10,162 -20,150 -30,165 L-30,110 C10,95 40,105 90,75 C150,40 150,10 210,-25 C260,-55 300,-40 340,-70 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/>
-    <g filter="url(#midBlur-mev-resolution-in-amm-based-systems)" opacity="0.45"><path d="M-20,10 C50,40 110,5 170,45 C230,80 260,60 320,95 L320,120 C260,85 230,105 170,70 C110,30 50,65 -20,35 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)"/></g>
-    <circle cx="220" cy="60" r="30" fill="url(#orbCore-mev-resolution-in-amm-based-systems)" filter="url(#orbGlow-mev-resolution-in-amm-based-systems)" opacity="0.85"/>
-    <g transform="translate(220,60)"><circle cx="-8" cy="0" r="15" fill="none" stroke="#4F86F5" stroke-width="1.6" opacity=".8"/><circle cx="8" cy="0" r="15" fill="none" stroke="#C7BEFF" stroke-width="1.6" opacity=".8"/></g>
-    <rect width="300" height="132" filter="url(#grain-mev-resolution-in-amm-based-systems)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="169.5" cy="103.3" r="7.24" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="162.8" cy="11.5" r="7.43" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/><circle cx="180.5" cy="88.6" r="9.77" fill="#4F86F5" opacity="0.22" filter="url(#bokehBlur-mev-resolution-in-amm-based-systems)"/>
+    <g filter="url(#softBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/></g>
+    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-mev-resolution-in-amm-based-systems)"/>
+    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="none" stroke="url(#gA-mev-resolution-in-amm-based-systems)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-mev-resolution-in-amm-based-systems)" opacity="0.5"><path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)"/></g>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="url(#gB-mev-resolution-in-amm-based-systems)" opacity="0.55"/>
+    <path d="M130,-30 C90,10 165,45 125,90 C95,125 160,150 125,175 L160,175 C190,150 130,125 160,90 C200,45 135,10 165,-30 Z" fill="none" stroke="url(#gB-mev-resolution-in-amm-based-systems)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-mev-resolution-in-amm-based-systems)" opacity="0.85"><circle cx="68.4" cy="-7.5" r="1.68" fill="#8B5CF6" opacity="0.22"/><circle cx="246.6" cy="14.7" r="1.14" fill="#C7BEFF" opacity="0.22"/><circle cx="157.2" cy="40.7" r="1.76" fill="#ffffff" opacity="0.35"/><circle cx="253.9" cy="24.4" r="0.75" fill="#ffffff" opacity="0.34"/><circle cx="110.6" cy="36.3" r="1.20" fill="#C7BEFF" opacity="0.34"/><circle cx="25.3" cy="113.4" r="1.85" fill="#ffffff" opacity="0.40"/><circle cx="104.9" cy="77.5" r="1.19" fill="#C7BEFF" opacity="0.45"/><circle cx="147.8" cy="122.7" r="1.72" fill="#4F86F5" opacity="0.37"/><circle cx="201.6" cy="12.7" r="1.03" fill="#C7BEFF" opacity="0.22"/></g>
+    <rect width="300" height="132" filter="url(#grain-mev-resolution-in-amm-based-systems)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-mev-resolution-in-amm-based-systems)"/></svg></div>
         <h3>External vs Internal MEV Resolution in AMMs</h3>
         <p class="dek">Every swap that moves a pool off the market price creates an arbitrage opportunity. Who closes it — an external searcher or the protocol itself — decides who keeps the value.</p>
         <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>
@@ -419,23 +464,28 @@
     <linearGradient id="gB-introducing-homelander" x1="-40" y1="-10" x2="340" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3d2a78"/><stop offset="50%" stop-color="#4F86F5"/><stop offset="100%" stop-color="#C7BEFF"/></linearGradient>
     <filter id="softBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="midBlur-introducing-homelander" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="orbGlow-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="fineBlur-introducing-homelander" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="bokehBlur-introducing-homelander" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="grain-introducing-homelander" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="18" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="60" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0"/>
     </filter>
-    <radialGradient id="orbCore-introducing-homelander" cx="35%" cy="28%" r="75%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="35%" stop-color="#C7BEFF"/>
-      <stop offset="100%" stop-color="#5638ad" stop-opacity="0"/>
+    <radialGradient id="vignette-introducing-homelander" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </radialGradient>
   </defs><rect width="300" height="132" fill="url(#ground-introducing-homelander)"/>
-    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/></g>
-    <path d="M-20,-20 C40,20 90,-10 140,35 C190,80 230,60 320,110 L320,132 C230,90 190,105 140,65 C90,25 40,55 -20,15 Z" fill="url(#gA-introducing-homelander)"/>
-    <g filter="url(#midBlur-introducing-homelander)" opacity="0.45"><path d="M340,40 C270,75 250,50 190,95 C140,130 140,150 70,175 L70,140 C130,115 130,95 180,60 C230,25 250,45 320,10 Z" fill="url(#gB-introducing-homelander)"/></g>
-    <circle cx="150" cy="66" r="30" fill="url(#orbCore-introducing-homelander)" filter="url(#orbGlow-introducing-homelander)" opacity="0.85"/>
-    <g transform="translate(150,66)"><circle r="9" fill="#fff"/><circle r="9" fill="url(#orbCore-introducing-homelander)"/></g>
-    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay"/></svg></div>
+    <circle cx="156.4" cy="71.8" r="7.18" fill="#ffffff" opacity="0.18" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="246.2" cy="111.0" r="6.81" fill="#ffffff" opacity="0.16" filter="url(#bokehBlur-introducing-homelander)"/><circle cx="191.9" cy="98.2" r="10.44" fill="#4F86F5" opacity="0.11" filter="url(#bokehBlur-introducing-homelander)"/>
+    <g filter="url(#softBlur-introducing-homelander)" opacity="0.5"><path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/></g>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="url(#gA-introducing-homelander)"/>
+    <path d="M-30,40 C40,90 90,120 150,110 C210,100 250,70 330,20 L330,55 C250,100 210,130 150,140 C90,150 40,120 -30,75 Z" fill="none" stroke="url(#gA-introducing-homelander)" stroke-width="1.3" opacity="0.55"/>
+    <g filter="url(#midBlur-introducing-homelander)" opacity="0.5"><path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)"/></g>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="url(#gB-introducing-homelander)" opacity="0.5"/>
+    <path d="M-30,-10 C50,5 90,-15 160,0 C230,15 260,-5 330,10 L330,35 C260,20 230,40 160,25 C90,10 50,30 -30,15 Z" fill="none" stroke="url(#gB-introducing-homelander)" stroke-width="1" opacity="0.4"/>
+    <g filter="url(#fineBlur-introducing-homelander)" opacity="0.85"><circle cx="-4.1" cy="114.4" r="1.66" fill="#C7BEFF" opacity="0.31"/><circle cx="158.1" cy="82.9" r="1.51" fill="#ffffff" opacity="0.38"/><circle cx="85.3" cy="41.1" r="2.00" fill="#8B5CF6" opacity="0.48"/><circle cx="3.7" cy="81.2" r="0.81" fill="#ffffff" opacity="0.45"/><circle cx="124.8" cy="102.3" r="1.35" fill="#ffffff" opacity="0.45"/><circle cx="215.7" cy="93.7" r="1.46" fill="#ffffff" opacity="0.19"/><circle cx="62.5" cy="94.7" r="1.28" fill="#8B5CF6" opacity="0.29"/><circle cx="237.5" cy="30.4" r="1.72" fill="#ffffff" opacity="0.40"/><circle cx="85.9" cy="45.8" r="1.81" fill="#ffffff" opacity="0.24"/></g>
+    <rect width="300" height="132" filter="url(#grain-introducing-homelander)" style="mix-blend-mode:overlay" opacity="0.7"/>
+    <rect width="300" height="132" fill="url(#vignette-introducing-homelander)"/></svg></div>
         <h3>Introducing Homelander</h3>
         <p class="dek">The system that captures post-swap arbitrage atomically, in the same transaction, and turns it into yield for the protocol instead of letting it leak to validators and block builders.</p>
         <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>

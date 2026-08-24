@@ -21,6 +21,9 @@ MEV-X's core product, Homelander, captures post-swap arbitrage atomically — in
 - [Every Chain Handles MEV Differently](https://mev-x.com/blog/every-chain-handles-mev-differently/): Comparing Ethereum PBS, Solana's Jito marketplace, Sui's object model, and protocol-level internalization.
 - [Homelander Is Expanding to Uniswap v4](https://mev-x.com/blog/homelander-expanding-to-uniswap-v4/): The afterSwap hook as an atomic MEV capture point.
 - [QuickSwap Integrates Homelander](https://mev-x.com/blog/quickswap-integrates-homelander/): Governance vote and MEV internalization as DEX infrastructure.
+- [Homelander Security Audit: Summary and Outcomes](https://mev-x.com/blog/homelander-security-audit-summary-and-outcomes/): Bailsec's first audit of Homelander — no exploitable vulnerabilities found.
+- [Homelander Security Audit: Uniswap v4](https://mev-x.com/blog/homelander-audit-uniswap-v4/): MixBytes' audit of the Uniswap v4 hook implementation.
+- [Homelander Security Audit by Bailsec: Algebra Plugin](https://mev-x.com/blog/homelander-audit-bailsec-algebra/): Differential audit of the Algebra plugin update.
 
 ## Research
 
