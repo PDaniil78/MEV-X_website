@@ -95,16 +95,51 @@ ingress:
 ```
 
 ```sh
-cloudflared tunnel route dns --overwrite-dns mev-x-website mev-x.com
-cloudflared tunnel route dns --overwrite-dns mev-x-website www.mev-x.com
 cloudflared service install
 systemctl enable --now cloudflared
 ```
 
+### Prove the tunnel on a throwaway hostname first
+
+Routing `mev-x.com` to the tunnel *is* the cutover — the record changes the
+moment the command returns. So do not let the production domain be the first
+hostname this tunnel ever serves. Add a preview hostname to the same tunnel,
+verify everything through it, and only then route the real one.
+
+Add to the `ingress:` list in `config.yml`, above the `http_status:404` catch-all:
+
+```yaml
+  - hostname: preview.mev-x.com
+    service: http://127.0.0.1:8093
+```
+
+```sh
+systemctl restart cloudflared
+cloudflared tunnel route dns mev-x-website preview.mev-x.com
+```
+
+`preview.mev-x.com` has no existing record, so this touches nothing live. It
+gives you the whole real path — Cloudflare TLS, the tunnel, Host forwarding
+into nginx — under a name nobody is using. Run the verification checklist below
+against `https://preview.mev-x.com/` and fix anything it turns up while the
+production domain is still quietly on Webflow.
+
+### The cutover
+
+Only once preview is clean:
+
+```sh
+cloudflared tunnel route dns --overwrite-dns mev-x-website mev-x.com
+cloudflared tunnel route dns --overwrite-dns mev-x-website www.mev-x.com
+```
+
 `--overwrite-dns` is required: the Webflow A and CNAME records are in the way,
-and without it the route command refuses rather than replacing them. **That
-command is the cutover** — run it only once the site has been verified on
-`http://204.168.153.69:8093/`.
+and without it the route command refuses rather than replacing them.
+
+Afterwards, delete the `preview.mev-x.com` hostname from `config.yml` and its
+DNS record — a second hostname serving an identical copy of the site is exactly
+the duplicate-content problem the canonical tags exist to prevent. (While it is
+up it is harmless: nothing links to it and it is not in the sitemap.)
 
 `cloudflared tunnel login` opens a browser flow. A headless session cannot
 complete it; hand that one step to a human.
