@@ -6,7 +6,7 @@
     <atom:link href="https://mev-x.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <description>Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure from the team behind MEV-X.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Aug 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Every Chain Handles MEV Differently — One Decided to Keep It Inside</title>
       <link>https://mev-x.com/blog/every-chain-handles-mev-differently/</link>

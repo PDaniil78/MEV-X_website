@@ -8,6 +8,12 @@ the feed, and discoverable only by crawling the hub page.
 Everything here is read out of the article HTML, so adding an article to
 blog/ is the whole job. Run from the repo root; build.sh does that for you.
 
+llms.txt is the one index that stays hand-written: its per-article one-liners
+are curated and its order is thematic, not chronological, so generating it
+would throw away editorial work. Instead check_llms() fails the build when an
+article is missing from it -- the file cannot silently go stale, and the exact
+line to paste is printed for you.
+
 Determinism matters more than it looks. The Docker build runs build.sh inside
 a container with no .git and no reliable clock, so nothing may depend on git
 history, file mtimes, or the current time -- otherwise the same commit would
@@ -130,8 +136,33 @@ def gen_rss(articles, newest):
     )
 
 
+def check_llms(articles):
+    """Fail the build if an article is missing from the hand-written llms.txt.
+
+    llms.txt is what AI answer engines read to find our writing, so an article
+    absent from it is invisible to them even while it sits in the sitemap. The
+    wording stays ours; only the omission is caught.
+    """
+    path = ROOT / "llms.txt"
+    if not path.exists():
+        sys.exit("llms.txt: missing")
+    text = path.read_text(encoding="utf-8")
+    missing = [a for a in articles if f"/blog/{a['slug']}/" not in text]
+    if missing:
+        lines = "\n".join(
+            f"- [{a['title']}]({SITE}/blog/{a['slug']}/): {a['description']}"
+            for a in missing
+        )
+        sys.exit(
+            f"llms.txt: {len(missing)} article(s) not listed. "
+            f"Add under '## Blog', in whatever order reads best:\n{lines}"
+        )
+    return len(articles)
+
+
 def main():
     articles = read_articles()
+    n_llms = check_llms(articles)
     # The homepage and the hub both change when an article does -- a new post
     # appears on both. Deriving their lastmod from the newest article keeps this
     # deterministic; a homepage-only edit does not move it, which is acceptable
@@ -147,6 +178,7 @@ def main():
     n = len(articles)
     print(f"  seo: {n} articles -> sitemap.xml ({n + len(STATIC)} urls), blog/rss.xml"
           + (f" [rewrote {', '.join(changed)}]" if changed else " [unchanged]"))
+    print(f"  seo: llms.txt lists all {n_llms} articles")
 
 
 if __name__ == "__main__":

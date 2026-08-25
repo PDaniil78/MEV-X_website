@@ -51,6 +51,18 @@
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
+  /* Keyboard skip link: off-screen until focused, then pinned top-left over the
+     nav. Lets a keyboard or screen-reader user jump the nav and logo row and
+     land on <main> directly. */
+  .skip-link{
+    position:absolute; left:-9999px; top:0; z-index:1000;
+    padding:0.7rem 1.1rem; border-radius:0 0 10px 0;
+    background:var(--ink); color:#0b0a0e;
+    font-family:var(--font-body); font-weight:600; font-size:0.78rem;
+    letter-spacing:0.08em; text-transform:uppercase; text-decoration:none;
+  }
+  .skip-link:focus{ left:0; }
+
   @media (max-width:900px){
     /* background-attachment:fixed makes the browser repaint the full viewport on
        every scroll frame, which is most of why long pages stuttered on a phone.
