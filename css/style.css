@@ -218,9 +218,11 @@
       display:none; position:absolute; top:100%; left:0; right:0;
       flex-direction:column; gap:0; padding:0.4rem 1.5rem 1rem;
       font-size:0.78rem;
-      background: rgba(11,10,14,.92);
-      backdrop-filter: blur(10px);
+      /* Opaque, unlike the nav bar itself: at any alpha the white headline
+         underneath reads straight through a dropdown that covers it. */
+      background:#0d0c11;
       border-bottom:1px solid var(--hairline);
+      box-shadow:0 18px 40px rgba(0,0,0,.45);
     }
     nav.nav-open .navlinks{ display:flex; }
     .navlinks a{ padding:0.85rem 0; border-bottom:1px solid var(--hairline); }
@@ -457,7 +459,11 @@
      own grid class (not .proof-in) so it can't collide with the real
      traction band up top; .proof-item/.dune-row/.chart-row etc. are reused
      as-is since nothing else on the page still uses them. */
-  .engine-band{ border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline); padding:3rem 0 3.5rem; }
+  /* 1.5rem sides to match every other section. This one is not .band, and
+     .band-in carries no padding of its own -- so with 0 here its cards sat
+     flush against both screen edges on a phone. On desktop the 1120px
+     max-width hid it, because that constraint is what created the margin. */
+  .engine-band{ border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline); padding:3rem 1.5rem 3.5rem; }
   .engine-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:stretch; margin-top:1.4rem; }
   .proof-left{ display:flex; flex-direction:column; gap:1rem; }
   .proof-top-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
