@@ -7,6 +7,7 @@
   <meta name="description" content="Every swap that moves an AMM pool off market price creates an arbitrage opportunity. Who closes it — an external searcher or the protocol itself — decides who keeps the value.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://mev-x.com/blog/mev-resolution-in-amm-based-systems/">
+  <link rel="alternate" type="application/rss+xml" title="MEV-X Blog" href="../rss.xml">
   <meta name="theme-color" content="#0b0a0e">
 
   <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
@@ -141,18 +142,13 @@
 
   <p>Crucially, this approach does not alter the swap itself or the pricing logic of the AMM, the user-facing execution remains unchanged. The only difference lies in where post-swap imbalances are resolved: instead of propagating outward and being handled competitively at the block level, they are evaluated and settled within an application-controlled context.</p>
 
-  <p>We implemented a concrete instantiation of this model — <a href="https://medium.com/@MEV-X/introducing-homelander-atomic-mev-internalization-system-by-mev-x-eafa6f9f1bc9" target="_blank" rel="noopener">MEV-X Homelander</a>. The design leverages post-swap callbacks available in modern AMM frameworks to trigger an internal execution sequence immediately after a swap updates pool balances. This sequence operates within the scope of a single transaction and evaluates whether the new state admits a profitable post-swap adjustment.</p>
+  <p>We implemented a concrete instantiation of this model — <a href="../introducing-homelander/">MEV-X Homelander</a>. The design leverages post-swap callbacks available in modern AMM frameworks to trigger an internal execution sequence immediately after a swap updates pool balances. This sequence operates within the scope of a single transaction and evaluates whether the new state admits a profitable post-swap adjustment.</p>
 
   <p>When such an adjustment exists, it is executed atomically as part of the same execution flow, ensuring that both the original swap and the corrective action either complete together or not at all. The system intercepts only the post-swap state to perform localized rebalancing, leaving AMM pricing logic and user-facing execution unchanged.</p>
 
   <p>By collapsing detection and resolution into a single transactional workflow, this implementation avoids block-level competition and intermediate state exposure. It serves as a practical demonstration that internal resolution can be realized with strong execution guarantees, while keeping protocol logic minimal and tightly scoped.</p>
 
   <p>While adversarial strategies exist, MEV primarily follows from the mechanics of on-chain price formation. As long as markets update state discretely, post-swap imbalances will persist. The relevant design question is therefore not how to eliminate MEV, but where it should be resolved.</p>
-
-
-  <hr>
-
-  <p><a href="https://medium.com/coinmonks/mev-resolution-in-amm-based-systems-bbd9d2af2fa1" target="_blank" rel="noopener">MEV Resolution in AMM-Based Systems: External and Internal Execution</a> was originally published in <a href="https://medium.com/coinmonks" target="_blank" rel="noopener">Coinmonks</a> on Medium, where people are continuing the conversation by highlighting and responding to this story.</p>
 </article>
 
 <section class="related">

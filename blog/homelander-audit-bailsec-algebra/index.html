@@ -7,6 +7,7 @@
   <meta name="description" content="A differential audit of Homelander's Algebra plugin update — and why extending an already-audited execution model carries a different risk profile than shipping a new one.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://mev-x.com/blog/homelander-audit-bailsec-algebra/">
+  <link rel="alternate" type="application/rss+xml" title="MEV-X Blog" href="../rss.xml">
   <meta name="theme-color" content="#0b0a0e">
 
   <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
@@ -110,7 +111,7 @@
 
   <h2>Audit Scope and Methodology</h2>
 
-  <p>The differential audit covered the set of changes introduced since <a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener">the first Bailsec review of the Homelander Algebra plugin</a>. The scope was bounded to the diff between the two contract versions and did not re-examine logic that remained unchanged. The assessment was conducted through manual code review focused on the correctness and safety of the new and modified logic within the Algebra Integral execution environment.</p>
+  <p>The differential audit covered the set of changes introduced since <a href="../homelander-security-audit-summary-and-outcomes/">the first Bailsec review of the Homelander Algebra plugin</a>. The scope was bounded to the diff between the two contract versions and did not re-examine logic that remained unchanged. The assessment was conducted through manual code review focused on the correctness and safety of the new and modified logic within the Algebra Integral execution environment.</p>
 
   <p>The reviewed changes included the addition of a pre-swap hook responsible for dynamic fee configuration, gas-related safety measures, refactoring of the post-swap control flow, and a new endpoint handling Algebra’s batched plugin fee settlement.</p>
 
@@ -146,7 +147,7 @@
 
   <p>For this review we worked with the <a href="https://bailsec.io/" target="_blank" rel="noopener">Bailsec team</a>, whose familiarity with the codebase from the first engagement allowed for a focused and substantive differential review. The process was thorough and iterative, with resolved findings re-examined before the final report was issued. This is our second audit with them, and we appreciate the continued collaboration! The full audit report is available <a href="https://github.com/bailsec/BailSec/blob/main/Bailsec%20-%20MEV-X%20-%20Differential%20-%20Final%20Report.pdf" target="_blank" rel="noopener">here</a>.</p>
 
-  <p><em>For a deeper look at Homelander’s mechanics, check the </em><a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener"><em>documentation</em></a><em> and our earlier publications (</em><a href="https://medium.com/@MEV-X/introducing-homelander-atomic-mev-internalization-system-by-mev-x-eafa6f9f1bc9" target="_blank" rel="noopener"><em>I</em></a><em>/</em><a href="https://medium.com/@MEV-X/mev-resolution-in-amm-based-systems-bbd9d2af2fa1" target="_blank" rel="noopener"><em>II</em></a><em>/</em><a href="https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730" target="_blank" rel="noopener"><em>III</em></a><em>). If you’d like to explore an integration or partnership, you can reach us on </em><a href="https://t.me/ex_seoeva" target="_blank" rel="noopener"><em>Telegram</em></a><em>.</em></p>
+  <p><em>For a deeper look at Homelander’s mechanics, check the </em><a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener"><em>documentation</em></a><em> and our earlier publications (</em><a href="../introducing-homelander/"><em>I</em></a><em>/</em><a href="../mev-resolution-in-amm-based-systems/"><em>II</em></a><em>/</em><a href="../homelander-security-audit-summary-and-outcomes/"><em>III</em></a><em>). If you’d like to explore an integration or partnership, you can reach us on </em><a href="https://t.me/ex_seoeva" target="_blank" rel="noopener"><em>Telegram</em></a><em>.</em></p>
 
 </article>
 

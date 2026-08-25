@@ -30,3 +30,6 @@
 
 /llms.txt
   Cache-Control: public, max-age=3600
+
+/blog/rss.xml
+  Cache-Control: public, max-age=3600
