@@ -7,6 +7,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# sitemap.xml and blog/rss.xml are derived from the articles, not maintained by
+# hand -- adding a post to blog/ is the whole job. Runs before the copy so
+# dist/ picks the fresh files up like any other source file.
+tools/gen-seo.py
+
 rm -rf dist
 mkdir -p dist
 
@@ -18,6 +23,7 @@ tar -cf - \
   --exclude='./.claude' \
   --exclude='./dist' \
   --exclude='./deploy' \
+  --exclude='./tools' \
   --exclude='./design' \
   --exclude='./assets/partners-raw' \
   --exclude='./_variants.html' \

@@ -7,7 +7,9 @@
 #     branded 404, no www redirect, none of the blocked paths.
 
 FROM alpine:3.20 AS build
-RUN apk add --no-cache bash tar
+# python3 is for tools/gen-seo.py, which build.sh runs. Build stage only --
+# the runtime image is nginx:alpine and never sees it.
+RUN apk add --no-cache bash tar python3
 WORKDIR /src
 COPY . .
 # build.sh assembles dist/ with the repo's working material stripped out.
