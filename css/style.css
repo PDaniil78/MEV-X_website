@@ -344,7 +344,12 @@
     .hv-bubble, .hv-bubble-wash, .hv-bubble-wash-2, .hv-bubble-crescent{ animation:none !important; }
     .hv-pop-chip, .hv-meteor{ display:none !important; }
   }
-  .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-muted); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; }
+  /* The hero kicker has to stay on one line at every width -- broken across
+     two lines it reads as a stray fragment above the headline. 0.72rem is the
+     design size; below ~500px the line no longer fits the 1.5rem-padded hero,
+     so the size tracks the viewport instead (letter-spacing is in em, so it
+     shrinks with it). 2.3vw leaves ~9% slack at 320px. */
+  .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:min(0.72rem, 2.3vw); letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-muted); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; white-space:nowrap; }
   .hero h1{ font-size:clamp(2.9rem, 6vw, 4.6rem); line-height:0.98; max-width:24ch; }
   .hero h1 em{ font-style:normal; text-decoration:underline; text-decoration-color:rgba(255,255,255,.35); text-underline-offset:0.1em; text-decoration-thickness:2px; }
   .hero .sub{ font-family:var(--font-body); font-weight:400; font-size:1.1rem; line-height:1.6; color:var(--ink-muted); max-width:52ch; margin-top:1.4rem; }
