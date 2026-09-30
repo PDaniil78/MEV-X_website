@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs | MEV-X</title>
+  <meta name="description" content="We measure the dislocation value a market inefficiency releases and how it splits between the pool and the arbitrageur. The zero-fee optimum, the 50% ceiling for constant-product AMMs, and why merging the two roles is the only way to capture the rest.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://mev-x.com/blog/amm-yield-maximization/">
+  <link rel="alternate" type="application/rss+xml" title="MEV-X Blog" href="../rss.xml">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png?v=2">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/blog/amm-yield-maximization/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs">
+  <meta property="og:description" content="We measure the dislocation value a market inefficiency releases and how it splits between the pool and the arbitrageur. The zero-fee optimum, the 50% ceiling for constant-product AMMs, and why merging the two roles is the only way to capture the rest.">
+  <meta property="og:image" content="https://mev-x.com/assets/blog/amm-yield-maximization/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs">
+  <meta property="article:published_time" content="2026-08-26">
+  <meta property="article:modified_time" content="2026-08-26">
+  <meta property="article:section" content="AMM Yield">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs">
+  <meta name="twitter:description" content="We measure the dislocation value a market inefficiency releases and how it splits between the pool and the arbitrageur. The zero-fee optimum, the 50% ceiling for constant-product AMMs, and why merging the two roles is the only way to capture the rest.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/blog/amm-yield-maximization/og.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=1a11508aa5">
+  <style>
+    /* This post uses a table and inline math formulas, which the shared
+       stylesheet doesn't style yet (no other post has needed them). Scoped
+       here rather than added to style.css until a second post needs them. */
+    .article-body table{
+      width:100%; border-collapse:collapse; margin:0 0 0.6rem;
+      font-family:var(--font-body); font-size:0.92rem;
+    }
+    .article-body caption{
+      text-align:left; caption-side:top; font-weight:600; font-size:0.68rem;
+      text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-dim);
+      margin-bottom:0.8rem;
+    }
+    .article-body th{
+      text-align:left; font-weight:600; color:var(--ink-muted);
+      padding:0.6em 0.9em; border-bottom:1px solid var(--chip-border); white-space:nowrap;
+    }
+    .article-body td{
+      padding:0.7em 0.9em; border-bottom:1px solid var(--hairline);
+      color:var(--ink-muted); vertical-align:top; line-height:1.6;
+    }
+    .article-body tbody tr:last-child td{ border-bottom:none; }
+    .article-body .formula{
+      font-size:1.05rem; text-align:center; color:var(--ink);
+      background:var(--chip-bg); border:1px solid var(--chip-border); border-radius:12px;
+      padding:1rem 1.2rem; margin:0 0 1.4rem; overflow-x:auto;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs",
+    "description": "We measure the dislocation value a market inefficiency releases and how it splits between the pool and the arbitrageur. The zero-fee optimum, the 50% ceiling for constant-product AMMs, and why merging the two roles is the only way to capture the rest.",
+    "datePublished": "2026-08-26",
+    "dateModified": "2026-08-26",
+    "author": [
+      { "@type": "Person", "name": "Andrei Seoev", "affiliation": "MEV-X" },
+      { "@type": "Person", "name": "Yury Yanovich", "affiliation": "HSE University" }
+    ],
+    "publisher": { "@type": "Organization", "name": "MEV-X", "logo": { "@type": "ImageObject", "url": "https://mev-x.com/assets/img/mevx.svg" } },
+    "mainEntityOfPage": "https://mev-x.com/blog/amm-yield-maximization/",
+    "keywords": "AMM yield, dislocation value, arbitrage, MEV internalization, constant-product AMM, Uniswap hooks"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://mev-x.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "AMM Yield Maximization", "item": "https://mev-x.com/blog/amm-yield-maximization/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTYVV3PXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-TTYVV3PXVL');
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" width="1302" height="574" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks" id="navlinks">
+    <a href="https://homelander.mev-x.com" target="_blank" rel="noopener">Homelander app</a>
+    <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Docs</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#research">Research</a>
+    <a href="../">Blog</a>
+    <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta-mobile">Message on Telegram →</a>
+  </div>
+  <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta">Message on Telegram →</a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
+</nav>
+<main id="main">
+
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../?tag=amm-yield">AMM Yield</a>
+    <a href="../?tag=research">Research</a>
+  </div>
+  <h1>AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs</h1>
+  <p class="dek">Almost every swap moves an AMM pool away from the market price and opens an arbitrage window. We measure exactly how much value that dislocation releases, how it splits between the pool and the arbitrageur, and why a positive fee on arbitrage always leaves part of it on the table.</p>
+  <div class="article-meta">
+    <span>Andrei Seoev &amp; Yury Yanovich (HSE)</span>
+    <span>Aug 26, 2026</span>
+    <span>14 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <blockquote>DeFi markets are efficient at the macro scale but constantly dislocated at the micro level. We find that an AMM maximizes the value released by a dislocation by charging a zero fee on the arbitrage that closes it — and that on today's markets, where the pool and the arbitrageur are independent, competitive participants, that value is never fully realized.</blockquote>
+
+  <h2>Introduction</h2>
+
+  <p>Suppose that after some arbitrary event the market is in an inefficient state, an arbitrage opportunity exists, and there is an arbitrageur who will execute it as efficiently as possible.</p>
+
+  <p>A dislocation has at most two claimants: the arbitrageur keeps a profit, and the pool keeps a fee.<sup>1</sup> We call their sum the <strong>dislocation value</strong>: everything the market inefficiency releases, no matter who ends up holding it.</p>
+
+  <p>The pool controls one parameter, the fee on arbitrage, and it determines two things:</p>
+
+  <ul>
+    <li>how large the dislocation value is;</li>
+    <li>what share of it the pool keeps as fees.</li>
+  </ul>
+
+  <p>The rest of this essay measures both effects. Table 1 collects the terms used throughout.</p>
+
+  <table>
+    <caption>Table 1. Terms used throughout.</caption>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Pool A</td><td>the volatile pool, whose price a retail swap knocks off the market price</td></tr>
+      <tr><td>Pool B</td><td>the reference pool, which holds the initial market price. The arbitrageur executes the arbitrage against this pool</td></tr>
+      <tr><td>δ</td><td>the price dislocation: the price spread between the volatile pool and the reference pool, in percent, measured against the reference price, δ = (P<sub>A</sub> − P<sub>B</sub>)/P<sub>B</sub></td></tr>
+      <tr><td>f</td><td>the fee on arbitrage: the fee the AMM charges on the arbitrage operation. This is not the retail fee, which stays positive throughout</td></tr>
+      <tr><td>Arbitrage revenue</td><td>the profit the arbitrageur keeps after executing the optimally sized arbitrage</td></tr>
+      <tr><td>Fee revenue</td><td>the fee the pool collects on the arbitrage swap</td></tr>
+      <tr><td>Dislocation value</td><td>arbitrage revenue plus fee revenue</td></tr>
+      <tr><td>Value left unrealized</td><td>dislocation value at f = 0 minus dislocation value at f</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The simulation: a numerical estimate of dislocation value</h2>
+
+  <p>We estimated the behavior of the dislocation value numerically, by simulating the arbitrage across a range of fees on arbitrage.<sup>2</sup> The result is clear: at a zero fee on arbitrage, the dislocation yields its maximum value. At any positive fee, part of that value disappears — not transferred to anyone, but left unrealized.</p>
+
+  <h3>Results of the simulation</h3>
+
+  <p>At a zero fee on arbitrage the dislocation yields its maximum, <strong>$24.75</strong>, and every cent of it goes to the arbitrageur. At <strong>0.9901%</strong> and above, the fee exceeds what the arbitrageur can recover from the dislocation: the arbitrage never happens, the pool earns nothing, and the mispricing simply stands. Figure 1 shows the whole sweep.</p>
+
+  <figure><img src="../../assets/blog/amm-yield-maximization/fig1.png" width="2200" height="1240" alt="Arbitrage revenue, fee revenue and dislocation value as a function of the fee on arbitrage f, for a 1% dislocation" loading="lazy">
+    <figcaption>Figure 1. Arbitrage revenue, fee revenue and dislocation value as a function of the fee on arbitrage f, for a 1% dislocation (δ = 1%) in a 1,000,000 USDC / 500 ETH constant-product pool against an infinitely deep, fee-free reference pool. The bars are the dislocation value; the two lines are the shares the arbitrageur and the pool keep out of it. f swept in 0.01% steps.</figcaption></figure>
+
+  <p>Three things follow:</p>
+
+  <ul>
+    <li><strong>The maximum dislocation value is reached at a zero fee on arbitrage.</strong> Every increase in f lowers it, monotonically. At the fee that maximizes fee revenue the total has already fallen to $18.47, which is 74.62% of the maximum. The missing 25.38% is not transferred to anyone. It is left unrealized in the pool as an unclosed dislocation, because the arbitrage stops before the pool has been re-priced.</li>
+    <li><strong>The maximum fee revenue is reached at a fee of about δ/2.</strong> In our case the optimal fee is 0.50%, and it extracts $12.36, or 49.94% of the maximum dislocation value.</li>
+    <li><strong>A constant fee is optimal for exactly one dislocation size and wrong for every other.</strong> At the conventional 0.30% the pool takes $10.42, which is 42.08% of the maximum, while the arbitrageur still realizes $12.08. Against a dislocation of 0.3%, that same 0.30% fee sits above the point where arbitrage stops, so the pool earns nothing at all.</li>
+  </ul>
+
+  <h3>Robustness across markets and AMM formulas</h3>
+
+  <p>We repeated the sweep across nine markets (Figure 2): pool B at 0.5x, 1x and 10x the liquidity of pool A, and δ at 0.3%, 1% and 10%. The shape is universal — only the dollar scale changes. The fee-revenue peak varies from 49.9–50.0% of the maximum at a 0.3% dislocation to 47.1–49.1% at a 10% one, approaching 50% as the dislocation gets small.</p>
+
+  <figure><img src="../../assets/blog/amm-yield-maximization/fig2.png" width="3000" height="2200" alt="The same measurement repeated across a matrix of nine markets" loading="lazy">
+    <figcaption>Figure 2. The same measurement repeated across a matrix of nine markets. Each panel keeps its own dollar scale, so what the matrix compares is shape, not size.</figcaption></figure>
+
+  <p>The same holds under other AMM formulas. We ran the same sweep on six architectures: Uniswap V2, Uniswap V3 concentrated liquidity, Balancer weighted, Curve CryptoSwap, Trader Joe Liquidity Book and DODO PMM. The zero-fee optimum holds on every one of them, at every dislocation size we tested. The maximum fee revenue, however, varies with the AMM formula, and each type of AMM needs its own treatment.</p>
+
+  <h2>Generalization: two propositions</h2>
+
+  <p>Neither property is a special case of one pool. Both are fundamental properties of how the dislocation value of an AMM behaves on an inefficient market. We state them as two propositions.</p>
+
+  <blockquote><strong>Proposition 1 (Zero-Fee Joint Optimum).</strong> Charging a fee on arbitrage never increases the dislocation value. Therefore, the maximum dislocation value is always achieved at zero fee.</blockquote>
+
+  <p><em>Scope.</em> Proposition 1 holds for any AMM whose marginal price is non-decreasing and integrable: continuous curves, piecewise smooth curves such as concentrated liquidity, and discrete step functions such as a liquidity book. It also holds when the reference pool has finite depth. <a href="#a-axiomatic-framework-and-proofs">Appendix A</a> states the axioms and proves both cases (Theorems A.1 and A.4).</p>
+
+  <blockquote><strong>Proposition 2 (The 50% Ceiling for Constant Product AMMs).</strong> For a constant-product AMM where the marginal price is p(x) = k/x², and a small dislocation, a liquidity provider who tunes the fee on arbitrage to maximize its own fee revenue captures approximately 50% of the zero-fee maximum.</blockquote>
+
+  <p><a href="#a-axiomatic-framework-and-proofs">Appendix A</a> proves it as Theorem A.2. Unlike Proposition 1, this one is not universal. For a general AMM whose price impact curve has non-linear local curvature, the peak fee revenue under an optimally tuned fee is not necessarily 50% of the maximum: the exact ceiling depends on the local elasticity of the price impact curve. The direction of the argument never changes, because a positive fee never increases the dislocation value.</p>
+
+  <h2>AMM liquidity provider and arbitrageur: from adversaries to convergence</h2>
+
+  <p>Here lies the paradox: the pool maximizes dislocation value at a zero fee, but a zero fee means gifting the profit to an external searcher. The pool has no reason to quote a zero fee to an outsider who will keep the proceeds. The arbitrageur has no reason to hand its profit to the pool. The positions of both players are rational, and each of them seeks to maximize its own profit.</p>
+
+  <p>As a result of these independent actions, part of the dislocation value is left unrealized. On a live market the price dislocation is often smaller than the fee, or only slightly larger, and as a result what is left unrealized is not 25% but most of the potential dislocation value.</p>
+
+  <p>Moreover, an AMM often has no way at all to distinguish an arbitrage swap from an ordinary retail swap, cannot calculate the price dislocation, and cannot set an optimal fee on such an operation.</p>
+
+  <p>The solution is to merge the roles of the AMM and the arbitrageur. AMM hooks made this technically possible. They allow the rebalancing arbitrage to execute atomically, in the same transaction as the retail swap, through an <code>afterSwap</code> hook. The pool grants the exclusive right to rebalance itself to its own logic. No external searcher can capture the rebalance, because there is no window between the user's swap and the pool's own reaction.</p>
+
+  <p>Two conditions make this work:</p>
+
+  <ul>
+    <li><strong>The zero fee applies only to the pool-initiated arbitrage operation.</strong> Retail traders keep paying a normal fee, and that fee is what pays the pool for providing liquidity.</li>
+    <li><strong>Execution is internal and atomic.</strong> There is no competition with other searchers for the right to execute, no priority fee auction and no MEV leakage to a builder.</li>
+  </ul>
+
+  <p>Arbitrage is not a standalone operation. It is a reaction to the user's swap, opposite in direction, and it drives the pool back toward the state it started in. How far back depends on the depth of the reference pool and on the fee: against a deep reference pool at a zero fee the pool returns almost exactly to its starting composition and price, while a shallower one or a positive fee leaves part of the divergence standing. So internalizing the rebalance does not only add revenue, it also undoes part of the divergence that the user's swap created.</p>
+
+  <blockquote><strong>MEV-X Homelander</strong> is a solution that does exactly this. It is a plugin compatible with the Uniswap V4, PancakeSwap and Algebra protocols. Powered by <code>afterSwap</code> hooks, the plugin analyses and performs fully on-chain arbitrage after the user's swap, pushing the dislocation value toward its maximum and internalizing it for the liquidity providers.</blockquote>
+
+  <h2>Conclusions</h2>
+
+  <ul>
+    <li>The maximum dislocation value available from a market inefficiency is the value of arbitraging it at a zero fee. Every fee schedule is a deduction from that number.</li>
+    <li>For the constant-product curve, and any curve whose price impact is locally linear, the quadratic f(δ − f) law caps fee revenue at approximately <strong>50%</strong> of the maximum when the dislocation is small, with the remainder split between the arbitrageur and value left unrealized.</li>
+    <li><strong>Maximizing the dislocation value of an AMM on an inefficient market runs through the convergence of the liquidity provider and arbitrageur roles via atomic execution.</strong> MEV-X Homelander implements this solution using <code>afterSwap</code> hooks to internalize arbitrage revenue for liquidity providers.</li>
+  </ul>
+
+  <p>This is one piece of a larger effort at MEV-X to make AMM yield work for the people who actually create the value — the liquidity providers, not just whoever sits on top of them. We regularly publish research alongside product updates and protocol notes as we build out Homelander.</p>
+
+  <h2 id="a-axiomatic-framework-and-proofs">Appendix A. Axiomatic framework and proofs</h2>
+
+  <h3>A.1 Axiomatic framework for general AMMs</h3>
+
+  <p>To generalize the analysis across the diverse landscape of automated market makers, we abstract away from specific invariants and define an AMM through its marginal spot price function. Let the pool hold reserves of two assets, and let x denote the reserve of the asset the arbitrageur is purchasing. The marginal price of this asset in terms of the other asset is given by a function p(x).</p>
+
+  <p>To accommodate not only continuous convex curves but also piecewise smooth curves (e.g., concentrated liquidity) and discrete step-functions (e.g., liquidity books), we relax the traditional smoothness assumptions and impose the following axioms.</p>
+
+  <p><strong>Axiom A.1 (Monotonicity and Integrability).</strong> <em>The marginal price function p(x) is a non-decreasing, Riemann-integrable function on any compact subinterval of its domain. For discrete AMMs, p(x) may be a right-continuous step-function. This axiom ensures that the price impact is well-defined, the total exchanged value (the integral of p(x)) is finite, and the pool naturally resists large trades.</em></p>
+
+  <p><strong>Axiom A.2 (Boundary Conditions and Strictness in Active Regions).</strong> <em>The price function spans the necessary range to intersect any finite reference price p<sub>ext</sub>. Specifically, inf p(x) &lt; p<sub>ext</sub> &lt; sup p(x). Furthermore, p(x) is strictly increasing on any interval where p(x) ≠ p<sub>ext</sub>, ensuring a unique crossing point and preventing degenerate arbitrage loops.</em></p>
+
+  <p><strong>Verification across AMM architectures.</strong> The relaxed axioms are specifically designed to encompass the full spectrum of modern AMM designs:</p>
+
+  <ul>
+    <li><strong>Continuous convex AMMs</strong> (Uniswap V2, Balancer, Curve CryptoSwap): the marginal price p(x) is continuous, strictly increasing, and infinitely differentiable. They trivially satisfy Axioms A.1 and A.2.</li>
+    <li><strong>Piecewise smooth AMMs</strong> (Uniswap V3, DODO PMM): the marginal price p(x) is continuous but only piecewise differentiable. In Uniswap V3, p(x) changes its derivative at tick boundaries due to liquidity shifts. In DODO, the piecewise maximum function creates a kink at the base reserve. Both are continuous, strictly increasing, and Riemann-integrable, satisfying the relaxed Axiom A.1.</li>
+    <li><strong>Discrete step-function AMMs</strong> (Trader Joe Liquidity Book): the marginal price p(x) is a non-decreasing step-function, constant within each bin and jumping at bin boundaries. It is not differentiable, nor strictly increasing everywhere, but it is non-decreasing and Riemann-integrable, perfectly satisfying the relaxed Axiom A.1.</li>
+  </ul>
+
+  <h3>A.2 The general AMM framework and the zero-fee joint optimum</h3>
+
+  <p>When a retail trader initiates a swap, they shift the pool reserves from an initial state x<sub>0</sub> to a new state x<sub>1</sub>, moving the internal spot price from p(x<sub>0</sub>) to p(x<sub>1</sub>). This creates a price dislocation relative to the reference pool, denoted as p<sub>ext</sub>. Without loss of generality, assume the retail trade pushed the internal price above the reference price, so p(x<sub>1</sub>) &gt; p<sub>ext</sub>. The arbitrageur's objective is to sell the asset back into the pool, increasing the reserve x until the internal price converges with the reference price.</p>
+
+  <p>In the presence of a swap fee f levied on the input leg, the arbitrageur faces a modified marginal cost. The optimal arbitrage volume is determined by the marginal equilibrium condition:</p>
+
+  <p class="formula">p(x*) · (1 − f) = p<sub>ext</sub>&nbsp;&nbsp;⟹&nbsp;&nbsp;p(x*) = p<sub>ext</sub> / (1 − f)</p>
+
+  <p>Because p(x) is non-decreasing by Axiom A.1, and the target price p<sub>ext</sub>/(1 − f) is strictly increasing with respect to f, the terminal reserve state x*(f) must be a non-increasing function of f. At f = 0, the terminal state is x*(0), where p(x*(0)) = p<sub>ext</sub>. Any positive fee strictly truncates the arbitrage volume before the true price equilibrium is reached.</p>
+
+  <p>The dislocation value is the area between the internal AMM curve and the reference price, integrated over the executed volume:</p>
+
+  <p class="formula">Π(f) = ∫ [x<sub>1</sub> → x*(f)] (p(x) − p<sub>ext</sub>) dx</p>
+
+  <p><strong>Theorem A.1 (Zero-Fee Joint Optimum).</strong> <em>Consider an automated market maker satisfying Axioms A.1 and A.2. Let a retail swap create a price dislocation such that p(x<sub>1</sub>) &gt; p<sub>ext</sub>. Let f ∈ [0, 1) be the fee applied to the arbitrageur's input leg. The dislocation value Π(f), the arbitrageur's profit plus the pool's fee revenue, never rises as f rises, for as long as arbitrage still happens. Its maximum is therefore reached at f = 0.</em></p>
+
+  <p><em>Proof.</em> By Axiom A.2, for all x in the interval [x<sub>1</sub>, x*(0)), we have p(x) ≥ p(x<sub>1</sub>) &gt; p<sub>ext</sub>. Thus, the integrand g(x) = p(x) − p<sub>ext</sub> is strictly positive almost everywhere on this interval.</p>
+
+  <p>We have established that the terminal reserve x*(f) is a non-increasing function of f. Therefore, for any f<sub>2</sub> &gt; f<sub>1</sub> ≥ 0, the integration interval [x<sub>1</sub>, x*(f<sub>2</sub>)] is a strict subset of [x<sub>1</sub>, x*(f<sub>1</sub>)].</p>
+
+  <p>Since the integrand is strictly positive, integrating over a strictly smaller interval yields a strictly smaller result. Hence, Π(f<sub>2</sub>) &lt; Π(f<sub>1</sub>) for all f<sub>2</sub> &gt; f<sub>1</sub> ≥ 0. This proves that the dislocation value is a strictly decreasing function of the fee. The global maximum is achieved exclusively at the boundary f = 0. ∎</p>
+
+  <p>Crucially, this proof relies solely on the monotonicity and integrability of p(x) (Axiom A.1), making it universally valid for continuous, piecewise smooth, and discrete step-function AMMs alike.</p>
+
+  <h3>A.3 The 50% ceiling: a constant-product artifact</h3>
+
+  <p>While the zero-fee joint optimum is universal, the specific claim that the liquidity provider captures 50% of the zero-fee maximum under an optimally tuned positive fee requires closer scrutiny. In the constant product model, the spot price is p(x) = k/x². The arbitrage volume scales linearly with the remaining spread, leading to the quadratic revenue function R(f) ∝ f(δ − f), which peaks at 50% of the dislocation value in the small-dislocation limit.</p>
+
+  <p>For a general AMM, the spot price function p(x) has an arbitrary curvature. The arbitrage volume V(f) is no longer strictly linear with respect to the remaining spread (δ − f). Consequently, the liquidity provider revenue function R(f) = f · V(f) will still exhibit an inverted U-shape, but its peak will not necessarily land at 50% of the zero-fee maximum.</p>
+
+  <p><strong>Theorem A.2 (The 50% Ceiling for Constant Product AMMs).</strong> <em>For a constant product automated market maker, where the marginal price is p(x) = k/x², if the liquidity provider tunes a positive fee f to maximize their own fee revenue R(f) from the arbitrage flow, the maximum fee revenue captured tends to 50% of the zero-fee maximum Π(0) in the limit of a small dislocation.</em></p>
+
+  <p><em>Proof.</em> For a constant product AMM, let the reference price be p<sub>ext</sub> = k/x<sub>0</sub>². A small retail dislocation shifts the price to p(x<sub>1</sub>) = p<sub>ext</sub>(1 + δ), where δ ≪ 1. The arbitrage volume V(f) required to close the spread is proportional to the remaining spread after the fee: V(f) ∝ (δ − f). The liquidity provider fee revenue is:</p>
+
+  <p class="formula">R(f) ∝ f · V(f) ∝ f(δ − f)</p>
+
+  <p>This quadratic function reaches its maximum at f* = δ/2. The maximum revenue is proportional to δ²/4. The zero-fee maximum dislocation value is proportional to δ²/2. The ratio is:</p>
+
+  <p class="formula">(δ²/4) / (δ²/2) = 50%</p>
+
+  <p>Thus, the liquidity provider captures half of the zero-fee maximum. ∎</p>
+
+  <p><strong>Proposition A.3 (The 50% Ceiling is Not Universal).</strong> <em>For a general automated market maker with a marginal price function p(x) that exhibits non-linear local curvature, the liquidity provider's peak revenue under an optimally tuned positive fee is not necessarily 50% of the zero-fee maximum. The exact yield ceiling depends on the local elasticity of the price impact curve.</em></p>
+
+  <p><em>Proof.</em> Let the local price impact be approximated by p(x) ≈ p<sub>ext</sub> + c(x − x<sub>0</sub>)^α for some α &gt; 0. The arbitrage volume scales as V(f) ∝ (δ − f)^(1/α). The fee revenue is R(f) ∝ f(δ − f)^(1/α). Maximizing this yields the optimal fee f* = δ / (1 + 1/α). The ratio of the peak fee revenue to the zero-fee maximum depends strictly on α. For α = 1 (linear price impact, characteristic of constant product AMMs locally), the ratio is 50%. For α ≠ 1, the ratio deviates from 50%. ∎</p>
+
+  <p>Empirical simulations across diverse architectures confirm this. For Uniswap V2, V3, Balancer, and DODO, the peak hovers tightly around 49% to 51%. However, for Curve CryptoSwap, the peak drops to approximately 44%. For the Trader Joe liquidity book, the step-function nature pushes the peak slightly above 51%. The exact 50% figure is a specific geometric property of the hyperbolic constant product curve, not a universal law.</p>
+
+  <h3>A.4 Finite reference-pool depth</h3>
+
+  <p>The foundational proofs above assume a reference pool with infinite depth. In reality, the reference pool has finite depth, meaning its marginal price curve p<sub>ext</sub>(V) shifts as the arbitrageur executes large trades.</p>
+
+  <p>To model this, we replace the constant reference price p<sub>ext</sub> with a strictly increasing reference price function p<sub>ext</sub>(V). The new equilibrium condition becomes:</p>
+
+  <p class="formula">p<sub>AMM</sub>(x*) · (1 − f) = p<sub>ext</sub>(V*)</p>
+
+  <p><strong>Theorem A.4 (Zero-Fee Optimum under Finite Reference-Pool Depth).</strong> <em>Consider an automated market maker satisfying Axioms A.1 and A.2, interacting with a reference pool where p<sub>ext</sub>(V) is strictly increasing. The dislocation value never rises as f rises, and its maximum is therefore reached at an internal arbitrage fee of f = 0.</em></p>
+
+  <p><em>Proof.</em> Let V(f) be the executed volume at fee f. Since p<sub>AMM</sub>(x) and p<sub>ext</sub>(V) are both non-decreasing (and strictly increasing in active regions), an increase in f shifts the effective AMM marginal price curve upward. To restore equality, the intersection must occur at a lower volume. Thus, V(f) is a strictly decreasing function of f.</p>
+
+  <p>The dislocation value is the area between the gross AMM marginal price and the reference pool's marginal price:</p>
+
+  <p class="formula">Π(f) = ∫ [0 → V(f)] (p<sub>AMM</sub>(x(v)) − p<sub>ext</sub>(v)) dv</p>
+
+  <p>Since p<sub>AMM</sub>(x(v)) &gt; p<sub>ext</sub>(v) for all v ∈ [0, V(0)), the integrand is strictly positive. Because V(f) is strictly decreasing with respect to f, the integration interval shrinks as f increases. Therefore, the integral Π(f) strictly decreases. The global maximum is achieved at f = 0. ∎</p>
+
+  <p>Finite reference-pool depth strictly reduces the maximum dislocation value, but it does not alter the optimal strategy for slicing it. The joint venture still maximizes its total extraction by setting the internal rebalancing fee to zero.</p>
+
+  <hr>
+
+  <p style="font-size:14px; color:var(--muted, #8a8894)">
+    <strong>Notes</strong><br>
+    1. In practice the arbitrageur does not keep its whole share either. A large and competitive part of it is bid away to whoever controls transaction ordering, whether that is a block builder, a sequencer or an order-flow auction.<br>
+    2. The model excludes the cost of gas. Fee revenue is counted gross, before any change in the value of the pool's inventory.
+  </p>
+
+</article>
+
+<section class="related">
+  <div class="related-in">
+    <h2>Related reading</h2>
+    <div class="blog-grid">
+      <a href="../mev-resolution-in-amm-based-systems/" class="blog-card reveal">
+        <div class="blog-cover"><img src="../../assets/blog/mev-resolution-in-amm-based-systems/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
+        <h3>External vs Internal MEV Resolution in AMMs</h3>
+        <p class="dek">Post-swap price imbalances get resolved one of two ways: externally, through open searcher competition, or internally, by the protocol capturing the imbalance atomically inside its own transaction.</p>
+        <div class="meta"><span class="meta-date">Dec 12, 2025</span><div class="meta-tags"><span>AMM Yield</span><span>MEV Internalization</span></div></div>
+      </a>
+      <a href="../mev-internalization-keeping-value-inside-the-protocol/" class="blog-card reveal">
+        <div class="blog-cover"><img src="../../assets/blog/mev-internalization-keeping-value-inside-the-protocol/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
+        <h3>Keeping Value Inside the Protocol</h3>
+        <p class="dek">A protocol facing post-swap MEV has three real options: do nothing, capture it natively, or route it to a partner. Leakage is a default choice, not a structural inevitability of on-chain markets.</p>
+        <div class="meta"><span class="meta-date">Jan 28, 2026</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
+      </a>
+      <a href="../introducing-homelander/" class="blog-card reveal">
+        <div class="blog-cover"><img src="../../assets/blog/introducing-homelander/card.webp" alt="" width="600" height="264" loading="lazy" decoding="async"></div>
+        <h3>Introducing Homelander: Atomic MEV Internalization System</h3>
+        <p class="dek">Every swap that moves an AMM pool off the wider market price creates an arbitrage opportunity. Homelander is MEV-X's system for capturing that opportunity atomically.</p>
+        <div class="meta"><span class="meta-date">Dec 1, 2025</span><div class="meta-tags"><span>MEV Internalization</span><span>AMM Yield</span></div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="close-in">
+    <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">Homelander docs →</div>
+    </a>
+    <div class="close-card close-card-dual reveal">
+      <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="close-card-hit" aria-label="Message on Telegram"></a>
+      <div><div class="k">For partners &amp; researchers</div><h3>Message on Telegram</h3></div>
+      <div class="go"><a href="mailto:info@mev-x.com" class="close-card-email">info@mev-x.com</a> →</div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../">Blog</a><a href="https://x.com/MEV_X_project" target="_blank" rel="noopener">X</a><a href="https://github.com/mev-x-project" target="_blank" rel="noopener">GitHub</a><a href="https://t.me/MEV_X_ann" target="_blank" rel="noopener">Telegram</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a></div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="rpc-modal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="rpc-modal-title">
+    <button type="button" class="modal-close" aria-label="Close">✕</button>
+    <h3 id="rpc-modal-title">RPC endpoints</h3>
+    <p>Send your transactions to the region nearest you. The endpoints are shared — your Partner ID travels in the request, not the URL.</p>
+    <div class="rpc-row">
+      <div class="rpc-region">EU</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.eu.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.eu.mev-x.com">copy</button>
+      </div>
+    </div>
+    <div class="rpc-row">
+      <div class="rpc-region">US</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.us.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.us.mev-x.com">copy</button>
+      </div>
+    </div>
+    <a href="https://partner.portal.mev-x.com/" target="_blank" rel="noopener" class="rpc-portal-link">Get your Partner ID at partner.portal.mev-x.com →</a>
+  </div>
+</div>
+
+<script src="../../js/main.js?v=cff2259f8f"></script>
+</body>
+</html>

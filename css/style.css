@@ -871,3 +871,23 @@
     transition: border-color .25s ease, transform .25s cubic-bezier(.16,.84,.44,1);
   }
   .rpc-portal-link:hover{ border-color: rgba(255,255,255,.35); transform: translateY(-2px); }
+
+  /* Hero headline glow -- centered on the h1's own (fit-content) box so it lines up with
+     the real glyphs rather than the wider grid-column box; horizontal-oval shape, soft
+     blurred edges, slow breathing pulse. Approved direction, iterated live with the team. */
+  .hero h1{ position:relative; isolation:isolate; width:fit-content; }
+  .hero h1::before{
+    content:""; position:absolute; z-index:-1; pointer-events:none;
+    left:50%; top:50%; transform:translate(-50%,-50%);
+  }
+  .glow-c h1::before{
+    width:175%; height:145%;
+    background: radial-gradient(closest-side, rgba(214,206,255,.34) 0%, rgba(139,92,246,.25) 40%, transparent 85%);
+    filter: blur(58px);
+    animation: glow-c-breathe 6s ease-in-out infinite;
+  }
+  @keyframes glow-c-breathe{
+    0%, 100% { opacity:.72; }
+    50%      { opacity:1; }
+  }
+  @media (prefers-reduced-motion: reduce){ .glow-c h1::before{ animation:none; } }

@@ -14,6 +14,7 @@ MEV-X's core product, Homelander, captures post-swap arbitrage atomically — in
 ## Blog
 
 - [Blog index](https://mev-x.com/blog/): Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure.
+- [AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs](https://mev-x.com/blog/amm-yield-maximization/): How a market dislocation splits between the pool and the arbitrageur, and why merging the two roles captures the rest.
 - [Introducing Homelander](https://mev-x.com/blog/introducing-homelander/): What atomic MEV internalization is and how it works.
 - [MEV Resolution in AMM-Based Systems](https://mev-x.com/blog/mev-resolution-in-amm-based-systems/): External vs. internal execution of post-swap arbitrage.
 - [MEV Internalization: Keeping Value Inside the Protocol](https://mev-x.com/blog/mev-internalization-keeping-value-inside-the-protocol/): The three architectural options for handling protocol-created MEV.

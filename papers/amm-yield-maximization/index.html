@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMM Yield Maximization: Convergence of the Liquidity Provider and Arbitrageur Roles | MEV-X</title>
+  <meta name="description" content="MEV-X research: a mathematical model of the fee that maximizes total combined revenue between an AMM pool and arbitrageurs, and the zero-fee optimum where merging the two roles captures all of it.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://mev-x.com/papers/amm-yield-maximization/">
+  <meta name="theme-color" content="#0b0a0e">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon_new.svg?v=2">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png?v=2">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mev-x.com/papers/amm-yield-maximization/">
+  <meta property="og:site_name" content="MEV-X">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="AMM Yield Maximization: Convergence of the Liquidity Provider and Arbitrageur Roles">
+  <meta property="og:description" content="A mathematical model of the fee that maximizes total combined revenue between an AMM pool and arbitrageurs, and the zero-fee optimum where merging the two roles captures all of it.">
+  <meta property="og:image" content="https://mev-x.com/assets/img/amm-yield-maximization-essay-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AMM Yield Maximization — MEV-X Research">
+  <meta property="article:published_time" content="2026-08-26">
+  <meta property="article:section" content="Research">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AMM Yield Maximization: Convergence of the Liquidity Provider and Arbitrageur Roles">
+  <meta name="twitter:description" content="A mathematical model of the fee that maximizes total combined revenue between an AMM pool and arbitrageurs, and the zero-fee optimum where merging the two roles captures all of it.">
+  <meta name="twitter:image" content="https://mev-x.com/assets/img/amm-yield-maximization-essay-og.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=League+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css?v=1a11508aa5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "AMM Yield Maximization: Convergence of the Liquidity Provider and Arbitrageur Roles",
+    "author": [
+      { "@type": "Person", "name": "Andrey Seoev", "affiliation": "MEV-X" },
+      { "@type": "Person", "name": "Yury Yanovich", "affiliation": "HSE" }
+    ],
+    "datePublished": "2026-08-26",
+    "publisher": { "@type": "Organization", "name": "MEV-X", "url": "https://mev-x.com/" },
+    "url": "https://mev-x.com/papers/amm-yield-maximization/",
+    "description": "A mathematical model of the fee that maximizes total combined revenue between an AMM pool and arbitrageurs, and the zero-fee optimum where merging the two roles captures all of it."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "MEV-X", "item": "https://mev-x.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Academic Research", "item": "https://mev-x.com/blog/#papers" },
+      { "@type": "ListItem", "position": 3, "name": "AMM Yield Maximization", "item": "https://mev-x.com/papers/amm-yield-maximization/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTYVV3PXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-TTYVV3PXVL');
+  </script>
+
+  <style>
+    .paper-embed{ max-width:900px; margin:0 auto; padding:0 1.5rem 4rem; }
+    .paper-embed .frame{
+      background:var(--chip-bg); border:1.5px solid var(--chip-border); border-radius:24px;
+      overflow:hidden;
+    }
+    .paper-embed .frame-bar{
+      display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+      padding:1.1rem 1.4rem; border-bottom:1px solid var(--hairline);
+      font-family:var(--font-body); font-size:0.85rem; color:var(--ink-muted);
+    }
+    .paper-embed .frame-bar a{
+      font-weight:600; color:var(--ink); text-decoration:none;
+      border:1.5px solid var(--chip-border); border-radius:999px; padding:0.5rem 1rem;
+    }
+    .paper-embed .frame-bar a:hover{ border-color:rgba(255,255,255,.35); }
+    .paper-embed embed{ display:block; width:100%; height:1150px; border:none; background:#efeef3; }
+    @media (max-width:640px){
+      .paper-embed embed{ height:70vh; }
+      .paper-embed .frame-bar{ font-size:0.8rem; }
+    }
+    .paper-embed .fallback{
+      display:none; padding:3rem 1.5rem; text-align:center; font-family:var(--font-body); color:var(--ink-muted);
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="scroll-progress"></div>
+<nav>
+  <a href="../../" class="wordmark"><img src="../../assets/img/mevx.svg" width="1302" height="574" alt="MEV-X" class="logo-mark"></a>
+  <div class="navlinks" id="navlinks">
+    <a href="https://homelander.mev-x.com" target="_blank" rel="noopener">Homelander app</a>
+    <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener">Docs</a>
+    <a href="../../#partners">Partners</a>
+    <a href="../../#" class="rpc-trigger">RPC</a>
+    <a href="../../#research">Research</a>
+    <a href="../../blog/">Blog</a>
+    <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta-mobile">Message on Telegram →</a>
+  </div>
+  <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="navcta">Message on Telegram →</a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
+</nav>
+<main id="main">
+
+<header class="article-head reveal">
+  <div class="tags">
+    <a href="../../blog/#papers">Academic Research</a>
+  </div>
+  <h1>AMM Yield Maximization: Convergence of the Liquidity Provider and Arbitrageur Roles</h1>
+  <p class="dek">A mathematical model of AMM arbitrage: how a market dislocation splits between pool fees and arbitrage profit, and the zero-fee optimum where merging the LP and arbitrageur roles is the only way to capture all of it.</p>
+  <div class="article-meta">
+    <span>MEV-X Team</span>
+    <span>Aug 26, 2026</span>
+    <span>Essay</span>
+  </div>
+</header>
+
+<div class="paper-embed">
+  <div class="frame">
+    <div class="frame-bar">
+      <span>AMM_Yield_Maximization.pdf · 8 pages</span>
+      <a href="AMM_Yield_Maximization.pdf?v=2" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+    <embed src="AMM_Yield_Maximization.pdf?v=2" type="application/pdf">
+    <div class="fallback">Your browser can't preview PDFs inline. <a href="AMM_Yield_Maximization.pdf?v=2">Open the PDF directly →</a></div>
+  </div>
+</div>
+
+<section class="close">
+  <div class="close-in">
+    <a href="https://mev-x-project.github.io/Homelander-docs/" target="_blank" rel="noopener" class="close-card reveal">
+      <div><div class="k">For integrators</div><h3>Read the Docs</h3></div>
+      <div class="go">Homelander docs →</div>
+    </a>
+    <div class="close-card close-card-dual reveal">
+      <a href="https://t.me/ex_seoeva" target="_blank" rel="noopener" class="close-card-hit" aria-label="Message on Telegram"></a>
+      <div><div class="k">For partners &amp; researchers</div><h3>Message on Telegram</h3></div>
+      <div class="go"><a href="mailto:info@mev-x.com" class="close-card-email">info@mev-x.com</a> →</div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="foot-in">
+    <div class="mono">© 2026 MEV-X</div>
+    <div class="foot-links"><a href="../../blog/">Blog</a><a href="https://x.com/MEV_X_project" target="_blank" rel="noopener">X</a><a href="https://github.com/mev-x-project" target="_blank" rel="noopener">GitHub</a><a href="https://t.me/MEV_X_ann" target="_blank" rel="noopener">Telegram</a><a href="https://medium.com/@MEV-X" target="_blank" rel="noopener">Medium</a></div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="rpc-modal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="rpc-modal-title">
+    <button type="button" class="modal-close" aria-label="Close">✕</button>
+    <h3 id="rpc-modal-title">RPC endpoints</h3>
+    <p>Send your transactions to the region nearest you. The endpoints are shared — your Partner ID travels in the request, not the URL.</p>
+    <div class="rpc-row">
+      <div class="rpc-region">EU</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.eu.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.eu.mev-x.com">copy</button>
+      </div>
+    </div>
+    <div class="rpc-row">
+      <div class="rpc-region">US</div>
+      <div class="rpc-url-box">
+        <code>https://partner.rpc.us.mev-x.com</code>
+        <button type="button" class="rpc-copy" data-url="https://partner.rpc.us.mev-x.com">copy</button>
+      </div>
+    </div>
+    <a href="https://partner.portal.mev-x.com/" target="_blank" rel="noopener" class="rpc-portal-link">Get your Partner ID at partner.portal.mev-x.com →</a>
+  </div>
+</div>
+
+<script src="../../js/main.js?v=cff2259f8f"></script>
+</body>
+</html>

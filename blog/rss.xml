@@ -6,7 +6,15 @@
     <atom:link href="https://mev-x.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
     <description>Research and engineering notes on MEV protection, atomic arbitrage, AMM yield, and DEX infrastructure from the team behind MEV-X.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>AMM Yield Maximization: When Liquidity Providers Become Arbitrageurs</title>
+      <link>https://mev-x.com/blog/amm-yield-maximization/</link>
+      <guid isPermaLink="true">https://mev-x.com/blog/amm-yield-maximization/</guid>
+      <pubDate>Wed, 26 Aug 2026 00:00:00 +0000</pubDate>
+      <description>We measure the dislocation value a market inefficiency releases and how it splits between the pool and the arbitrageur. The zero-fee optimum, the 50% ceiling for constant-product AMMs, and why merging the two roles is the only way to capture the rest.</description>
+      <enclosure url="https://mev-x.com/assets/blog/amm-yield-maximization/og.jpg" type="image/jpeg" length="0"/>
+    </item>
     <item>
       <title>Every Chain Handles MEV Differently — One Decided to Keep It Inside</title>
       <link>https://mev-x.com/blog/every-chain-handles-mev-differently/</link>
