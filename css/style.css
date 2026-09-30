@@ -358,10 +358,17 @@
   }
   /* The hero kicker has to stay on one line at every width -- broken across
      two lines it reads as a stray fragment above the headline. 0.72rem is the
-     design size; below ~500px the line no longer fits the 1.5rem-padded hero,
-     so the size tracks the viewport instead (letter-spacing is in em, so it
-     shrinks with it). 2.3vw leaves ~9% slack at 320px. */
-  .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:min(0.72rem, 2.3vw); letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-muted); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; white-space:nowrap; }
+     design size; on narrow phones the size tracks the viewport instead
+     (letter-spacing and the chip's padding are in em, so they shrink with
+     it). The line measures 27.7em wide with the chip, so 2.8vw leaves ~9%
+     slack inside the 1.5rem-padded hero at 320px. */
+  .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:min(0.72rem, 2.8vw); letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-muted); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; white-space:nowrap; }
+  /* The product name and the chain support are two separate facts, so the
+     second one sits in its own capsule rather than behind a separator. */
+  .eyebrow-chip{
+    border:1px solid var(--chip-border); background:var(--chip-bg); border-radius:999px;
+    padding:0.42em 0.75em 0.42em 0.95em; margin-left:0.5em; color:var(--lavender); letter-spacing:0.16em;
+  }
   .hero h1{ font-size:clamp(2.9rem, 6vw, 4.6rem); line-height:0.98; max-width:24ch; }
   .hero h1 em{ font-style:normal; text-decoration:underline; text-decoration-color:rgba(255,255,255,.35); text-underline-offset:0.1em; text-decoration-thickness:2px; }
   .hero .sub{ font-family:var(--font-body); font-weight:400; font-size:1.1rem; line-height:1.6; color:var(--ink-muted); max-width:52ch; margin-top:1.4rem; }
