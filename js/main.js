@@ -88,11 +88,41 @@
   // to that edge -- so it's kept in sync with scroll position, not just
   // "does this row overflow at all".
   document.querySelectorAll('.partner-grid').forEach(function(grid){
+    // Prev/next arrows: dragging with a mouse was the only way to pan on a
+    // desktop without a trackpad. Built here rather than in the markup so the
+    // row stays a plain scrollable list if JS never runs. An arrow shows only
+    // while its side has more to scroll to, same rule as the edge fade.
+    var wrap = document.createElement('div');
+    wrap.className = 'partner-scroller';
+    grid.parentNode.insertBefore(wrap, grid);
+    wrap.appendChild(grid);
+    function arrow(dir){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'partner-arrow partner-arrow--' + (dir < 0 ? 'prev' : 'next');
+      b.setAttribute('aria-label', dir < 0 ? 'Scroll partners left' : 'Scroll partners right');
+      b.innerHTML = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="' +
+        (dir < 0 ? 'M10 3 5 8l5 5' : 'M6 3l5 5-5 5') +
+        '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      b.addEventListener('click', function(){
+        // Page by whole tiles, keeping one tile of overlap for context.
+        var tile = grid.querySelector('.partner-tile');
+        var step = tile ? tile.getBoundingClientRect().width + 11 : 170;
+        var page = Math.max(step, Math.floor(grid.clientWidth / step) * step - step);
+        grid.scrollBy({ left: dir * page, behavior: 'smooth' });
+      });
+      wrap.appendChild(b);
+      return b;
+    }
+    var prev = arrow(-1), next = arrow(1);
+
     function syncFade(){
       var atStart = grid.scrollLeft <= 1;
       var atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 1;
       grid.style.setProperty('--fade-l', atStart ? '0px' : '28px');
       grid.style.setProperty('--fade-r', atEnd ? '0px' : '28px');
+      prev.classList.toggle('on', !atStart);
+      next.classList.toggle('on', !atEnd);
     }
     syncFade();
     grid.addEventListener('scroll', syncFade, { passive: true });

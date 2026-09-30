@@ -591,6 +591,29 @@
     -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
   }
   .partner-grid::-webkit-scrollbar{ display:none; }
+  /* Prev/next arrows (added by main.js), sitting over the faded edge of the
+     row. Hidden until their side has something to scroll to. */
+  .partner-scroller{ position:relative; min-width:0; }
+  .partner-arrow{
+    position:absolute; top:50%; z-index:2;
+    width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(20,18,28,.88); border:1px solid rgba(255,255,255,.18);
+    color:var(--ink); cursor:pointer;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    opacity:0; visibility:hidden; transform:translateY(-50%) scale(.9);
+    transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s, border-color .2s ease, box-shadow .2s ease;
+  }
+  .partner-arrow--prev{ left:-18px; }
+  .partner-arrow--next{ right:-18px; }
+  .partner-arrow.on{ opacity:1; visibility:visible; transform:translateY(-50%) scale(1); transition-delay:0s; }
+  .partner-arrow:hover{ border-color:rgba(255,255,255,.36); box-shadow:0 0 10px rgba(139,92,246,.4); }
+  .partner-arrow:focus-visible{ outline:2px solid rgba(139,92,246,.8); outline-offset:2px; }
+  @media (max-width:760px){
+    .partner-arrow{ width:32px; height:32px; }
+    .partner-arrow--prev{ left:-6px; }
+    .partner-arrow--next{ right:-6px; }
+  }
   .partner-grid.dragging{ cursor:grabbing; scroll-behavior:auto; }
   .partner-tile{
     display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
