@@ -82,16 +82,12 @@
     });
   });
 
-  // Partner logo rows: one line each, pannable by wheel/trackpad (native
-  // overflow-x) or click-drag. The edge fade only appears on a side that
-  // still has more to scroll to -- never over a logo already scrolled flush
-  // to that edge -- so it's kept in sync with scroll position, not just
-  // "does this row overflow at all".
+  // Partner rows fit whole tiles, with exact tile-width paging and native
+  // scroll snapping for trackpad, touch, and mouse dragging.
   document.querySelectorAll('.partner-grid').forEach(function(grid){
-    // Prev/next arrows: dragging with a mouse was the only way to pan on a
-    // desktop without a trackpad. Built here rather than in the markup so the
-    // row stays a plain scrollable list if JS never runs. An arrow shows only
-    // while its side has more to scroll to, same rule as the edge fade.
+    var tiles = grid.querySelectorAll('.partner-tile');
+    if(!tiles.length) return;
+    var columns = 1, gap = 0;
     var wrap = document.createElement('div');
     wrap.className = 'partner-scroller';
     grid.parentNode.insertBefore(wrap, grid);
@@ -106,28 +102,48 @@
         '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       b.addEventListener('click', function(){
         // Page by whole tiles, keeping one tile of overlap for context.
-        var tile = grid.querySelector('.partner-tile');
-        var step = tile ? tile.getBoundingClientRect().width + 11 : 170;
-        var page = Math.max(step, Math.floor(grid.clientWidth / step) * step - step);
-        grid.scrollBy({ left: dir * page, behavior: 'smooth' });
+        var step = tiles[0].getBoundingClientRect().width + gap;
+        var first = Math.round(grid.scrollLeft / step);
+        var target = Math.max(0, Math.min(tiles.length - columns,
+          first + dir * Math.max(1, columns - 1)));
+        grid.scrollTo({ left: target * step, behavior: reduceMotion ? 'auto' : 'smooth' });
       });
       wrap.appendChild(b);
       return b;
     }
     var prev = arrow(-1), next = arrow(1);
 
-    function syncFade(){
+    function syncArrows(){
       var atStart = grid.scrollLeft <= 1;
       var atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 1;
-      grid.style.setProperty('--fade-l', atStart ? '0px' : '28px');
-      grid.style.setProperty('--fade-r', atEnd ? '0px' : '28px');
       prev.classList.toggle('on', !atStart);
       next.classList.toggle('on', !atEnd);
     }
-    syncFade();
-    grid.addEventListener('scroll', syncFade, { passive: true });
-    window.addEventListener('resize', syncFade);
-    window.addEventListener('load', syncFade);
+    function layout(){
+      var width = grid.getBoundingClientRect().width;
+      if(!width) return;
+      var first = Math.round(grid.scrollLeft / (tiles[0].getBoundingClientRect().width + gap));
+      var styles = getComputedStyle(grid);
+      gap = parseFloat(styles.columnGap) || 0;
+      var minWidth = parseFloat(styles.getPropertyValue('--partner-tile-min-width')) || 158;
+      columns = Math.max(1, Math.floor((width + gap) / (minWidth + gap)));
+      grid.style.setProperty('--partner-tile-width', (width - (columns - 1) * gap) / columns + 'px');
+      // Retain the nearest tile after a resize, without animating the correction.
+      var behavior = grid.style.scrollBehavior;
+      grid.style.scrollBehavior = 'auto';
+      grid.scrollLeft = Math.min(first, Math.max(0, tiles.length - columns)) *
+        (tiles[0].getBoundingClientRect().width + gap);
+      grid.style.scrollBehavior = behavior;
+      syncArrows();
+    }
+    layout();
+    grid.addEventListener('scroll', syncArrows, { passive: true });
+    if('ResizeObserver' in window){
+      new ResizeObserver(layout).observe(wrap);
+    } else {
+      window.addEventListener('resize', layout);
+    }
+    window.addEventListener('load', layout);
 
     var dragging = false, startX = 0, startScroll = 0, moved = false;
     grid.addEventListener('pointerdown', function(e){

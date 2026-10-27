@@ -576,31 +576,23 @@
   .partner-cat .cat-name{ font-family:var(--font-body); font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-muted); }
   @media (max-width:760px){ .partner-cat{ grid-template-columns:1fr; gap:0.6rem; } }
 
-  /* Partner logo grid -- dark glass tiles, all the same fixed size (sized off
-     the widest wordmark, Balancer) with room to spare so a logo is never
-     cropped. One row, native horizontal scroll (wheel, trackpad, or
-     click-drag); an edge mask fades the tiles out on whichever side still
-     has more to scroll to (main.js keeps --fade-l/--fade-r in sync with
-     scroll position), so it reads as pannable without an arrow that only
-     implies one direction -- and never fades/shadows a side that's already
-     scrolled all the way to. */
+  /* Fit a whole number of equal-width tiles into each row. main.js measures
+     the available space; snapping keeps both edges aligned after scrolling. */
   .partner-grid{
+    --partner-tile-min-width:158px;
     display:flex; flex-wrap:nowrap; gap:0.7rem; min-width:0;
     overflow-x:auto; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none;
+    scroll-snap-type:x mandatory;
     cursor:grab;
     /* overflow-x:auto forces overflow-y to compute as auto too, which was
        clipping the hover glow/lift on the first and last row of tiles.
        Padding gives that glow room inside the scroll box; the matching
        negative margin cancels it back out so surrounding layout is unchanged. */
     padding:0.75rem 0; margin:-0.75rem 0;
-    --fade-l:0px; --fade-r:0px;
-    mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
   }
   .partner-grid::-webkit-scrollbar{ display:none; }
-  /* Prev/next arrows (added by main.js), sitting over the faded edge of the
-     row. Hidden until their side has something to scroll to. */
-  .partner-scroller{ position:relative; min-width:0; }
+  /* Reserve space beside the tiles so arrows do not cover their borders. */
+  .partner-scroller{ position:relative; min-width:0; padding-inline:24px; }
   .partner-arrow{
     position:absolute; top:50%; z-index:2;
     width:36px; height:36px; border-radius:50%;
@@ -618,13 +610,17 @@
   .partner-arrow:focus-visible{ outline:2px solid rgba(139,92,246,.8); outline-offset:2px; }
   @media (max-width:760px){
     .partner-arrow{ width:32px; height:32px; }
-    .partner-arrow--prev{ left:-6px; }
-    .partner-arrow--next{ right:-6px; }
+    .partner-arrow--prev{ left:-10px; }
+    .partner-arrow--next{ right:-10px; }
   }
-  .partner-grid.dragging{ cursor:grabbing; scroll-behavior:auto; }
+  @media (prefers-reduced-motion:reduce){
+    .partner-grid{ scroll-behavior:auto; }
+  }
+  .partner-grid.dragging{ cursor:grabbing; scroll-behavior:auto; scroll-snap-type:none; }
   .partner-tile{
     display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
-    width:158px; height:76px; padding:1rem 1.1rem;
+    width:var(--partner-tile-width, var(--partner-tile-min-width)); height:76px; padding:1rem 1.1rem;
+    scroll-snap-align:start;
     background:var(--chip-bg); border:1px solid var(--chip-border);
     border-radius:12px; cursor:pointer;
   }
